@@ -1,0 +1,187 @@
+/* Cascading Style Sheets (CSS) Style Definitions by Osman Balci */
+
+html {
+        -webkit-background-size: cover;
+        -moz-background-size: cover;
+        -o-background-size: cover;
+        background-size: cover;
+        height: 100%;
+}
+
+body {
+	font-family: "Times New Roman", Times, Serif;
+	font-size: 12pt;
+	font-style: normal;
+	font-weight: normal;
+	text-decoration: none;
+	color: black;
+        background-image: url(../resources/images/background.jpg);
+        background-repeat: no-repeat;
+        -webkit-background-size: cover;
+        -moz-background-size: cover;
+        -o-background-size: cover;
+        background-size: cover;
+}
+
+p {
+	font-family: "Times New Roman", Times, serif;
+	font-size: 12pt;
+	font-style: normal;
+	font-weight: normal;
+	text-decoration: none;
+	text-align: left;
+	color: black;
+}
+
+h1 {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 12pt;
+	font-style: normal;
+	font-weight: bold;
+	text-decoration: none;
+	color: #006400;
+}
+
+h2 {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 14pt;
+	font-style: normal;
+	font-weight: normal;
+	text-decoration: none;
+	color: #800000;
+}
+
+h3 {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 12pt;
+	font-style: normal;
+	font-weight: bold;
+	text-decoration: none;
+	color: #00008B;
+}
+
+h4 {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 12pt;
+	font-style: italic;
+	font-weight: bold;
+	text-decoration: none;
+	color: #006400;
+}
+
+h5 {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 12pt;
+	font-style: italic;
+	font-weight: bold;
+	text-decoration: none;
+	color: #800000;
+}
+
+h6 {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 12pt;
+	font-style: italic;
+	font-weight: bold;
+	text-decoration: none;
+	color: #00008B;
+}
+
+.leftAlign {
+  text-align: left;
+}
+
+.rightAlign {
+  text-align: right;
+}
+
+.LargeTitle {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 12pt;
+	font-style: normal;
+	font-weight: bold;
+	text-align: center;
+	color: #800000;
+}
+.ListTitle {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 11pt;
+	font-style: normal;
+	font-weight: bold;
+	color: #000080;
+}
+.message {
+	font-family: "Times New Roman", Times, serif;
+	font-size: 9pt;
+	font-style: normal;
+	line-height: normal;
+	font-weight: normal;
+	font-variant: normal;
+	color: #800080;
+}
+.courier {
+	background-color: #FFFFFF;
+	font-family: "Courier New", Courier, monospace;
+	font-size: 11pt;
+	font-style: normal;
+	font-weight: normal;
+	text-decoration: none;
+	color: black;
+}
+.courierLarge {
+	background-color: #FFFFFF;
+	font-family: "Courier New", Courier, monospace;
+	font-size: 14pt;
+	font-style: normal;
+	font-weight: normal;
+	text-decoration: none;
+	color: black;
+}
+.outputLabel {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 14pt;
+	font-style: normal;
+	font-weight: normal;
+	color: black;
+}
+.indexLetter {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 18pt;
+	font-weight: bold;
+	color: #008000;
+}
+.buttonText {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 14pt;
+	font-weight: normal;
+	font-style: normal;
+}
+.smallItalic {
+	font-family: "Times New Roman", Times, Serif;
+	font-size: 10pt;
+	font-style: italic;
+	font-weight: normal;
+	text-decoration: none;
+}
+.Heading {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 11pt;
+	font-weight: bold;
+	color: #800000;
+	font-style: normal;
+}
+
+.HeadingPurple {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 11pt;
+	font-weight: bold;
+	color: #800080;
+	font-style: normal;
+}
+
+.areaName {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 11pt;
+	font-weight: bold;
+	color: #008000;
+}

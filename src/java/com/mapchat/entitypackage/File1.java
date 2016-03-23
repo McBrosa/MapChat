@@ -32,13 +32,13 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Table(name = "file")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "File.findAll", query = "SELECT f FROM File f"),
-    @NamedQuery(name = "File.findById", query = "SELECT f FROM File f WHERE f.id = :id"),
-    @NamedQuery(name = "File.findFilesByUserId", query = "SELECT f FROM File f WHERE f.userId.id = :id"),
-    @NamedQuery(name = "File.findBySize", query = "SELECT f FROM File f WHERE f.size = :size"),
-    @NamedQuery(name = "File.findByFileLocation", query = "SELECT f FROM File f WHERE f.fileLocation = :fileLocation"),
-    @NamedQuery(name = "File.findByExtension", query = "SELECT f FROM File f WHERE f.extension = :extension"),
-    @NamedQuery(name = "File.findByTime", query = "SELECT f FROM File f WHERE f.time = :time")})
+    @NamedQuery(name = "File1.findAll", query = "SELECT f FROM File1 f"),
+    @NamedQuery(name = "File1.findById", query = "SELECT f FROM File1 f WHERE f.id = :id"),
+    @NamedQuery(name = "File1.findFilesByUserId", query = "SELECT f FROM File1 f WHERE f.userId.id = :userId"),
+    @NamedQuery(name = "File1.findBySize", query = "SELECT f FROM File1 f WHERE f.size = :size"),
+    @NamedQuery(name = "File1.findByFileLocation", query = "SELECT f FROM File1 f WHERE f.fileLocation = :fileLocation"),
+    @NamedQuery(name = "File1.findByExtension", query = "SELECT f FROM File1 f WHERE f.extension = :extension"),
+    @NamedQuery(name = "File1.findByTime", query = "SELECT f FROM File1 f WHERE f.time = :time")})
 public class File1 implements Serializable {
 
     private static final long serialVersionUID = 1L;
