@@ -29,9 +29,15 @@ public class File1Facade extends AbstractFacade<File1> {
         super(File1.class);
     }
     
-     public List<File1> findFilesByUserID(Integer userId) {
+     public List<File1> findFilesByUserID(Integer userID) {
         return (List<File1>) em.createNamedQuery("File1.findFilesByUserId")
-                .setParameter("userId", userId)
+                .setParameter("userId", userID)
                 .getResultList();
     }
+    public List<File1> findById(Integer fileId) {
+        return (List<File1>) em.createNamedQuery("File1.findById")
+                .setParameter("id", fileId)
+                .getResultList();
+    }
+     
 }

@@ -4,7 +4,9 @@
  */
 package com.mapchat.sessionbeanpackage;
 
+import com.mapchat.entitypackage.File1;
 import com.mapchat.entitypackage.Group1;
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -28,4 +30,9 @@ public class Group1Facade extends AbstractFacade<Group1> {
         super(Group1.class);
     }
     
+    public List<File1> findById(Integer groupId) {
+        return (List<File1>) em.createNamedQuery("File1.findById")
+                .setParameter("id", groupId)
+                .getResultList();
+    }
 }
