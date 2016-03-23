@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="FileViewDlg" widgetVar="FileViewDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.ViewFileTitle}">
+            <h:form id="FileViewForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{fileController.selected != null}">
+                        <h:outputText value="#{bundle.ViewFileLabel_id}"/>
+                        <h:outputText value="#{fileController.selected.id}" title="#{bundle.ViewFileTitle_id}"/>
+                        <h:outputText value="#{bundle.ViewFileLabel_size}"/>
+                        <h:outputText value="#{fileController.selected.size}" title="#{bundle.ViewFileTitle_size}"/>
+                        <h:outputText value="#{bundle.ViewFileLabel_fileLocation}"/>
+                        <h:outputText value="#{fileController.selected.fileLocation}" title="#{bundle.ViewFileTitle_fileLocation}"/>
+                        <h:outputText value="#{bundle.ViewFileLabel_extension}"/>
+                        <h:outputText value="#{fileController.selected.extension}" title="#{bundle.ViewFileTitle_extension}"/>
+                        <h:outputText value="#{bundle.ViewFileLabel_time}"/>
+                        <h:outputText value="#{fileController.selected.time}" title="#{bundle.ViewFileTitle_time}">
+                            <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                        </h:outputText>
+                        <h:outputText value="#{bundle.ViewFileLabel_groupId}"/>
+                        <h:outputText value="#{fileController.selected.groupId}" title="#{bundle.ViewFileTitle_groupId}"/>
+                        <h:outputText value="#{bundle.ViewFileLabel_userId}"/>
+                        <h:outputText value="#{fileController.selected.userId}" title="#{bundle.ViewFileTitle_userId}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{bundle.Close}" onclick="FileViewDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>
