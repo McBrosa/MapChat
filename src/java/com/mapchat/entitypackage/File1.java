@@ -79,19 +79,19 @@ public class File1 implements Serializable {
     public File1(Integer id) {
         this.id = id;
     }
-
+    
+    // This method is added to the generated code
+    public File1(String extension, User id) {
+        this.extension = extension;
+        userId = id;
+    }
+    
     public File1(Integer id, int size, String fileLocation, String extension, Date time) {
         this.id = id;
         this.size = size;
         this.fileLocation = fileLocation;
         this.extension = extension;
         this.time = time;
-    }
-    
-    // This method is added to the generated code
-    public File1(String extension, User id) {
-        this.extension = extension;
-        userId = id;
     }
 
     public Integer getId() {
