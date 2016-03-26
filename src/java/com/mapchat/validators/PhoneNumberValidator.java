@@ -22,6 +22,7 @@ public class PhoneNumberValidator implements Validator {
         // Typecast the phone number "value" entered by the user to String.
         String phoneNumber = (String) value;
 
+        //Empty phone number
         if (phoneNumber == null || phoneNumber.isEmpty()) {
             // Do not take any action. 
             // The required="true" in the XHTML file will catch this and produce an error message.
