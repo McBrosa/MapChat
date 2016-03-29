@@ -27,7 +27,6 @@
         <h:form id="formId">
             <h:inputHidden id="latitude" value="#{accountManager.selected.locationX}"/>
             <h:inputHidden id="longitude" value="#{accountManager.selected.locationY}"/>
-            <!--<h:commandButton id="update" action="#{accountManager.updateLocation()}" style="display: none;" />-->
             <h:commandLink id="update" action="#{accountManager.updateLocation()}" style="display:none" />
             <p:remoteCommand name="update" actionListener="#{accountManager.updateLocation()}" />
         </h:form>

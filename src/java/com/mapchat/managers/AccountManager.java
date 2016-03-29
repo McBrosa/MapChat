@@ -262,6 +262,15 @@ public class AccountManager implements Serializable {
         return "";
     }
     
+    public void updateLocation()
+    {
+        int user_id = (int) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("user_id");
+        User editUser = userFacade.getUser(user_id);
+        editUser.setLocationX(this.selected.getLocationX());
+        editUser.setLocationY(this.selected.getLocationY());
+        userFacade.edit(editUser);
+    }
+    
     public String deleteAccount() {
         if (statusMessage.isEmpty()) {
             int user_id = (int) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("user_id");
