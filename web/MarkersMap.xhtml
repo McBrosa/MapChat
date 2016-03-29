@@ -22,12 +22,14 @@
     <h:body>
         <p:growl id="messages" showDetail="true" />
         <p:gmap widgetVar="map" center="0,0" zoom="18" fitBounds="true" type="HYBRID" style="width:100%;height:400px"
-            model="#{addMarkersView.emptyModel}" onPointClick="handlePointClick(event);" />
+            model="#{addMarkersView.emptyModel}" />
         <!--<p:gmap center="36.890257,30.707417" zoom="13" type="HYBRID" style="width:100%;height:400px" model="#{markersView.simpleModel}" />-->
         <h:form id="formId">
             <h:inputHidden id="latitude" value="#{accountManager.selected.locationX}"/>
             <h:inputHidden id="longitude" value="#{accountManager.selected.locationY}"/>
-            <h:commandButton id="update" action="#{accountManager.updateLocation()}" value="Update Location" rendered="true" />               
+            <!--<h:commandButton id="update" action="#{accountManager.updateLocation()}" style="display: none;" />-->
+            <h:commandLink id="update" action="#{accountManager.updateLocation()}" style="display:none" />
+            <p:remoteCommand name="update" actionListener="#{accountManager.updateLocation()}" />
         </h:form>
         <script type="text/javascript">
             var currentMarker = null;
@@ -61,6 +63,7 @@
                     position:new google.maps.LatLng(latitude, longitude)
                 });
                 PF('map').addOverlay(currentMarker);
+                update();
             }
         </script>
     </h:body>    
