@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"   
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
+
+    <!--
+    *********************************************
+    * Header Component of Template siteTemplate *
+    *********************************************
+    This page's content is displayed on the top of each page created based on the siteTemplate.
+    Changes made in this file will show up automatically with all pages created based on the
+    siteTemplate for the entire site, achieving great maintainability.
+    -->
+    <body>
+        <!-- Do not enter tags before the composition line since they are ignored by JSF -->
+        <ui:composition>
+            <h:panelGrid columns="2" columnClasses="leftTopCornerAlign, rightTopCornerAlign">
+
+                <h:graphicImage value="resources/images/mapchat-logo.jpg" 
+                                style="width:100%; height:100%; max-height:80px; max-width:80px;" alt="MapChat Logo Header"/>
+                
+                <h:panelGroup>
+                    <h:form> 
+                        <p:inputText id="loginname" value="#{loginManager.username}"/>
+                        <p:watermark for="loginname" value="Username" />
+
+                        <p:password id="password" value="#{loginManager.password}"/>
+                        <p:watermark for="password" value="Password" />
+                        <br/>
+                        <div align="right">
+                            <p:commandButton id="create"  action="#{loginManager.createUser()}" value="Create"/>
+                            <p:commandButton id="retrieve"  action="#{loginManager.resetPassword()}" value="Forgot Password" icon="ui-icon-help"/>
+                            <p:commandButton id="login"  action="#{loginManager.loginUser()}" value="Login" icon="ui-icon-person"/>
+                        </div>
+                    </h:form>
+                </h:panelGroup>
+            </h:panelGrid>
+
+        </ui:composition>
+        <!-- Do not enter tags before the composition line since they are ignored by JSF -->
+    </body>
+</html>

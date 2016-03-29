@@ -1,42 +1,37 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://xmlns.jcp.org/jsf/html">
-    <h:head>
-        <title>MapChat</title>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-        <h:outputStylesheet name="css/jsfcrud.css"/>
-        <h:outputStylesheet library="css" name="globalStyles.css"/>
-        <link rel="shortcut icon" href="./resources/images/mapchat-icon.ico" type="image/x-icon" />
-    </h:head>
-    <h:body>
-        <div align="center">
-            <h:form class="form-signin">
-                <div align="center">
-                <h:graphicImage url="#{resource['images:mapchat-logo.jpg']}" style="width:100%; height:100%; max-height:520px; max-width:520px;" alt="MC Logo"/>
-                
-                <h:panelGrid columns="2" columnClasses="rightAlign, leftAlign">
+<html xmlns="http://www.w3.org/1999/xhtml"   
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
 
-                    <h:outputLabel styleClass="outputLabel" for="loginname" value="Username: " />
-                    <h:inputText class="form-control" id="loginname" value="#{loginManager.username}"/>
-                    
-                    <h:outputLabel styleClass="outputLabel" for="password" value="Password: " />
-                    <h:inputSecret class="form-control"  id="password" value="#{loginManager.password}"/>
-                
-                </h:panelGrid>
-                <br/>
-                <fieldset style="width:40%; margin:0 auto;">
-                    <h:commandButton id="login"  action="#{loginManager.loginUser()}" value="Login" styleClass="buttonText"/>
-                    <h:commandButton id="create"  action="#{loginManager.createUser()}" value="Create" styleClass="buttonText"/>
-                    <h:commandButton id="retrieve"  action="#{loginManager.resetPassword()}" value="Forgot Password" styleClass="buttonText"/>    
-                    <h:commandButton id="gmap"  action="MarkersMap" value="Map" styleClass="buttonText"/>
-                    <h:commandButton id="map"  action="Map" value="Map 2" styleClass="buttonText"/>
-                </fieldset>  
+    <h:body>
+        <!-- This page is constructed based on the siteTemplate -->
+        <ui:composition template="/template/siteTemplate.xhtml">
+
+            <!-- Header is expected to be the same for the entire site.
+            However, it can be changed by using the following.
+            
+            <ui:define name="header">
+                <h1>A new header layout can be created here for a specific page. </h1>
+            </ui:define>
+            -->
+
+            <!-- Create the content for this page below -->
+            <ui:define name="editableContent">
+                <div align="center">
+                    <h:form class="form-signin">
+                        <div align="center">
+                            <h1> SITE UNDER MAINTENANCE</h1>
+                            <br/>
+                            <h:graphicImage url="#{resource['images:mapchat-logo.jpg']}" style="width:100%; height:100%; max-height:450px; max-width:450px;" alt="MapChat Logo"/>
+                            <br/>
+                            <h:outputLabel value ="#{loginManager.errorMessage}" /> 
+                        </div>
+                    </h:form>
                 </div>
-                <br/>
-                <h:outputLabel value ="#{loginManager.errorMessage}" />  
-            </h:form>
-        </div>
+            </ui:define>
+        </ui:composition>
     </h:body>
 
 </html>
