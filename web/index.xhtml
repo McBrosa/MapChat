@@ -3,16 +3,17 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html">
     <h:head>
-        <title>Users</title>
+        <title>MapChat</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
         <h:outputStylesheet name="css/jsfcrud.css"/>
         <h:outputStylesheet library="css" name="globalStyles.css"/>
+        <link rel="shortcut icon" href="./resources/images/mapchat-icon.ico" type="image/x-icon" />
     </h:head>
     <h:body>
         <div align="center">
             <h:form class="form-signin">
                 <div align="center">
-                <h:graphicImage url="#{resource['images:users.png']}" style="width:100%; height:100%; max-height:342px; max-width:600px;" alt="Users"/>
+                <h:graphicImage url="#{resource['images:mapchat-logo.jpg']}" style="width:100%; height:100%; max-height:520px; max-width:520px;" alt="MC Logo"/>
                 
                 <h:panelGrid columns="2" columnClasses="rightAlign, leftAlign">
 
@@ -27,7 +28,9 @@
                 <fieldset style="width:40%; margin:0 auto;">
                     <h:commandButton id="login"  action="#{loginManager.loginUser()}" value="Login" styleClass="buttonText"/>
                     <h:commandButton id="create"  action="#{loginManager.createUser()}" value="Create" styleClass="buttonText"/>
-                    <h:commandButton id="retrieve"  action="#{loginManager.resetPassword()}" value="Forgot Password" styleClass="buttonText"/>                
+                    <h:commandButton id="retrieve"  action="#{loginManager.resetPassword()}" value="Forgot Password" styleClass="buttonText"/>    
+                    <h:commandButton id="gmap"  action="MarkersMap" value="Map" styleClass="buttonText"/>
+                    <h:commandButton id="map"  action="Map" value="Map 2" styleClass="buttonText"/>
                 </fieldset>  
                 </div>
                 <br/>

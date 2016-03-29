@@ -7,6 +7,7 @@ package com.mapchat.managers;
 import com.mapchat.entitypackage.File1;
 import com.mapchat.entitypackage.User;
 import com.mapchat.sessionbeanpackage.File1Facade;
+import com.mapchat.sessionbeanpackage.GroupsFacade;
 import com.mapchat.sessionbeanpackage.UserFacade;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -46,6 +47,8 @@ public class FileManager {
     @EJB
     private UserFacade userFacade;
 
+    @EJB
+    private GroupsFacade groupsFacade;
     /**
      * The instance variable 'fileFacade' is annotated with the @EJB annotation.
      * This means that the GlassFish application server, at runtime, will inject in
@@ -111,7 +114,8 @@ public class FileManager {
                     .getExternalContext().getSessionMap().get("username");
 
             User user = userFacade.findByUsername(user_name);
-
+            //Group1 group = groupFacade
+            // Need to implement when groups are a thing
             // Insert photo record into database
             String extension = file.getContentType();
             extension = extension.startsWith("image/") ? extension.subSequence(6, extension.length()).toString() : "png";
@@ -120,6 +124,8 @@ public class FileManager {
                 fileFacade.remove(fileList.get(0));
             }
 
+            // Group id just being used as a filler for now
+            //Group1 group = new Group1(123);
             fileFacade.create(new File1(extension, user));
             File1 photo = fileFacade.findFilesByUserID(user.getId()).get(0);
             in = file.getInputstream();

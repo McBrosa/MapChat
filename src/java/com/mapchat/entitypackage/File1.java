@@ -40,7 +40,6 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "File1.findByExtension", query = "SELECT f FROM File1 f WHERE f.extension = :extension"),
     @NamedQuery(name = "File1.findByTime", query = "SELECT f FROM File1 f WHERE f.time = :time")})
 public class File1 implements Serializable {
-
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -48,21 +47,17 @@ public class File1 implements Serializable {
     @Column(name = "id")
     private Integer id;
     @Basic(optional = false)
-    @NotNull
     @Column(name = "size")
     private int size;
     @Basic(optional = false)
-    @NotNull
     @Size(min = 1, max = 1000)
     @Column(name = "file_location")
     private String fileLocation;
     @Basic(optional = false)
-    @NotNull
     @Size(min = 1, max = 20)
     @Column(name = "extension")
     private String extension;
     @Basic(optional = false)
-    @NotNull
     @Column(name = "time")
     @Temporal(TemporalType.TIMESTAMP)
     private Date time;
@@ -80,12 +75,6 @@ public class File1 implements Serializable {
         this.id = id;
     }
     
-    // This method is added to the generated code
-    public File1(String extension, User id) {
-        this.extension = extension;
-        userId = id;
-    }
-    
     public File1(Integer id, int size, String fileLocation, String extension, Date time) {
         this.id = id;
         this.size = size;
@@ -93,7 +82,20 @@ public class File1 implements Serializable {
         this.extension = extension;
         this.time = time;
     }
+    
+        // This method is added to the generated code
+    public File1(String extension, User id) {
+        this.extension = extension;
+        userId = id;
+    }
 
+    // This method is added to the generated code
+    public File1(String extension, User uid, Groups gid) {
+        this.extension = extension;
+        userId = uid;
+        groupId = gid;
+    }
+    
     public Integer getId() {
         return id;
     }
