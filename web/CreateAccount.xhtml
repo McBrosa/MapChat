@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-Created by Osman Balci on 2016.02.14 
-Copyright © 2016 Osman Balci. All rights reserved.
+Created by Anthony Barbee on 2016.02.14 
+Copyright © 2016 Anthony Barbee. All rights reserved.
 -->
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
@@ -22,84 +22,93 @@ Copyright © 2016 Osman Balci. All rights reserved.
                 <f:event listener="#{accountManager.validateInformation}" type="postValidate"/>
                 <p:panel id="panel" 
                          style="width: 400px; border: 0px solid white">
-                <p:messages id="msgs" />
+                    <p:messages id="msgs" />
 
-                <h:panelGrid columns="3" cellpadding="5">
-                    <p:outputLabel for="firstName" value="First Name" />
-                    <h:inputText id="firstName" value="#{accountManager.firstName}" 
+
+
+                    <p:inputText id="firstName" value="#{accountManager.firstName}" 
                                  required="true" label="First Name">
                         <f:validateLength minimum="2" />
-                    </h:inputText>
+                    </p:inputText>
+                    <p:watermark for="firstName" value="First Name" />
                     <p:message for="firstName" display="icon" />
-                    
-                    <p:outputLabel for="middleName" value="Middle Name or Initial" />
-                    <h:inputText id="middleName" value="#{accountManager.middleName}" 
-                                 required="false" label="Middle Name">
-                    </h:inputText>
-                    <p:message for="middleName" display="icon" />                    
+                    <br/>
 
-                    <p:outputLabel for="lastName" value="Last Name" />
-                    <h:inputText id="lastName" value="#{accountManager.lastName}" 
+                    <p:inputText id="middleName" value="#{accountManager.middleName}" 
+                                 required="false" label="Middle Name">
+                    </p:inputText>
+                    <p:watermark for="middleName" value="Middle Name/Initial" />
+                    <p:message for="middleName" display="icon" />           
+                    <br />
+
+                    <p:inputText id="lastName" value="#{accountManager.lastName}" 
                                  required="true" label="Last Name">
                         <f:validateLength minimum="2" />
-                    </h:inputText>
+                    </p:inputText>
                     <p:message for="lastName" display="icon" />
-                    <p:outputLabel for="security_ques" value="Security Question" />
-                    <h:selectOneMenu id="security_ques" value="#{accountManager.security_question}" required="true">
+                    <p:watermark for="lastName" value="Last Name" />
+
+                    <p:watermark for="security_ques" value="Security Question" />
+                    <p:selectOneMenu id="security_ques" value="#{accountManager.security_question}" required="true">
                         <f:selectItems value="#{accountManager.security_questions}"/>
-                    </h:selectOneMenu>
+                    </p:selectOneMenu>
                     <p:message for="security_ques" display="icon" />                    
-                  
-                    <p:outputLabel for="security_ans" value="Answer" />
-                    <h:inputText id="security_ans" value="#{accountManager.security_answer}" 
+
+                    <p:inputText id="security_ans" value="#{accountManager.security_answer}" 
                                  required="true" label="city">
                         <f:validateLength minimum="4" />
-                    </h:inputText>
+                    </p:inputText>
+                    <p:watermark for="security_ans" value="Answer" />
                     <p:message for="security_ans" display="icon" />                    
-                    
-                    <p:outputLabel for="email" value="Email:" />
-                    <h:inputText id="email" value="#{accountManager.email}" 
+
+                    <p:inputText id="email" value="#{accountManager.email}" 
                                  label="Email" required="true">
                         <f:validateLength minimum="2" />
                         <f:validator validatorId="emailValidator" /> 
-                    </h:inputText>
+                    </p:inputText>
                     <p:message for="email" display="icon" />
+                    <p:watermark for="email" value="Email" />
 
-                    <p:outputLabel for="phone" value="Phone Number" />
-                    <h:inputText id="phone" value="#{accountManager.phone}" 
-                                 required="true" label="Phone Number">
-                        <f:validateLength minimum="10" />
-                    </h:inputText>
+                    <br /> 
+                   
+                    <p:inputMask id="phone" value="#{accountManager.phone}" mask="(999) 999-9999"/>
                     <p:message for="phone" display="icon" />
-                    
-                    <p:outputLabel for="username" value="Username:" />
-                    <h:inputText id="username" value="#{accountManager.username}" 
+                    <p:watermark for="phone" value="(###) ###-####" />
+
+                    <br />
+
+                    <p:inputText id="username" value="#{accountManager.username}" 
                                  required="true" label="Username">
                         <f:validateLength minimum="4" />
-                    </h:inputText>
+                    </p:inputText>
                     <p:message for="username" display="icon" />
+                    <p:watermark for="username" value="Username" />
 
-                    <p:outputLabel for="password" value="Password:" />
-                    <h:inputSecret id="password" value="#{accountManager.password}" 
-                                required="true" label="Password">
+
+                   
+                    <p:password id="password" value="#{accountManager.password}" 
+                                   required="true" label="Password">
                         <f:validator validatorId="passwordValidator" /> 
-                    </h:inputSecret>
+                    </p:password>
                     <p:message for="password" display="icon" />
+                    <p:watermark for="password" value="Password" />
 
-                    <p:outputLabel for="confirmPassword" value="Confirm Password:" />
-                    <h:inputSecret id="confirmPassword" 
-                                required="true" label="Confirm Password">
-                    </h:inputSecret>
+
+                   
+                    <p:password id="confirmPassword" 
+                                   required="true" label="Confirm Password">
+                    </p:password>
                     <p:message for="confirmPassword" display="icon"/>
-                </h:panelGrid>
-            </p:panel>
-            <h:outputLabel id="error" value="#{accountManager.statusMessage}"  />
-            <br/>
-            <h:commandButton class="btn btn-lg btn-success btn-block" id="submit" 
-                             action="#{accountManager.createAccount()}" value="Submit" />   
-            <h:button class="btn btn-lg btn-danger" id="cancel" outcome="index" value="Cancel" />
+                    <p:watermark for="confirmPassword" value="Confirm Password" />
+
+
+                </p:panel>
+                <h:outputLabel id="error" value="#{accountManager.statusMessage}"  />
+                <br/>
+                <h:commandButton class="btn btn-lg btn-success btn-block" id="submit" 
+                                 action="#{accountManager.createAccount()}" value="Submit" />   
+                <h:button class="btn btn-lg btn-danger" id="cancel" outcome="index" value="Cancel" />
             </h:form>
         </div>
     </h:body>
-
 </html>
