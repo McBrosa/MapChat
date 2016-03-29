@@ -19,7 +19,6 @@ Copyright © 2016 Alan Cai. All rights reserved.
                 <h:outputLabel id="error" value="#{groupManager.statusMessage}"  />
                 <h:outputLabel styleClass="outputLabel" for="newgroupname" value="Group Name: " />
                 <h:inputText id="newgroupname" value="#{groupManager.newGroup}"/>
-                <h:inputHidden id="currentuser" value="#{accountManager.selected}"/>
                 <h:commandButton id="create"  action="#{groupManager.createGroup()}" value="Create" styleClass="buttonText"/>
             </h:form>
         </div>

@@ -8,6 +8,7 @@ import com.mapchat.entitypackage.Groups;
 import com.mapchat.entitypackage.User;
 import com.mapchat.entitypackage.UserGroup;
 import com.mapchat.sessionbeanpackage.GroupsFacade;
+import com.mapchat.sessionbeanpackage.UserFacade;
 import com.mapchat.sessionbeanpackage.UserGroupFacade;
 import java.io.Serializable;
 import javax.ejb.EJB;
@@ -18,6 +19,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 import javax.ejb.EJBException;
+import javax.faces.context.FacesContext;
 
 /**
  *
@@ -38,6 +40,9 @@ public class GroupManager implements Serializable {
   
     @EJB
     private UserGroupFacade userGroupFacade;
+    
+    @EJB
+    private UserFacade usersFacade;
   
     public GroupManager() {
     }
@@ -116,23 +121,26 @@ public class GroupManager implements Serializable {
     }
         
     public String createGroup() {
+        int part = 0;
+        statusMessage = "";
         try
         {
             Groups group = new Groups();
             group.setGroupName(newGroup);
             groupsFacade.create(group);
-            Groups foundGroup = groupsFacade.find(group);
-            
+            Groups foundGroup = groupsFacade.findByGroupname(group.getGroupName());
+            statusMessage = foundGroup.getGroupName() + "\n";
             UserGroup userGroup = new UserGroup();
             userGroup.setGroupId(foundGroup);
+            currentUser = usersFacade.find(FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("user_id"));
             userGroup.setUserId(currentUser.getId());
             userGroupFacade.create(userGroup);
         } catch(EJBException e)
         {
             newGroup = "";
-            statusMessage = "Something went wrong creating the group";
+            statusMessage += "Something went wrong creating the group" + part;
             return "";
         }
-        return "groups";
+        return "groups2";
     }
 }

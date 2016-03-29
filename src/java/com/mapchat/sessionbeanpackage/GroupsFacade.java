@@ -32,6 +32,19 @@ public class GroupsFacade extends AbstractFacade<Groups> {
         return em.find(Groups.class, id);
     }
     
+    public Groups findByGroupname(String groupname) {
+        if (em.createQuery("SELECT g FROM Groups g WHERE g.groupName = :gname")
+                .setParameter("gname", groupname)
+                .getResultList().isEmpty()) {
+            return null;
+        }
+        else {
+            return (Groups) (em.createQuery("SELECT g FROM Groups g WHERE g.groupName = :gname")
+                .setParameter("gname", groupname)
+                .getSingleResult());        
+        }
+    }
+    
     public void deleteGroup(int id){       
         Groups user = em.find(Groups.class, id);
         em.remove(user);
