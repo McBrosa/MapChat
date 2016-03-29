@@ -21,28 +21,16 @@
     </h:head>
     <h:body>
         <p:growl id="messages" showDetail="true" />
-
-<!--        <p:gmap widgetVar="map" center="30.00000,1.00000" zoom="15" type="HYBRID" style="width:100%;height:400px"
-            model="#{addMarkersView.emptyModel}" onPointClick="handlePointClick(event);" />-->
-        <p:gmap center="36.890257,30.707417" zoom="13" type="HYBRID" style="width:100%;height:400px" model="#{markersView.simpleModel}" />
-        <p:dialog widgetVar="dlg" showEffect="fade">
-            <h:form prependId="false">
-                <h:panelGrid columns="2">
-                    <h:outputLabel for="title" value="Title:" />
-                    <p:inputText id="title" value="#{addMarkersView.title}" />
-
-                    <f:facet name="footer">
-                        <p:commandButton value="Add" actionListener="#{addMarkersView.addMarker}" update=":messages" oncomplete="markerAddComplete()" />
-                        <p:commandButton value="Cancel" onclick="return cancel()" />
-                    </f:facet>
-                </h:panelGrid>
-
-                <h:inputHidden id="lat" value="#{addMarkersView.lat}" />
-                <h:inputHidden id="long" value="#{addMarkersView.lng}" />
-<!--                <h:inputHidden id="lat" value="#{userController.selected.locationX}" />
-                <h:inputHidden id="long" value="#{userController.selected.locationY}" />-->
-            </h:form>
-        </p:dialog>
+        <p:gmap widgetVar="map" center="0,0" zoom="18" fitBounds="true" type="HYBRID" style="width:100%;height:400px"
+            model="#{addMarkersView.emptyModel}" />
+        <!--<p:gmap center="36.890257,30.707417" zoom="13" type="HYBRID" style="width:100%;height:400px" model="#{markersView.simpleModel}" />-->
+        <h:form id="formId">
+            <h:inputHidden id="latitude" value="#{accountManager.selected.locationX}"/>
+            <h:inputHidden id="longitude" value="#{accountManager.selected.locationY}"/>
+            <!--<h:commandButton id="update" action="#{accountManager.updateLocation()}" style="display: none;" />-->
+            <h:commandLink id="update" action="#{accountManager.updateLocation()}" style="display:none" />
+            <p:remoteCommand name="update" actionListener="#{accountManager.updateLocation()}" />
+        </h:form>
         <script type="text/javascript">
             var currentMarker = null;
             if (navigator.geolocation) {
@@ -69,60 +57,14 @@
 
             function setMapCenter(latitude, longitude) {
                 PF('map').getMap().setCenter(new google.maps.LatLng(latitude, longitude));
-//                map.getMap().setCenter(new google.maps.LatLng(latitude, longitude));
+                document.getElementById('formId:latitude').value = latitude;
+                document.getElementById('formId:longitude').value = longitude;
+                currentMarker = new google.maps.Marker({
+                    position:new google.maps.LatLng(latitude, longitude)
+                });
+                PF('map').addOverlay(currentMarker);
+                update();
             }
-              
-            function handlePointClick(event) {
-                if(currentMarker === null) {
-                    document.getElementById('lat').value = event.latLng.lat();
-                    document.getElementById('lng').value = event.latLng.lng();
-
-                    currentMarker = new google.maps.Marker({
-                        position:new google.maps.LatLng(event.latLng.lat(), event.latLng.lng())
-                    });
-
-                    PF('map').addOverlay(currentMarker);
-
-                    PF('dlg').show();
-                }   
-            }
-
-            function markerAddComplete() {
-                var title = document.getElementById('title');
-                currentMarker.setTitle(title.value);
-                title.value = "";
-
-                currentMarker = null;
-                PF('dlg').hide();
-            }
-
-            function cancel() {
-                PF('dlg').hide();
-                currentMarker.setMap(null);
-                currentMarker = null;
-
-                return false;
-            }
-            
-            
-//            var x = document.getElementById("demo");
-//            var long = document.getElementById("y");
-//            var lat = document.getElementById("x");
-//            var center = document.getElementById("cLocation");
-//            
-//            function getLocation() {
-//                if (navigator.geolocation) {
-//                    long = position.coords.longitude;
-//                    lat = position.coords.latitude;
-//                    navigator.geolocation.getCurrentPosition(showPosition);
-//                } else { 
-//                    x.innerHTML = "Geolocation is not supported by this browser.";
-//                }
-//            }
-//
-//            function showPosition() {
-//                center = lat + "," + long;              
-//            }
         </script>
     </h:body>    
 </html>
