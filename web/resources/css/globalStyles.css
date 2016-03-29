@@ -41,11 +41,11 @@ p {
 /* Style the text used under the standard HTML tag "h1" for header 1 */
 h1 {
 	font-family: Arial, Helvetica, sans-serif;
-	font-size: 12pt;
+	font-size: 36pt;
 	font-style: normal;
 	font-weight: bold;
 	text-decoration: none;
-	color: #006400;
+	color: black;
 }
 
 /* Style the text used under the standard HTML tag "h2" for header 2 */
@@ -238,33 +238,6 @@ style the footer component of the siteTemplate */
     background-image: -ms-linear-gradient(top, #EEEEEE, #C7C7C7);       /* For IE10+ */
     background-image: -o-linear-gradient(top, #EEEEEE, #C7C7C7);        /* For Opera */
     background-image: linear-gradient(to bottom, #EEEEEE, #C7C7C7);filter:progid:DXImageTransform.Microsoft.gradient(GradientType=0,startColorstr=#EEEEEE, endColorstr=#C7C7C7);
-}
-
-/**
- * Social Media Buttons Spin Animated
- */
-
-/* Tapping the social media icon on a mobile device animates its 360-degree rotation */
-.social-roll {
-    height: 36px;
-    width: 36px;
-    margin: 10px;
-    float: left;
-    border-radius: 50%;
-    -webkit-transition: all ease 0.3s;  /* For WebKit */
-    -moz-transition: all ease 0.3s;     /* For Mozilla */
-    -o-transition: all ease 0.3s;       /* For Opera */
-    -ms-transition: all ease 0.3s;      /* For IE10+ */
-    transition: all ease 0.3s;          /* Generic */
-}
-
-/* Hovering over the social media icon animates its 360-degree rotation */
-.social-roll:hover {
-    -webkit-transform:rotate(360deg);  /* For WebKit */
-    -moz-transform:rotate(360deg);     /* For Mozilla */
-    -o-transform:rotate(360deg);       /* For Opera */
-    -ms-transform:rotate(360deg);      /* For IE10+ */
-    transform:rotate(360deg);          /* Generic */
 }
 
 /*** Styling the Header Component of the Site Template ***

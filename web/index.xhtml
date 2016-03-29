@@ -3,6 +3,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml"   
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
       xmlns:p="http://primefaces.org/ui">
 
     <h:body>
@@ -21,13 +22,87 @@
             <ui:define name="editableContent">
                 <div align="center">
                     <h:form class="form-signin">
-                        <div align="center">
-                            <h1> SITE UNDER MAINTENANCE</h1>
-                            <br/>
-                            <h:graphicImage url="#{resource['images:mapchat-logo.jpg']}" style="width:100%; height:100%; max-height:450px; max-width:450px;" alt="MapChat Logo"/>
-                            <br/>
-                            <h:outputLabel value ="#{loginManager.errorMessage}" /> 
-                        </div>
+                        <h1>MapChat</h1>
+                        <h2 class="form-signin-heading">Don't have an account? Create one below.</h2>
+
+                        <f:event listener="#{accountManager.validateInformation}" type="postValidate"/>
+                        <p:panel id="panel" 
+                                 style="width: 400px; border: 0px solid white">
+                            <p:messages id="msgs" />
+
+
+
+                            <p:inputText id="firstName" value="#{accountManager.firstName}" 
+                                         required="true" label="First Name">
+                                <f:validateLength minimum="2" />
+                            </p:inputText>
+                            <p:watermark for="firstName" value="First Name" />
+                            <p:message for="firstName" display="icon" />
+
+                            <p:inputText id="middleName" value="#{accountManager.middleName}" 
+                                         required="false" label="Middle Name">
+                            </p:inputText>
+                            <p:watermark for="middleName" value="Middle Name/Initial" />
+                            <p:message for="middleName" display="icon" />
+
+                            <p:inputText id="lastName" value="#{accountManager.lastName}" 
+                                         required="true" label="Last Name">
+                                <f:validateLength minimum="2" />
+                            </p:inputText>
+                            <p:message for="lastName" display="icon" />
+                            <p:watermark for="lastName" value="Last Name" />
+
+                            <p:watermark for="security_ques" value="Security Question" />
+                            <p:selectOneMenu id="security_ques" value="#{accountManager.security_question}" required="true">
+                                <f:selectItems value="#{accountManager.security_questions}"/>
+                            </p:selectOneMenu>
+                            <p:message for="security_ques" display="icon" />                    
+
+                            <p:inputText id="security_ans" value="#{accountManager.security_answer}" 
+                                         required="true" label="city">
+                                <f:validateLength minimum="4" />
+                            </p:inputText>
+                            <p:watermark for="security_ans" value="Answer" />
+                            <p:message for="security_ans" display="icon" />                    
+
+                            <p:inputText id="email" value="#{accountManager.email}" 
+                                         label="Email" required="true">
+                                <f:validateLength minimum="2" />
+                                <f:validator validatorId="emailValidator" /> 
+                            </p:inputText>
+                            <p:message for="email" display="icon" />
+                            <p:watermark for="email" value="Email" />
+
+                            <p:inputMask id="phone" value="#{accountManager.phone}" mask="(999) 999-9999"/>
+                            <p:message for="phone" display="icon" />
+                            <p:watermark for="phone" value="(###) ###-####" />
+
+                            <p:inputText id="username" value="#{accountManager.username}" 
+                                         required="true" label="Username">
+                                <f:validateLength minimum="4" />
+                            </p:inputText>
+                            <p:message for="username" display="icon" />
+                            <p:watermark for="username" value="Username" />
+
+                            <p:password id="password" value="#{accountManager.password}" 
+                                           required="true" label="Password">
+                                <f:validator validatorId="passwordValidator" /> 
+                            </p:password>
+                            <p:message for="password" display="icon" />
+                            <p:watermark for="password" value="Password" />
+
+                            <p:password id="confirmPassword" 
+                                           required="true" label="Confirm Password">
+                            </p:password>
+                            <p:message for="confirmPassword" display="icon"/>
+                            <p:watermark for="confirmPassword" value="Confirm Password" />
+
+
+                        </p:panel>
+                        <h:outputLabel id="error" value="#{accountManager.statusMessage}"  />
+                        <br/>
+                        <p:commandButton class="btn btn-lg btn-success btn-block" id="signUp" 
+                                         action="#{accountManager.createAccount()}" value="Sign Up" />   
                     </h:form>
                 </div>
             </ui:define>

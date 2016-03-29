@@ -31,9 +31,11 @@
                         <p:watermark for="password" value="Password" />
                         <br/>
                         <div align="right">
+                            <p:commandButton id="login"  action="#{loginManager.loginUser()}" value="Login" icon="ui-icon-person"/>
                             <p:commandButton id="create"  action="#{loginManager.createUser()}" value="Create"/>
                             <p:commandButton id="retrieve"  action="#{loginManager.resetPassword()}" value="Forgot Password" icon="ui-icon-help"/>
-                            <p:commandButton id="login"  action="#{loginManager.loginUser()}" value="Login" icon="ui-icon-person"/>
+                            <br/>
+                            <h:outputLabel value ="#{loginManager.errorMessage}" style="color: white" /> 
                         </div>
                     </h:form>
                 </h:panelGroup>
