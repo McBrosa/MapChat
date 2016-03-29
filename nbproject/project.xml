@@ -15,7 +15,7 @@
                     <path-in-war>WEB-INF/lib</path-in-war>
                 </library>
                 <library dirs="200">
-                    <file>${file.reference.imgscalr-lib-4.2.jar}</file>
+                    <file>${file.reference.imgscalr-lib-4.2.jar-1}</file>
                     <path-in-war>WEB-INF/lib</path-in-war>
                 </library>
             </web-module-libraries>

@@ -36,6 +36,9 @@ public class AccountManager implements Serializable {
     private String statusMessage;
     private int security_question;
     private String security_answer;
+    private String locationX;
+    private String locationY;
+    
         
     private final String[] listOfStates = Constants.STATES;
     private Map<String, Object> security_questions;
@@ -260,6 +263,15 @@ public class AccountManager implements Serializable {
             return "Profile";
         }
         return "";
+    }
+    
+    public void updateLocation()
+    {
+        int user_id = (int) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("user_id");
+        User editUser = userFacade.getUser(user_id);
+        editUser.setLocationX(this.selected.getLocationX());
+        editUser.setLocationY(this.selected.getLocationY());
+        userFacade.edit(editUser);
     }
     
     public String deleteAccount() {
