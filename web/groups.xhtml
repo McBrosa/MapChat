@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+Created by Alan Cai on 2016.03.23 
+Copyright © 2016 Alan Cai. All rights reserved.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html">
+    <h:head>
+        <title>TODO supply a title</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    </h:head>
+    <h:body>
+        <div>
+            Groups
+        </div>
+        <div>
+            <h:form>
+                <h:outputLabel id="error" value="#{groupManager.statusMessage}"  />
+                <h:outputLabel styleClass="outputLabel" for="newgroupname" value="Group Name: " />
+                <h:inputText id="newgroupname" value="#{groupManager.newGroup}"/>
+                <h:inputHidden id="currentuser" value="#{accountManager.selected}"/>
+                <h:commandButton id="create"  action="#{groupManager.createGroup()}" value="Create" styleClass="buttonText"/>
+            </h:form>
+        </div>
+    </h:body>
+</html>

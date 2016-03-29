@@ -68,7 +68,7 @@ public class File1 implements Serializable {
     private Date time;
     @JoinColumn(name = "group_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
-    private Group1 groupId;
+    private Groups groupId;
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private User userId;
@@ -134,11 +134,11 @@ public class File1 implements Serializable {
         this.time = time;
     }
 
-    public Group1 getGroupId() {
+    public Groups getGroupId() {
         return groupId;
     }
 
-    public void setGroupId(Group1 groupId) {
+    public void setGroupId(Groups groupId) {
         this.groupId = groupId;
     }
 

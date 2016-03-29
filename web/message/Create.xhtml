@@ -20,7 +20,7 @@
                         <p:calendar id="time" pattern="MM/dd/yyyy HH:mm:ss" value="#{messageController.selected.time}" title="#{bundle.EditMessageTitle_time}" required="true" requiredMessage="#{bundle.EditMessageRequiredMessage_time}" showOn="button"/>
                         <p:outputLabel value="#{bundle.CreateMessageLabel_groupId}" for="groupId" />
                         <p:selectOneMenu id="groupId" value="#{messageController.selected.groupId}" required="true" requiredMessage="#{bundle.EditMessageRequiredMessage_groupId}">
-                            <f:selectItems value="#{group1Controller.itemsAvailableSelectOne}"
+                            <f:selectItems value="#{groupsController.itemsAvailableSelectOne}"
                                            var="groupIdItem"
                                            itemValue="#{groupIdItem}"/>
                         </p:selectOneMenu>

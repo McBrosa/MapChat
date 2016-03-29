@@ -24,7 +24,7 @@
                         <p:outputLabel value="#{bundle.EditUserGroupLabel_groupId}" for="groupId" />
                         <p:selectOneMenu id="groupId" value="#{userGroupController.selected.groupId}" required="true" requiredMessage="#{bundle.EditUserGroupRequiredMessage_groupId}">
                             <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
-                            <f:selectItems value="#{group1Controller.itemsAvailableSelectOne}"
+                            <f:selectItems value="#{groupsController.itemsAvailableSelectOne}"
                                            var="groupIdItem"
                                            itemValue="#{groupIdItem}"/>
                         </p:selectOneMenu>

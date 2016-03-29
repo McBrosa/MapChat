@@ -1,9 +1,9 @@
 package com.mapchat.jsfclassespackage;
 
-import com.mapchat.entitypackage.Group1;
+import com.mapchat.entitypackage.Groups;
 import com.mapchat.jsfclassespackage.util.JsfUtil;
 import com.mapchat.jsfclassespackage.util.JsfUtil.PersistAction;
-import com.mapchat.sessionbeanpackage.Group1Facade;
+import com.mapchat.sessionbeanpackage.GroupsFacade;
 
 import java.io.Serializable;
 import java.util.List;
@@ -19,23 +19,23 @@ import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
 
-@Named("group1Controller")
+@Named("groupsController")
 @SessionScoped
-public class Group1Controller implements Serializable {
+public class GroupsController implements Serializable {
 
     @EJB
-    private com.mapchat.sessionbeanpackage.Group1Facade ejbFacade;
-    private List<Group1> items = null;
-    private Group1 selected;
+    private com.mapchat.sessionbeanpackage.GroupsFacade ejbFacade;
+    private List<Groups> items = null;
+    private Groups selected;
 
-    public Group1Controller() {
+    public GroupsController() {
     }
 
-    public Group1 getSelected() {
+    public Groups getSelected() {
         return selected;
     }
 
-    public void setSelected(Group1 selected) {
+    public void setSelected(Groups selected) {
         this.selected = selected;
     }
 
@@ -45,36 +45,36 @@ public class Group1Controller implements Serializable {
     protected void initializeEmbeddableKey() {
     }
 
-    private Group1Facade getFacade() {
+    private GroupsFacade getFacade() {
         return ejbFacade;
     }
 
-    public Group1 prepareCreate() {
-        selected = new Group1();
+    public Groups prepareCreate() {
+        selected = new Groups();
         initializeEmbeddableKey();
         return selected;
     }
 
     public void create() {
-        persist(PersistAction.CREATE, ResourceBundle.getBundle("/Bundle").getString("Group1Created"));
+        persist(PersistAction.CREATE, ResourceBundle.getBundle("/Bundle").getString("GroupsCreated"));
         if (!JsfUtil.isValidationFailed()) {
             items = null;    // Invalidate list of items to trigger re-query.
         }
     }
 
     public void update() {
-        persist(PersistAction.UPDATE, ResourceBundle.getBundle("/Bundle").getString("Group1Updated"));
+        persist(PersistAction.UPDATE, ResourceBundle.getBundle("/Bundle").getString("GroupsUpdated"));
     }
 
     public void destroy() {
-        persist(PersistAction.DELETE, ResourceBundle.getBundle("/Bundle").getString("Group1Deleted"));
+        persist(PersistAction.DELETE, ResourceBundle.getBundle("/Bundle").getString("GroupsDeleted"));
         if (!JsfUtil.isValidationFailed()) {
             selected = null; // Remove selection
             items = null;    // Invalidate list of items to trigger re-query.
         }
     }
 
-    public List<Group1> getItems() {
+    public List<Groups> getItems() {
         if (items == null) {
             items = getFacade().findAll();
         }
@@ -109,29 +109,29 @@ public class Group1Controller implements Serializable {
         }
     }
 
-    public Group1 getGroup1(java.lang.Integer id) {
+    public Groups getGroups(java.lang.Integer id) {
         return getFacade().find(id);
     }
 
-    public List<Group1> getItemsAvailableSelectMany() {
+    public List<Groups> getItemsAvailableSelectMany() {
         return getFacade().findAll();
     }
 
-    public List<Group1> getItemsAvailableSelectOne() {
+    public List<Groups> getItemsAvailableSelectOne() {
         return getFacade().findAll();
     }
 
-    @FacesConverter(forClass = Group1.class)
-    public static class Group1ControllerConverter implements Converter {
+    @FacesConverter(forClass = Groups.class)
+    public static class GroupsControllerConverter implements Converter {
 
         @Override
         public Object getAsObject(FacesContext facesContext, UIComponent component, String value) {
             if (value == null || value.length() == 0) {
                 return null;
             }
-            Group1Controller controller = (Group1Controller) facesContext.getApplication().getELResolver().
-                    getValue(facesContext.getELContext(), null, "group1Controller");
-            return controller.getGroup1(getKey(value));
+            GroupsController controller = (GroupsController) facesContext.getApplication().getELResolver().
+                    getValue(facesContext.getELContext(), null, "groupsController");
+            return controller.getGroups(getKey(value));
         }
 
         java.lang.Integer getKey(String value) {
@@ -151,11 +151,11 @@ public class Group1Controller implements Serializable {
             if (object == null) {
                 return null;
             }
-            if (object instanceof Group1) {
-                Group1 o = (Group1) object;
+            if (object instanceof Groups) {
+                Groups o = (Groups) object;
                 return getStringKey(o.getId());
             } else {
-                Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, "object {0} is of type {1}; expected type: {2}", new Object[]{object, object.getClass().getName(), Group1.class.getName()});
+                Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, "object {0} is of type {1}; expected type: {2}", new Object[]{object, object.getClass().getName(), Groups.class.getName()});
                 return null;
             }
         }

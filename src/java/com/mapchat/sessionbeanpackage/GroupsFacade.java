@@ -4,7 +4,7 @@
  */
 package com.mapchat.sessionbeanpackage;
 
-import com.mapchat.entitypackage.Group1;
+import com.mapchat.entitypackage.Groups;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -14,7 +14,7 @@ import javax.persistence.PersistenceContext;
  * @author Nathan
  */
 @Stateless
-public class Group1Facade extends AbstractFacade<Group1> {
+public class GroupsFacade extends AbstractFacade<Groups> {
 
     @PersistenceContext(unitName = "MapChatPU")
     private EntityManager em;
@@ -24,8 +24,16 @@ public class Group1Facade extends AbstractFacade<Group1> {
         return em;
     }
 
-    public Group1Facade() {
-        super(Group1.class);
+    public GroupsFacade() {
+        super(Groups.class);
     }
     
+    public Groups getGroup(int id) {
+        return em.find(Groups.class, id);
+    }
+    
+    public void deleteGroup(int id){       
+        Groups user = em.find(Groups.class, id);
+        em.remove(user);
+    }
 }

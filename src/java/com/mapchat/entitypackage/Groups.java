@@ -27,13 +27,13 @@ import javax.xml.bind.annotation.XmlTransient;
  * @author Nathan
  */
 @Entity
-@Table(name = "group")
+@Table(name = "groups")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Group1.findAll", query = "SELECT g FROM Group1 g"),
-    @NamedQuery(name = "Group1.findById", query = "SELECT g FROM Group1 g WHERE g.id = :id"),
-    @NamedQuery(name = "Group1.findByGroupName", query = "SELECT g FROM Group1 g WHERE g.groupName = :groupName")})
-public class Group1 implements Serializable {
+    @NamedQuery(name = "Groups.findAll", query = "SELECT g FROM Groups g"),
+    @NamedQuery(name = "Groups.findById", query = "SELECT g FROM Groups g WHERE g.id = :id"),
+    @NamedQuery(name = "Groups.findByGroupName", query = "SELECT g FROM Groups g WHERE g.groupName = :groupName")})
+public class Groups implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -53,14 +53,14 @@ public class Group1 implements Serializable {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "groupId")
     private Collection<Message> messageCollection;
 
-    public Group1() {
+    public Groups() {
     }
 
-    public Group1(Integer id) {
+    public Groups(Integer id) {
         this.id = id;
     }
 
-    public Group1(Integer id, String groupName) {
+    public Groups(Integer id, String groupName) {
         this.id = id;
         this.groupName = groupName;
     }
@@ -118,10 +118,10 @@ public class Group1 implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Group1)) {
+        if (!(object instanceof Groups)) {
             return false;
         }
-        Group1 other = (Group1) object;
+        Groups other = (Groups) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
@@ -130,7 +130,7 @@ public class Group1 implements Serializable {
 
     @Override
     public String toString() {
-        return "com.mapchat.entitypackage.Group1[ id=" + id + " ]";
+        return "com.mapchat.entitypackage.Groups[ id=" + id + " ]";
     }
     
 }
