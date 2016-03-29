@@ -360,5 +360,16 @@ public class AccountManager implements Serializable {
         }
         return fileList.get(0).getThumbnailName();
     }
+    
+    public String userPhotoLocation() {
+        String user_name = (String) FacesContext.getCurrentInstance()
+                .getExternalContext().getSessionMap().get("username");
+        User user = userFacade.findByUsername(user_name);
+        List<File1> fileList = fileFacade.findFilesByUserID(user.getId());
+        if (fileList.isEmpty()) {
+            return "defaultUserPhoto.png";
+        }
+        return "FileStorageLocation/" + fileList.get(0).getThumbnailName();
+    }
 
 }
