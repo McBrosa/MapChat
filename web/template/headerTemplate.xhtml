@@ -17,30 +17,29 @@
     <body>
         <!-- Do not enter tags before the composition line since they are ignored by JSF -->
         <ui:composition>
-            <h:panelGrid columns="2" columnClasses="leftTopCornerAlign, rightTopCornerAlign">
+            <h:form class="form-signin"> 
+                <h:panelGrid columns="2" columnClasses="leftTopCornerAlign, rightTopCornerAlign">
 
-                <h:graphicImage value="resources/images/mapchat-logo.jpg" 
-                                style="width:100%; height:100%; max-height:80px; max-width:80px;" alt="MapChat Logo Header"/>
-                
-                <h:panelGroup>
-                    <h:form> 
-                        <p:inputText id="loginname" value="#{loginManager.username}"/>
+                    <h:graphicImage value="resources/images/mapchat-header.png" alt="MapChat Header"/>
+
+                    <h:panelGroup>
+                        <p:inputText id="loginname"  class="form-control" value="#{loginManager.username}"/>
                         <p:watermark for="loginname" value="Username" />
 
-                        <p:password id="password" value="#{loginManager.password}"/>
+                        <p:password id="password"  class="form-control" value="#{loginManager.password}"/>
                         <p:watermark for="password" value="Password" />
                         <br/>
                         <div align="right">
-                            <p:commandButton id="login"  action="#{loginManager.loginUser()}" value="Login" icon="ui-icon-person"/>
-                            <p:commandButton id="create"  action="#{loginManager.createUser()}" value="Create"/>
-                            <p:commandButton id="retrieve"  action="#{loginManager.resetPassword()}" value="Forgot Password" icon="ui-icon-help"/>
-                            <br/>
-                            <h:outputLabel value ="#{loginManager.errorMessage}" style="color: white" /> 
+                            <p:commandButton id="login"  action="#{loginManager.loginUser()}" 
+                                             value="Login" icon="ui-icon-person"/>
+                            <p:commandButton id="retrieve"  action="#{loginManager.resetPassword()}" 
+                                             value="Forgot Password" icon="ui-icon-help"/>
+                            <br/> 
+                            <p:outputLabel value ="#{loginManager.errorMessage}" style="color: white" />
                         </div>
-                    </h:form>
-                </h:panelGroup>
-            </h:panelGrid>
-
+                    </h:panelGroup>
+                </h:panelGrid>
+            </h:form>
         </ui:composition>
         <!-- Do not enter tags before the composition line since they are ignored by JSF -->
     </body>
