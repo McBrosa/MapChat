@@ -193,7 +193,7 @@ style the header component of the siteTemplate */
 style the editableContent component of the siteTemplate */
 #editableContent {
     width: 100%;
-    height: calc(100% - 170px); 
+    height: calc(100% - 200px); 
     margin-left: 10px;
     margin-right: 10px;
     margin-bottom: 16px;
@@ -204,7 +204,7 @@ style the footer component of the siteTemplate */
 #footer {
     width: 100%;
     height: 50px;
-    bottom: 8px;
+    bottom: 0;
 }
 
 /* Set panel grid width to %80 percent of the screen width */
@@ -246,7 +246,7 @@ The following styles are used in the headerTemplate.xhtml file as:
     <h:panelGrid columns="2" columnClasses="leftAlign, rightAlign">
  */
 
-/* This places the Virginia Tech logo on the left top corner */
+/* This places the MapChat logo on the left top corner */
 .leftTopCornerAlign {
     position: absolute;
     left: 0;
@@ -254,10 +254,10 @@ The following styles are used in the headerTemplate.xhtml file as:
     padding: 18px;
 }
 
-/* This places the horizontal cascading PrimeFaces navigation menu bar on the right top corner */
+/* This places the login bar or other header content in the right top corner */
 .rightTopCornerAlign {
     position: absolute;
     right: 0;
-    top: 0;
+    top: 20px;
     padding: 10px;
 }

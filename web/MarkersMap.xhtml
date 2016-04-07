@@ -27,6 +27,7 @@
         <h:form id="formId">
             <h:inputHidden id="latitude" value="#{accountManager.selected.locationX}"/>
             <h:inputHidden id="longitude" value="#{accountManager.selected.locationY}"/>
+            <h:inputHidden id="profilePic" value="#{accountManager.userPhotoLocation()}" />
             <h:commandLink id="update" action="#{accountManager.updateLocation()}" style="display:none" />
             <p:remoteCommand name="update" actionListener="#{accountManager.updateLocation()}" />
         </h:form>
@@ -58,8 +59,17 @@
                 PF('map').getMap().setCenter(new google.maps.LatLng(latitude, longitude));
                 document.getElementById('formId:latitude').value = latitude;
                 document.getElementById('formId:longitude').value = longitude;
+                
+                var icon = {
+                    url: document.getElementById('formId:profilePic').value, // url
+                    scaledSize: new google.maps.Size(50, 50), // scaled size
+//                  origin: new google.maps.Point(0,0), // origin
+//                  anchor: new google.maps.Point(0, 0) // anchor
+                };
+                
                 currentMarker = new google.maps.Marker({
-                    position:new google.maps.LatLng(latitude, longitude)
+                    position:new google.maps.LatLng(latitude, longitude),
+                    icon:icon
                 });
                 PF('map').addOverlay(currentMarker);
                 update();

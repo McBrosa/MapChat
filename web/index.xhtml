@@ -20,18 +20,23 @@
 
             <!-- Create the content for this page below -->
             <ui:define name="editableContent">
-                <div align="center">
-                    <h:form class="form-signin">
-                        <h1>MapChat</h1>
-                        <h2 class="form-signin-heading">Don't have an account? Create one below.</h2>
-
+                <h:form class="form-signin">
+                    <div align="center">
+                    <h:panelGrid columns="2">
+                        <p:panel style="background: transparent; border: 0px black;">
+                            <div align="center">
+                                <h:graphicImage value="resources/images/globe.gif" class="alignLeft" 
+                                                style="width:60%; height:60%;" alt="Spinning Globe"/>
+                                <p:messages id="msgs" autoUpdate="true"/>
+                                <h:outputLabel id="error" value="#{accountManager.statusMessage}"  />
+                            </div>
+                        </p:panel>
+                        
                         <f:event listener="#{accountManager.validateInformation}" type="postValidate"/>
-                        <p:panel id="panel" 
-                                 style="width: 400px; border: 0px solid white">
-                            <p:messages id="msgs" />
-
-
-
+                        <p:panel style="padding : 20px; background: silver;" styleClass="rightAlign">
+                            
+                            <h2 class="form-signin-heading">Don't have an account? Sign up now!</h2>
+                             
                             <p:inputText id="firstName" value="#{accountManager.firstName}" 
                                          required="true" label="First Name">
                                 <f:validateLength minimum="2" />
@@ -59,7 +64,7 @@
                             <p:message for="security_ques" display="icon" />                    
 
                             <p:inputText id="security_ans" value="#{accountManager.security_answer}" 
-                                         required="true" label="city">
+                                         required="true" label="City">
                                 <f:validateLength minimum="4" />
                             </p:inputText>
                             <p:watermark for="security_ans" value="Answer" />
@@ -97,16 +102,14 @@
                             <p:message for="confirmPassword" display="icon"/>
                             <p:watermark for="confirmPassword" value="Confirm Password" />
 
-
+                            <br/>
+                            <p:commandButton class="btn btn-lg btn-success btn-block" id="signUp" 
+                                         action="#{accountManager.createAccount()}" value="Sign Up" />
                         </p:panel>
-                        <h:outputLabel id="error" value="#{accountManager.statusMessage}"  />
-                        <br/>
-                        <p:commandButton class="btn btn-lg btn-success btn-block" id="signUp" 
-                                         action="#{accountManager.createAccount()}" value="Sign Up" />   
-                    </h:form>
-                </div>
+                    </h:panelGrid>
+                    </div>
+                </h:form>
             </ui:define>
         </ui:composition>
     </h:body>
-
 </html>
