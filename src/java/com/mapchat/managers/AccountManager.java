@@ -15,13 +15,13 @@ import java.util.Map;
 import javax.ejb.EJB;
 import javax.ejb.EJBException;
 import javax.enterprise.context.SessionScoped;
+import javax.faces.bean.ManagedBean;
 import javax.faces.component.UIComponent;
 import javax.faces.component.UIInput;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ComponentSystemEvent;
-import javax.inject.Named;
- 
-@Named(value = "accountManager")
+
+@ManagedBean(name = "accountManager")
 @SessionScoped
 public class AccountManager implements Serializable {
  
