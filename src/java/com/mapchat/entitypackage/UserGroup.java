@@ -40,7 +40,7 @@ public class UserGroup implements Serializable {
     @OneToOne(optional = false)
     private User user;
     @JoinColumn(name = "group_id", referencedColumnName = "id")
-    @ManyToOne(optional = false)
+    @OneToOne(optional = false)
     private Groups groupId;
 
     public UserGroup() {

@@ -121,7 +121,6 @@ public class GroupManager implements Serializable {
     }
         
     public String createGroup() {
-        int part = 0;
         statusMessage = "";
         try
         {
@@ -129,7 +128,6 @@ public class GroupManager implements Serializable {
             group.setGroupName(newGroup);
             groupsFacade.create(group);
             Groups foundGroup = groupsFacade.findByGroupname(group.getGroupName());
-            statusMessage = foundGroup.getGroupName() + "\n";
             UserGroup userGroup = new UserGroup();
             userGroup.setGroupId(foundGroup);
             currentUser = usersFacade.find(FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("user_id"));
@@ -138,9 +136,40 @@ public class GroupManager implements Serializable {
         } catch(EJBException e)
         {
             newGroup = "";
-            statusMessage += "Something went wrong creating the group" + part;
+            statusMessage += "Something went wrong creating the group";
             return "";
         }
-        return "groups2";
+        return "groups";
+    }
+    
+    public String showAllGroups()
+    {
+        String groupsString = "";
+        
+        //if(currentGroups == null) {
+            currentGroups = new HashMap<String, ArrayList<String>>();
+            currentUser = usersFacade.find(FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("user_id"));
+            ArrayList<UserGroup> searchResult = (ArrayList<UserGroup>)userGroupFacade.findByUserId(currentUser.getId());
+            
+            UserGroup temp = userGroupFacade.findByUserId(currentUser.getId()).get(0);
+            groupsString = currentUser.getId() + " , " + temp.getGroupId() + ", " + temp.getUserId();
+            //groupsString += userGroupFacade.findByUserId(currentUser.getId()).size();
+            //groupsString += userGroupFacade.test(currentUser.getId());
+            /*for(int i = 0; i < searchResult.size(); i++)
+            {
+                groupsString += searchResult.size() + "<<>>";
+                groupsString += searchResult.get(i).getGroupId().getId();
+            }*/
+        //}
+        /*Iterator iterator = currentGroups.entrySet().iterator();
+        ArrayList<String> groupsArrayList = new ArrayList<String>();
+        while(iterator.hasNext())
+        {
+            Map.Entry pair = (Map.Entry)iterator.next();
+            groupsArrayList.add((String)pair.getKey());
+            groupsString += pair.getKey() + "\n";
+        }*/
+        
+        return groupsString;
     }
 }
