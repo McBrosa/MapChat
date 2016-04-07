@@ -222,8 +222,16 @@ public class AccountManager implements Serializable {
                 User user = new User();
                 user.setFirstName(firstName);
                 user.setMiddleName(middleName);
-                user.setLastName(lastName);                
-                user.setSecurityQuestion(security_question);
+                user.setLastName(lastName);
+                if(security_question != 0)
+                {
+                    user.setSecurityQuestion(security_question);
+                }
+                else
+                {
+                    statusMessage = "Please select a Security Question.";
+                    return "";
+                }
                 user.setSecurityAnswer(security_answer);
                 user.setPhone(phone);
                 user.setEmail(email);

@@ -11,7 +11,7 @@ html, body {
     -moz-background-size: cover;    /* For Mozilla */
     -o-background-size: cover;      /* For Opera */
     background-size: cover;         /* Generic */
-    background-repeat: repeat;      /* Repeat the image */
+    background-repeat: no-repeat;   /* Don't repeat the image */
 
     height: 100%;                   /* Set page height vertically 100% */
     width: 100%;                    /* Set page width horizontally 100% */
@@ -27,17 +27,6 @@ body {
     font-weight: normal;
     text-decoration: none;
     color: black;
-}
-
-/* Style the text used under the standard HTML tag "p" for paragraph */
-p {
-	font-family: "Times New Roman", Times, serif;
-	font-size: 12pt;
-	font-style: normal;
-	font-weight: normal;
-	text-decoration: none;
-	text-align: left;
-	color: black;
 }
 
 /* Style the text used under the standard HTML tag "h1" for header 1 */
@@ -57,7 +46,7 @@ h2 {
 	font-style: normal;
 	font-weight: normal;
 	text-decoration: none;
-	color: #800000;
+	color: gold;
 }
 
 .leftAlign {
@@ -68,95 +57,22 @@ h2 {
   text-align: right;
 }
 
-.LargeTitle {
-	font-family: Arial, Helvetica, sans-serif;
-	font-size: 12pt;
-	font-style: normal;
-	font-weight: bold;
-	text-align: center;
-	color: #800000;
-}
-.ListTitle {
-	font-family: Arial, Helvetica, sans-serif;
-	font-size: 11pt;
-	font-style: normal;
-	font-weight: bold;
-	color: #000080;
-}
 .message {
 	font-family: "Times New Roman", Times, serif;
-	font-size: 9pt;
+	font-size: 10pt;
 	font-style: normal;
 	line-height: normal;
 	font-weight: normal;
 	font-variant: normal;
 	color: #800080;
 }
-.courier {
-	background-color: #FFFFFF;
-	font-family: "Courier New", Courier, monospace;
-	font-size: 11pt;
-	font-style: normal;
-	font-weight: normal;
-	text-decoration: none;
-	color: black;
-}
-.courierLarge {
-	background-color: #FFFFFF;
-	font-family: "Courier New", Courier, monospace;
-	font-size: 14pt;
-	font-style: normal;
-	font-weight: normal;
-	text-decoration: none;
-	color: black;
-}
+
 .outputLabel {
 	font-family: Verdana, Arial, Helvetica, sans-serif;
 	font-size: 14pt;
 	font-style: normal;
 	font-weight: normal;
 	color: black;
-}
-.indexLetter {
-	font-family: Arial, Helvetica, sans-serif;
-	font-size: 18pt;
-	font-weight: bold;
-	color: #008000;
-}
-.buttonText {
-	font-family: Arial, Helvetica, sans-serif;
-	font-size: 14pt;
-	font-weight: normal;
-	font-style: normal;
-}
-.smallItalic {
-	font-family: "Times New Roman", Times, Serif;
-	font-size: 10pt;
-	font-style: italic;
-	font-weight: normal;
-	text-decoration: none;
-}
-.Heading {
-	font-family: Arial, Helvetica, sans-serif;
-	font-size: 11pt;
-	font-weight: bold;
-	color: #800000;
-	font-style: normal;
-}
-
-.HeadingPurple {
-	font-family: Arial, Helvetica, sans-serif;
-	font-size: 11pt;
-	font-weight: bold;
-	color: #800080;
-	font-style: normal;
-}
-
-.areaName {
-	font-family: Arial, Helvetica, sans-serif;
-	font-size: 11pt;
-	font-weight: bold;
-	color: #008000;
 }
 
 /**
@@ -187,20 +103,17 @@ style the text within the div content of the siteTemplate. */
 style the header component of the siteTemplate */
 #header {
     background-color: black;
-    width: 100%;
-    height: 100px;
-    top: 0;
+    border-bottom: 3px gold;
+    border-style: solid;
     padding: 10px;
+    height: 80px;
+    top: 0;
 }
 
 /* The editableContent id is used in siteTemplate.xhtml as <div id="editableContent"> to 
 style the editableContent component of the siteTemplate */
 #editableContent {
-    width: 100%;
     height: calc(100% - 50px); /* Subtract height of the footer */
-    margin-left: 10px;
-    margin-right: 10px;
-    margin-bottom: 10px;
 }
 
 /* The footer id is used in siteTemplate.xhtml as <div id="footer"> to 
@@ -208,7 +121,8 @@ style the footer component of the siteTemplate */
 #footer {
     background-color: silver;
     width: 100%;
-    height: 50px;
+    height: 60px;
+    padding-top: 20px;
     position: absolute;
     bottom: 0;
     left: 0;
@@ -247,15 +161,12 @@ style the footer component of the siteTemplate */
     background-image: linear-gradient(to bottom, #EEEEEE, #C7C7C7);filter:progid:DXImageTransform.Microsoft.gradient(GradientType=0,startColorstr=#EEEEEE, endColorstr=#C7C7C7);
 }
 
-/*** Styling the Header Component of the Site Template ***
-
-The following styles are used in the headerTemplate.xhtml file as:
-    <h:panelGrid columns="2" columnClasses="leftAlign, rightAlign">
- */
+/*** Styling the Header Component of the Site Template ***/
 
 /* This places the MapChat logo on the left top corner */
 .leftTopCornerAlign {
     position: absolute;
+    padding: 10px;
     left: 0;
     top: 0;
 }
@@ -263,6 +174,52 @@ The following styles are used in the headerTemplate.xhtml file as:
 /* This places the login bar or other header content in the right top corner */
 .rightTopCornerAlign {
     position: absolute;
-    right: 0;
+    right: 20px;
     top: 20px;
+}
+
+/*** Panel Styling ***/
+
+/* This is the style for the sign up panel on the index page */
+.signup-panel {
+    margin: 20px;
+    padding : 20px; 
+    background: #000000; 
+    border: 5px gold;
+    border-style: solid;
+    border-radius: 10px;
+    -moz-border-radius: 10px; 
+    -webkit-border-radius: 10px;
+}
+
+
+/*** Chat.xhtml Styling ***/
+
+#group {
+    background-color: tomato;
+    border: 0px black;
+    border-right: 3px gold;
+    border-style: solid;
+    margin-right: 3px; /* Apply right side border */
+    height: 100%;
+    width: 20%;
+    float: left;
+}
+
+#map {
+    background-color: darkseagreen;
+    margin-right: -6px; /* Allow for right side border from Group Div*/
+    margin-left: -3px;  /* Allow for left side border from Chat Div*/
+    width: 50%;
+    float: left;
+}
+
+#chat {
+    background-color: whitesmoke;
+    border: 0px black;
+    border-left: 3px gold;
+    border-style: solid;
+    height: 100%;
+    width: 30%;
+    float: left;
 }
