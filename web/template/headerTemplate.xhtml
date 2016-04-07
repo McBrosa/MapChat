@@ -31,11 +31,11 @@
                         <br/>
                         <div align="right">
                             <p:commandButton id="login"  action="#{loginManager.loginUser()}" 
-                                             value="Login" icon="ui-icon-person"/>
+                                             value="Login" icon="ui-icon-person" update="invalid"/>
                             <p:commandButton id="retrieve"  action="#{loginManager.resetPassword()}" 
                                              value="Forgot Password" icon="ui-icon-help"/>
                             <br/> 
-                            <p:outputLabel value ="#{loginManager.errorMessage}" style="color: white" />
+                            <p:outputLabel id="invalid" value ="#{loginManager.errorMessage}" style="color: white"/>
                         </div>
                     </h:panelGroup>
                 </h:panelGrid>

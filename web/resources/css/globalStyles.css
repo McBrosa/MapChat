@@ -11,10 +11,12 @@ html, body {
     -moz-background-size: cover;    /* For Mozilla */
     -o-background-size: cover;      /* For Opera */
     background-size: cover;         /* Generic */
-    background-repeat: no-repeat;   /* Do not repeat the image */
+    background-repeat: repeat;      /* Repeat the image */
 
-    width: 100%;                    /* Set page width horizontally 100% */
     height: 100%;                   /* Set page height vertically 100% */
+    width: 100%;                    /* Set page width horizontally 100% */
+    margin: 0;
+    padding: 0;
 }
 
 /* Style the text used under the standard HTML tag "body" */
@@ -184,27 +186,32 @@ style the text within the div content of the siteTemplate. */
 /* The header id is used in siteTemplate.xhtml as <div id="header"> to 
 style the header component of the siteTemplate */
 #header {
+    background-color: black;
     width: 100%;
     height: 100px;
-    background-color: black;
+    top: 0;
+    padding: 10px;
 }
 
 /* The editableContent id is used in siteTemplate.xhtml as <div id="editableContent"> to 
 style the editableContent component of the siteTemplate */
 #editableContent {
     width: 100%;
-    height: calc(100% - 200px); 
+    height: calc(100% - 50px); /* Subtract height of the footer */
     margin-left: 10px;
     margin-right: 10px;
-    margin-bottom: 16px;
+    margin-bottom: 10px;
 }
 
 /* The footer id is used in siteTemplate.xhtml as <div id="footer"> to 
 style the footer component of the siteTemplate */
 #footer {
+    background-color: silver;
     width: 100%;
     height: 50px;
+    position: absolute;
     bottom: 0;
+    left: 0;
 }
 
 /* Set panel grid width to %80 percent of the screen width */
@@ -251,7 +258,6 @@ The following styles are used in the headerTemplate.xhtml file as:
     position: absolute;
     left: 0;
     top: 0;
-    padding: 18px;
 }
 
 /* This places the login bar or other header content in the right top corner */
@@ -259,5 +265,4 @@ The following styles are used in the headerTemplate.xhtml file as:
     position: absolute;
     right: 0;
     top: 20px;
-    padding: 10px;
 }
