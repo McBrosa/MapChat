@@ -10,7 +10,7 @@ public class Constants {
     // Change /Users/Balci/FileStorageLocation/ below to /home/cs4984/Balci/FileStorageLocation/
     // for deployment to the server by replacing Balci with your last name.
     //-----------------------------------------------------------
-    public static final String ROOT_DIRECTORY = "C:/Users/Alan/FileStorageLocation/";
+    public static final String ROOT_DIRECTORY = "/Users/Sean/FileStorageLocation/";
 
     public static final String TEMP_FILE = "tmp_file";
 
@@ -22,12 +22,19 @@ public class Constants {
         "DC","DE","FL","GA","GU","HI","IA","ID", "IL","IN","KS","KY","LA","MA",
         "MD","ME","MH","MI","MN","MO","MS","MT","NC","ND","NE","NH","NJ","NM",
         "NV","NY", "OH","OK","OR","PA","PR","PW","RI","SC","SD","TN","TX","UT",
-        "VA","VI","VT","WA","WI","WV","WY"};
+        "VA","VI","VT","WA","WI","WV","WY"
+    };
     
     public static final String[] QUESTIONS = {"In what city were you born?",
-    "What elementary school did you attend?",
-    "What is the last name of your most favorite teacher?",
-    "What is your father's middle name?",
-    "What is your most favorite pet's name?"};
+        "What elementary school did you attend?",
+        "What is the last name of your most favorite teacher?",
+        "What is your father's middle name?",
+        "What is your most favorite pet's name?"
+    };
 
+    public static final String[] CHATROOMS = {
+        "Chatroom 1",
+        "Chatroom 2",
+        "Chatroom 3",
+    };
 }
