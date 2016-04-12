@@ -59,7 +59,7 @@ h2 {
 
 .message {
 	font-family: "Times New Roman", Times, serif;
-	font-size: 10pt;
+	font-size: 12pt;
 	font-style: normal;
 	line-height: normal;
 	font-weight: normal;
@@ -68,7 +68,7 @@ h2 {
 }
 
 .outputLabel {
-	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-family: "Times New Roman", Times, serif;
 	font-size: 14pt;
 	font-style: normal;
 	font-weight: normal;
@@ -223,4 +223,11 @@ style the footer component of the siteTemplate */
     height: 100%;
     width: 30%;
     float: left;
+}
+
+/*** Profile CSS ***/
+
+/* Users' profile picture */
+.user-pic {
+    margin: 10px;
 }

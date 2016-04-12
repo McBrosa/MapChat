@@ -21,9 +21,10 @@
                             <h2>Please Choose a File for Your Photo</h2>
                             <p:fileUpload id="upload" value="#{fileManager.file}" mode="simple" />
                             <br/>
+                            <h:outputText value="#{fileManager.message}" style="color: gold;"/>
+                            <br/>
                             <p:commandButton id="button" class="btn btn-success" value="Upload" 
                                              ajax="false" action="#{fileManager.upload}" />
-                            <h:outputText value="#{fileManager.message}" />
                             <br/>
                             <h:commandButton value="Cancel" action="#{fileManager.cancel()}"/>
                         </p:panel>
