@@ -18,7 +18,9 @@
         <ui:composition>
             <h:form>
                 <h:panelGrid columns="2" columnClasses="leftTopCornerAlign, rightTopCornerAlign">
-                    <h:graphicImage value="resources/images/mapchat-header.png" alt="MapChat Header"/>
+                    <h:commandLink action="Profile">
+                        <h:graphicImage value="resources/images/mapchat-header.png" alt="Profile Header"/>
+                    </h:commandLink>
 
                     <h:panelGroup>
                         <p:commandButton action="Profile" value="My Profile" icon="ui-icon-home"/>

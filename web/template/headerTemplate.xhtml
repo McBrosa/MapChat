@@ -19,8 +19,10 @@
         <ui:composition>
             <h:form class="form-signin"> 
                 <h:panelGrid columns="2" columnClasses="leftTopCornerAlign, rightTopCornerAlign">
-
-                    <h:graphicImage value="resources/images/mapchat-header.png" alt="MapChat Header"/>
+                    
+                    <h:commandLink action="index">
+                        <p:graphicImage value="resources/images/mapchat-header.png" alt="Homepage Header"/>
+                    </h:commandLink>
 
                     <h:panelGroup>
                         <p:inputText id="loginname"  class="form-control" value="#{loginManager.username}"/>
@@ -34,8 +36,9 @@
                                              value="Login" icon="ui-icon-person" update="invalid"/>
                             <p:commandButton id="retrieve"  action="#{loginManager.resetPassword()}" 
                                              value="Forgot Password" icon="ui-icon-help"/>
-                            <br/> 
-                            <p:outputLabel id="invalid" value ="#{loginManager.errorMessage}" style="color: white"/>
+                            <br/>
+                            <br/>
+                            <p:outputLabel id="invalid" value ="#{loginManager.errorMessage}" style="color: tomato"/>
                         </div>
                     </h:panelGroup>
                 </h:panelGrid>

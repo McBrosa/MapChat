@@ -23,17 +23,15 @@
                 <h:form class="form-signin">
                     <div align="center">
                         <h:panelGrid columns="2" columnClasses="leftAlign, rightAlign">
-                        <p:panel style="background: transparent; border: 0px black;">
-                            <div align="center">
-                                <h:graphicImage value="resources/images/globe.gif" class="alignLeft" 
-                                                style="max-height:255px; max-width:255px;" alt="Spinning Globe"/>
+                        <p:panel id="error-panel" style="background: transparent; border: 0px black;">
+                            <div align="left">
                                 <p:messages id="msgs" autoUpdate="true" closable="true"/>
                                 <p:outputLabel id="error" value="#{accountManager.statusMessage}"/>
                             </div>
                         </p:panel>
                         
                         <f:event listener="#{accountManager.validateInformation}" type="postValidate"/>
-                        <p:panel id="panel" style="padding : 20px; background: silver;" styleClass="rightAlign">
+                        <p:panel id="signup-panel" styleClass="signup-panel">
                             
                             <h2 class="form-signin-heading">Don't have an account? Sign up now!</h2>
                              
@@ -55,7 +53,6 @@
                             <p:watermark for="lastName" value="Last Name" />
                             <br/>
 
-                            <p:watermark for="security_ques" value="Security Question" />
                             <p:selectOneMenu id="security_ques" value="#{accountManager.security_question}" required="true" style="margin: 5px;">
                                 <f:selectItems value="#{accountManager.security_questions}"/>
                             </p:selectOneMenu>  
@@ -98,7 +95,7 @@
                             
                             <br/>
                             <br/>
-                            <p:commandButton class="btn btn-lg btn-success btn-block" id="signUp" update="panel" 
+                            <p:commandButton class="btn btn-lg btn-success btn-block" id="signUp" update="signup-panel" 
                                          action="#{accountManager.createAccount()}" value="Sign Up" />
                         </p:panel>
                     </h:panelGrid>
