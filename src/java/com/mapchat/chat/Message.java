@@ -6,8 +6,6 @@ package com.mapchat.chat;
  */
 import java.io.Serializable;
 import java.util.Date;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.RequestScoped;
  
 /**
  * Represents message
@@ -27,6 +25,11 @@ public class Message implements Serializable {
     }
  
     public String getMessage() {
+        return message;
+    }
+    
+    public String resetMessage() {
+        message = "";
         return message;
     }
  

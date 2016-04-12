@@ -28,16 +28,34 @@ public class MessageBean implements Serializable {
  
     private final List messages;
     private Date lastUpdate;
-    private Message message;
- 
+    private String messageUser;
+
+    private String messageInput;
+
     /**
      * Creates a new instance of MessageBean
      */
     public MessageBean() {
         messages = Collections.synchronizedList(new LinkedList());
         lastUpdate = new Date(0);
-        message = new Message();
     }
+    
+    public String getMessageUser() {
+        return messageUser;
+    }
+
+    public void setMessageUser(String messageUser) {
+        this.messageUser = messageUser;
+    }
+    
+    public String getMessageInput() {
+        return messageInput;
+    }
+
+    public void setMessageInput(String messageInput) {
+        this.messageInput = messageInput;
+    }
+ 
  
     public Date getLastUpdate() {
         return lastUpdate;
@@ -47,16 +65,12 @@ public class MessageBean implements Serializable {
         this.lastUpdate = lastUpdate;
     }
  
-    public Message getMessage() {
-        return message;
-    }
- 
-    public void setMessage(Message message) {
-        this.message = message;
-    }
- 
     public void sendMessage(ActionEvent evt) {
-        mm.sendMessage(message);
+        Message msg = new Message();
+        msg.setMessage(messageInput);
+        msg.setUser(messageUser);
+        mm.sendMessage(msg);
+        messageInput = "";
     }
  
     public void firstUnreadMessage(ActionEvent evt) {
