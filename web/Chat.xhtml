@@ -3,7 +3,36 @@
 <html xmlns="http://www.w3.org/1999/xhtml"   
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:ui="http://java.sun.com/jsf/facelets"
-      xmlns:p="http://primefaces.org/ui">
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js"></script>
+    <script language="JavaScript" type="text/javascript" src="index.js"></script>
+    <script>
+$(document).ready(function() {
+            $nickName = $('#nickname');
+            $message = $('#message');
+            $chatWindow = $('#response');
+            $('.chat-wrapper').hide();
+            $nickName.focus();
+
+            $('#enterRoom').click(function(evt) {
+                evt.preventDefault();
+                connectToChatserver();
+                $('.chat-wrapper h2').text('Chat # '+$nickName.val() + "@" + room);
+                $('.chat-signin').hide();
+                $('.chat-wrapper').show();
+                $message.focus();
+            });
+            $('#do-chat').submit(function(evt) {
+                evt.preventDefault();
+                sendMessage()
+            });
+
+            $('#leave-room').click(function(){
+                leaveRoom();
+            });
+        });
+    </script>
     <h:body>
         <ui:composition template="/template/siteTemplate.xhtml">
             <!-- A user must be logged in to access chat, therefore the header must be changed to reflect this -->
@@ -18,7 +47,42 @@
                     <h1>Map</h1>
                 </div>
                 <div id="chat" align="right">
-                    <h1>Chat</h1>
+                    <div class="container chat-signin">
+                        <form class="form-signin">
+                            <h2 class="form-signin-heading">Chat sign in</h2>
+                            <label for="nickname">Nickname</label> <input type="text"
+                                class="input-block-level" placeholder="Nickname" id="nickname"/>
+                            <div class="btn-group">
+                                <label for="chatroom">Chatroom</label> <select size="1"
+                                    id="chatroom">
+                                    <option>arduino</option>
+                                    <option>java</option>
+                                    <option>groovy</option>
+                                    <option>scala</option>
+                                </select>
+                            </div>
+                            <button class="btn btn-large btn-primary" type="submit"
+                                id="enterRoom">Sign in</button>
+                        </form>
+                    </div>
+                    <!-- /container -->
+
+                    <div class="container chat-wrapper">
+                        <form id="do-chat">
+                            <h2 class="alert alert-success"></h2>
+                            <table id="response" class="table table-bordered"></table>
+                            <fieldset>
+                                <legend>Enter your message..</legend>
+                                <div class="controls">
+                                    <input type="text" class="input-block-level" placeholder="Your message..." id="message" style="height:60px"/>
+                                    <input type="submit" class="btn btn-large btn-block btn-primary"
+                                        value="Send message" />
+                                    <button class="btn btn-large btn-block" type="button" id="leave-room">Leave
+                                        room</button>
+                                </div>
+                            </fieldset>
+                        </form>
+                    </div>
                 </div>
             </ui:define>
         </ui:composition>
