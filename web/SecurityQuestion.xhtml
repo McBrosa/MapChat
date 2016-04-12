@@ -6,23 +6,26 @@
       xmlns:p="http://primefaces.org/ui">
     <h:body>
         <ui:composition template="/template/siteTemplate.xhtml">
-            <title><ui:define name="title">MapChat: Answer Your Question</ui:define></title>
+            <title><ui:define name="title">MapChat: Security Question</ui:define></title>
             
             <ui:define name="editableContent">
                 <div align="center" style="width:50%; margin:0 auto;">
                     <h:form class="form-signin">
+                    <p:panel styleClass="mc-panel">
                         <h2 class="form-signin-heading">Please Answer Your Security Question</h2>
-                        <div class="form-group" style="margin-bottom:20px">
-                            <h:outputLabel for="question" value="#{passwordResetManager.securityQuestion}" />
+                        <div class="form-group" style="margin-bottom:20px;">
+                            <h:outputLabel for="question" style="color: whitesmoke;"
+                                           value="#{passwordResetManager.securityQuestion}" />
                         </div>
                         <div class="form-group" style="margin-bottom: 10px">
                             <h:inputText id="answer" value="#{passwordResetManager.answer}"/>
                         </div>
                         <br/>
-                        <h:commandButton id="submit" action="#{passwordResetManager.securityquestionSubmit()}" value="Submit" />
-                        <h:button class="btn btn-lg btn-danger" id="cancel" outcome="index" value="Cancel" />
+                        <p:commandButton id="submit" action="#{passwordResetManager.securityquestionSubmit()}" value="Submit" />
+                        <p:button class="btn btn-lg btn-danger" id="cancel" outcome="index" value="Cancel" />
                         <br/>
-                        <h:outputLabel value ="#{passwordResetManager.message}" />                  
+                        <h:outputLabel value ="#{passwordResetManager.message}" />  
+                    </p:panel>
                     </h:form>
                 </div>
             </ui:define>

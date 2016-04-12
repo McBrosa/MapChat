@@ -23,82 +23,82 @@
                 <h:form class="form-signin">
                     <div align="center">
                         <h:panelGrid columns="2" columnClasses="leftAlign, rightAlign">
-                        <p:panel id="error-panel" style="background: transparent; border: 0px black;">
-                            <div align="left">
-                                <p:messages id="msgs" autoUpdate="true" closable="true"/>
-                                <p:outputLabel id="error" value="#{accountManager.statusMessage}"/>
-                            </div>
-                        </p:panel>
-                        
-                        <f:event listener="#{accountManager.validateInformation}" type="postValidate"/>
-                        <p:panel id="signup-panel" styleClass="signup-panel">
+                            <f:event listener="#{accountManager.validateInformation}" type="postValidate"/>
+                            <p:panel id="signup-panel" styleClass="mc-panel">
+
+                                <h2 class="form-signin-heading">Don't have an account? Sign up now!</h2>
+
+                                <p:inputText id="firstName" value="#{accountManager.firstName}" 
+                                             required="true" label="First Name">
+                                    <f:validateLength minimum="2" />
+                                </p:inputText>
+                                <p:watermark for="firstName" value="First Name" />
+
+                                <p:inputText id="middleName" value="#{accountManager.middleName}" 
+                                             required="false" label="Middle Name">
+                                </p:inputText>
+                                <p:watermark for="middleName" value="Middle Name/Initial" />
+
+                                <p:inputText id="lastName" value="#{accountManager.lastName}" 
+                                             required="true" label="Last Name">
+                                    <f:validateLength minimum="2" />
+                                </p:inputText>
+                                <p:watermark for="lastName" value="Last Name" />
+                                <br/>
+
+                                <p:selectOneMenu id="security_ques" value="#{accountManager.security_question}" required="true" 
+                                                 style="margin-top: 5px;">
+                                    <f:selectItems value="#{accountManager.security_questions}"/>
+                                </p:selectOneMenu>                  
+
+                                <p:inputText id="security_ans" value="#{accountManager.security_answer}" 
+                                             required="true" label="City">
+                                    <f:validateLength minimum="4" />
+                                </p:inputText>
+                                <p:watermark for="security_ans" value="Answer" />    
+                                <br/>
+
+                                <p:inputText id="email" value="#{accountManager.email}" 
+                                             label="Email" required="true">
+                                    <f:validateLength minimum="2" />
+                                    <f:validator validatorId="emailValidator" /> 
+                                </p:inputText>
+                                <p:watermark for="email" value="Email" />
+
+                                <p:inputMask id="phone" value="#{accountManager.phone}" mask="(999) 999-9999"/>
+                                <p:watermark for="phone" value="(###) ###-####" />
+                                <br/>
+
+                                <p:inputText id="username" value="#{accountManager.username}" 
+                                             required="true" label="Username">
+                                    <f:validateLength minimum="4" />
+                                </p:inputText>
+                                <p:watermark for="username" value="Username" />
+                                <br/>
+
+                                <p:password id="password" value="#{accountManager.password}" 
+                                            feedback="true" required="true">
+                                    <f:validator validatorId="passwordValidator" /> 
+                                </p:password>
+                                <p:watermark for="password" value="Password" />
+                                <br/>   
+
+                                <p:password id="confirmPassword" required="true" />
+                                <p:watermark for="confirmPassword" value="Confirm Password" />
+
+                                <br/>
+                                <br/>
+                                <p:commandButton class="btn btn-lg btn-success btn-block" id="signUp" update="signup-panel" 
+                                             action="#{accountManager.createAccount()}" value="Sign Up" />
+                            </p:panel>
                             
-                            <h2 class="form-signin-heading">Don't have an account? Sign up now!</h2>
-                             
-                            <p:inputText id="firstName" value="#{accountManager.firstName}" 
-                                         required="true" label="First Name">
-                                <f:validateLength minimum="2" />
-                            </p:inputText>
-                            <p:watermark for="firstName" value="First Name" />
-
-                            <p:inputText id="middleName" value="#{accountManager.middleName}" 
-                                         required="false" label="Middle Name">
-                            </p:inputText>
-                            <p:watermark for="middleName" value="Middle Name/Initial" />
-
-                            <p:inputText id="lastName" value="#{accountManager.lastName}" 
-                                         required="true" label="Last Name">
-                                <f:validateLength minimum="2" />
-                            </p:inputText>
-                            <p:watermark for="lastName" value="Last Name" />
-                            <br/>
-
-                            <p:selectOneMenu id="security_ques" value="#{accountManager.security_question}" required="true" style="margin: 5px;">
-                                <f:selectItems value="#{accountManager.security_questions}"/>
-                            </p:selectOneMenu>                  
-
-                            <p:inputText id="security_ans" value="#{accountManager.security_answer}" 
-                                         required="true" label="City">
-                                <f:validateLength minimum="4" />
-                            </p:inputText>
-                            <p:watermark for="security_ans" value="Answer" />    
-                            <br/>
-
-                            <p:inputText id="email" value="#{accountManager.email}" 
-                                         label="Email" required="true">
-                                <f:validateLength minimum="2" />
-                                <f:validator validatorId="emailValidator" /> 
-                            </p:inputText>
-                            <p:watermark for="email" value="Email" />
-
-                            <p:inputMask id="phone" value="#{accountManager.phone}" mask="(999) 999-9999"/>
-                            <p:watermark for="phone" value="(###) ###-####" />
-                            <br/>
-
-                            <p:inputText id="username" value="#{accountManager.username}" 
-                                         required="true" label="Username">
-                                <f:validateLength minimum="4" />
-                            </p:inputText>
-                            <p:watermark for="username" value="Username" />
-
-                            <p:password id="password" value="#{accountManager.password}" 
-                                           required="true" label="Password">
-                                <f:validator validatorId="passwordValidator" /> 
-                            </p:password>
-                            <p:watermark for="password" value="Password" />
-                            <br/>   
-
-                            <p:password id="confirmPassword" 
-                                           required="true" label="Confirm Password">
-                            </p:password>
-                            <p:watermark for="confirmPassword" value="Confirm Password" />
-                            
-                            <br/>
-                            <br/>
-                            <p:commandButton class="btn btn-lg btn-success btn-block" id="signUp" update="signup-panel" 
-                                         action="#{accountManager.createAccount()}" value="Sign Up" />
-                        </p:panel>
-                    </h:panelGrid>
+                            <p:panel id="error-panel" style="background: transparent; border: 0px black;">
+                                <div align="left">
+                                    <p:messages id="msgs" autoUpdate="true" closable="true"/>
+                                    <p:outputLabel id="error" value="#{accountManager.statusMessage}"/>
+                                </div>
+                            </p:panel>
+                        </h:panelGrid>
                     </div>
                 </h:form>
             </ui:define>

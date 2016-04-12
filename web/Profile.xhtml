@@ -6,52 +6,56 @@ Copyright © 2016 Osman Balci. All rights reserved.
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
       xmlns:p="http://primefaces.org/ui">
-    <h:head>
-        <title>Profile</title>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-        <h:outputStylesheet name="css/jsfcrud.css"/>
-        <h:outputStylesheet library="css" name="globalStyles.css"/>
-    </h:head>
-    <h:body>
-        <div align="center" style="width:50%; margin:0 auto;">
-            <h:form class="form-signin">
-                <h:graphicImage value="FileStorageLocation/#{accountManager.userPhoto()}" id="profilePic"
-                          class="img-rounded col-md-3"></h:graphicImage>
-                    <h2> #{profileViewManager.loggedInUser.firstName} #{profileViewManager.loggedInUser.lastName} </h2>
-                    <h:button value="Edit Profile"  outcome="EditAccount"/>
-                    <h:button value="Change Photo"  outcome="EditPhoto"/>
-                    <h:commandButton value="Log Out" action="#{accountManager.logout()}" />
-                <br/>
-                <br/>
-                <p:tabView  >
-                  <p:tab title="Basic Info">
-                    <!-- Basic Info goes here -->
-                    <h:panelGrid columns="2" cellpadding="6">
-                      <h:outputText value="First Name: " />
-                      <h:outputText value="#{profileViewManager.loggedInUser.firstName}" />
+    <h:body> 
+        <ui:composition template="/template/siteTemplate.xhtml">
+            <title><ui:define name="title">#{profileViewManager.loggedInUser.username}'s Profile</ui:define></title>
+            <!-- A user must be logged in to access a profile, therefore the header must be changed to reflect this -->
+            <ui:define name="header">
+                <ui:include src="/template/userHeaderTemplate.xhtml" />
+            </ui:define>
+            
+            <ui:define name="editableContent">
+                <h:form class="form-signin">
+                <h:panelGrid columns="2" columnClasses="leftAlign, rightAlign">
+                        <p:panel id="user-photo" styleClass="mc-panel">
+                            <h:graphicImage value="FileStorageLocation/#{accountManager.userPhoto()}" id="profilePic"
+                                      class="img-rounded col-md-3"></h:graphicImage>
+                            <h2> #{profileViewManager.loggedInUser.firstName} #{profileViewManager.loggedInUser.lastName} </h2>
+                            <h:button value="Edit Profile"  outcome="EditAccount"/>
+                            <h:button value="Change Photo"  outcome="EditPhoto"/>
+                            <h:commandButton value="Log Out" action="#{accountManager.logout()}" />
+                        </p:panel>
+                        <p:panel id="info-panel" styleClass="mc-panel">
+                            <p:tabView  id="user-info">
+                              <p:tab title="Basic Info">
+                                <!-- Basic Info goes here -->
+                                <h:panelGrid columns="2" cellpadding="6">
+                                  <h:outputText value="First Name: " />
+                                  <h:outputText value="#{profileViewManager.loggedInUser.firstName}" />
 
-                      <h:outputText value="Middle Name or Initial: " />
-                      <h:outputText value="#{profileViewManager.loggedInUser.middleName}" />                      
-                      
-                      <h:outputText value="Last Name: " />
-                      <h:outputText value="#{profileViewManager.loggedInUser.lastName}" />
+                                  <h:outputText value="Middle Name or Initial: " />
+                                  <h:outputText value="#{profileViewManager.loggedInUser.middleName}" />                      
 
-                      <h:outputText value="Phone Number: " />
-                      <h:outputText value="#{profileViewManager.loggedInUser.phone}" />     
+                                  <h:outputText value="Last Name: " />
+                                  <h:outputText value="#{profileViewManager.loggedInUser.lastName}" />
 
-                      <h:outputText value="Email " />
-                      <h:outputText value="#{profileViewManager.loggedInUser.email}" />
-                    </h:panelGrid>
-                  </p:tab>           
-                </p:tabView>
-                <br/>
-                <br/>
-                <h:commandButton value="Groups" action="groups" />
-                <h:commandButton value="Map" action="MarkersMap" />
-                <h:commandButton value="Chat" action="Chat" />
-            </h:form>
-        </div>
+                                  <h:outputText value="Phone Number: " />
+                                  <h:outputText value="#{profileViewManager.loggedInUser.phone}" />     
+
+                                  <h:outputText value="Email " />
+                                  <h:outputText value="#{profileViewManager.loggedInUser.email}" />
+                                </h:panelGrid>
+                              </p:tab>           
+                            </p:tabView>
+                            <br/>
+                            <h:commandButton value="Groups" action="groups" />
+                            <h:commandButton value="Chat" action="Chat" />
+                        </p:panel>
+                </h:panelGrid>
+               </h:form>
+            </ui:define>
+        </ui:composition>
     </h:body>
 </html>
