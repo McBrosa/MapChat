@@ -103,6 +103,7 @@ style the text within the div content of the siteTemplate. */
 style the header component of the siteTemplate */
 #header {
     background-color: black;
+    border: 0px black;
     border-bottom: 3px gold;
     border-style: solid;
     padding: 10px;
@@ -180,8 +181,8 @@ style the footer component of the siteTemplate */
 
 /*** Panel Styling ***/
 
-/* This is the style for the sign up panel on the index page */
-.signup-panel {
+/* This is the style for several panels throughout the web application */
+.mc-panel {
     margin: 20px;
     padding : 20px; 
     background: #000000; 
