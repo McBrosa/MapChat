@@ -9,6 +9,16 @@ import com.mapchat.entitypackage.User;
 import com.mapchat.sessionbeanpackage.File1Facade;
 import com.mapchat.sessionbeanpackage.GroupsFacade;
 import com.mapchat.sessionbeanpackage.UserFacade;
+//import java.awt.AlphaComposite;
+//import java.awt.Graphics2D;
+//import java.awt.RenderingHints;
+//import java.awt.geom.Ellipse2D;
+import java.awt.AlphaComposite;
+import java.awt.Color;
+import java.awt.Graphics2D;
+import java.awt.RenderingHints;
+import java.awt.geom.Ellipse2D;
+
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileOutputStream;
@@ -130,7 +140,11 @@ public class FileManager {
             File1 photo = fileFacade.findFilesByUserID(user.getId()).get(0);
             in = file.getInputstream();
             File uploadedFile = inputStreamToFile(in, photo.getFilename());
-            saveThumbnail(uploadedFile, photo);
+            BufferedImage icon = ImageIO.read(uploadedFile);
+            BufferedImage rounded = makeRoundedCorner(icon, 1);
+            File circle = new File(photo.getFilename());
+            ImageIO.write(rounded, "png", circle);
+            saveThumbnail(circle, photo);
             resultMsg = new FacesMessage("Success!", "File Successfully Uploaded!");
             return resultMsg;
         } catch (IOException e) {
@@ -138,6 +152,35 @@ public class FileManager {
         }
         return new FacesMessage("Upload failure!",
             "There was a problem reading the image file. Please try again with a new photo file.");
+    }
+    
+    private BufferedImage makeRoundedCorner(BufferedImage image, int cornerRadius) {
+        int w = image.getWidth();
+        int h = image.getHeight();
+        int s = 0;
+        if(w <= h)
+        {
+            s = w;
+        }
+        else
+        {
+            s = h;
+        }
+        BufferedImage output = new BufferedImage(w, h, BufferedImage.TYPE_INT_RGB);
+
+        Graphics2D g2 = output.createGraphics();
+
+        g2.setComposite(AlphaComposite.Src);
+        g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+        g2.setColor((new Color(0f,0f,0f,0f )));
+        g2.clip(new Ellipse2D.Double(0, 0, s, s));
+        //g2.fill(new Ellipse2D.Double(0, 0, s, s));
+        g2.setComposite(AlphaComposite.SrcAtop);
+        g2.drawImage(image, 0, 0, null);
+
+        g2.dispose();
+
+        return output;
     }
 
     private File inputStreamToFile(InputStream inputStream, String childName)
