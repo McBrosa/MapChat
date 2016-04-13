@@ -30,7 +30,7 @@ public class UserGroupFacade extends AbstractFacade<UserGroup> {
         super(UserGroup.class);
     }
     
-    public List<UserGroup> findByUserId(Integer userId) {
+    /**public List<UserGroup> findByUserId(Integer userId) {
         if (em.createQuery("SELECT g FROM UserGroup g WHERE g.userId = :userId")
                 .setParameter("userId", userId)
                 .getResultList().isEmpty()) {
@@ -50,6 +50,6 @@ public class UserGroupFacade extends AbstractFacade<UserGroup> {
         else {
             return (em.createQuery("SELECT u FROM UserGroup u")).getResultList().size() + "";        
         }
-    }
+    }**/
     
 }

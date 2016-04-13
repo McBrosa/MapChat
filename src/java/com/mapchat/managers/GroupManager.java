@@ -142,7 +142,7 @@ public class GroupManager implements Serializable {
         return "groups";
     }
     
-    public String showAllGroups()
+    /**public String showAllGroups()
     {
         String groupsString = "";
         
@@ -153,7 +153,7 @@ public class GroupManager implements Serializable {
             
             UserGroup temp = userGroupFacade.findByUserId(currentUser.getId()).get(0);
             groupsString = currentUser.getId() + " , " + temp.getGroupId() + ", " + temp.getUserId();
-            //groupsString += userGroupFacade.findByUserId(currentUser.getId()).size();
+            *///groupsString += userGroupFacade.findByUserId(currentUser.getId()).size();
             //groupsString += userGroupFacade.test(currentUser.getId());
             /*for(int i = 0; i < searchResult.size(); i++)
             {
@@ -170,6 +170,6 @@ public class GroupManager implements Serializable {
             groupsString += pair.getKey() + "\n";
         }*/
         
-        return groupsString;
-    }
+        /*return groupsString;
+    }*/
 }
