@@ -10,14 +10,13 @@
          
         function updateMessages(xhr, status, args) {
             if(!args.ok) return;
-            $('#chat').append('<div class="msg">[' +args.dateSent+ '] <strong>'+args.user+'</strong>: '+args.text+'</div>');
+            $('#chat').append('<div class="msg" >[' +args.dateSent+ '] <strong>'+args.user+'</strong>: '+args.text+'</div>');
         }
          
     </script>
     <h:body>
         <h:form prependId="false">
             <h:panelGrid columns="2">
-                Name: <p:inputText value="#{messageBean.messageUser}"/>
                 Text: <p:inputText value="#{messageBean.messageInput}" id="message"/>
                 <p:commandButton type="reset" value="Clear"/>
                 <p:commandButton value="Send!" id="send-message" actionListener="#{messageBean.sendMessage}" update="message"/>
@@ -29,6 +28,6 @@
         </h:form>
         <hr/>
         <h3>Live chat</h3>
-        <div id="chat"></div>
+        <div id="chat" align="left"></div>
     </h:body>
 </html>

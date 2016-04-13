@@ -9,14 +9,14 @@ import com.mapchat.sessionbeanpackage.UserFacade;
 import java.io.Serializable;
 import javax.ejb.EJB;
 import javax.ejb.EJBException;
-import javax.enterprise.context.SessionScoped;
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.SessionScoped;
 import javax.faces.component.UIComponent;
 import javax.faces.component.UIInput;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ComponentSystemEvent;
-import javax.inject.Named;
 
-@Named(value = "passwordResetManager")
+@ManagedBean(name = "passwordResetManager")
 @SessionScoped
 public class PasswordResetManager implements Serializable{
     
