@@ -20,18 +20,19 @@ Copyright © 2016 Osman Balci. All rights reserved.
                 <h:form class="form-signin">
                 <h:panelGrid columns="2" columnClasses="leftAlign, rightAlign">
                         <p:panel id="user-photo" styleClass="mc-panel">
-                            <h:graphicImage value="FileStorageLocation/#{accountManager.userPhoto()}" id="profilePic"
-                                      class="img-rounded col-md-3"></h:graphicImage>
-                            <h2> #{profileViewManager.loggedInUser.firstName} #{profileViewManager.loggedInUser.lastName} </h2>
-                            <h:button value="Edit Profile"  outcome="EditAccount"/>
-                            <h:button value="Change Photo"  outcome="EditPhoto"/>
-                            <h:commandButton value="Log Out" action="#{accountManager.logout()}" />
+                            <p:commandLink id="photo-link" action="EditPhoto" styleClass="user-pic" ajax="false">
+                                <h:graphicImage value="FileStorageLocation/#{accountManager.userPhoto()}" />
+                            </p:commandLink>
+                            <p:tooltip id="toolTipFade" for="photo-link" value="Change Photo" trackMouse="true" />
+                            
+                            <h2>#{profileViewManager.loggedInUser.firstName} #{profileViewManager.loggedInUser.lastName}</h2>
+                            <p:link value="Edit Profile"  outcome="EditAccount" style="color: goldenrod;" />
                         </p:panel>
                         <p:panel id="info-panel" styleClass="mc-panel">
                             <p:tabView  id="user-info">
                               <p:tab title="Basic Info">
                                 <!-- Basic Info goes here -->
-                                <h:panelGrid columns="2" cellpadding="6">
+                                <h:panelGrid columns="2" cellpadding="10">
                                   <h:outputText value="First Name: " />
                                   <h:outputText value="#{profileViewManager.loggedInUser.firstName}" />
 
