@@ -4,6 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml"   
       xmlns:ui="http://java.sun.com/jsf/facelets"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
       xmlns:p="http://primefaces.org/ui">
     <script type="text/javascript">
         setInterval("nextMessage()", 200); //update the chart every 200 ms               
@@ -12,19 +13,35 @@
             if(!args.ok) return;
             $('#chat').append('<div class="msg" >[' +args.dateSent+ '] <strong>'+args.user+'</strong>: '+args.text+'</div>');
         }
+        
+        function clearMessages() {
+            $('#chat').empty();
+        }
          
     </script>
     <h:body>
         <h:form prependId="false">
             <h:panelGrid columns="2">
+                <p:outputLabel for="chatroom" value="Chatroom" />
+                <h:selectOneMenu id="chatroom" value="#{messageBean.selectedChatroom}">
+                    <f:selectItem noSelectionOption="true" itemLabel="Please select"></f:selectItem>
+                    <f:selectItems value="#{messageBean.availableChatrooms}" var="room"
+                                           itemLabel="#{room}" itemValue="#{room}" />
+                    <f:ajax execute="@form" render="active-messages"/>
+                </h:selectOneMenu>
+            </h:panelGrid>
+            <p:panelGrid columns="2">
+                
                 Text: <p:inputText value="#{messageBean.messageInput}" id="message"/>
                 <p:commandButton type="reset" value="Clear"/>
                 <p:commandButton value="Send!" id="send-message" actionListener="#{messageBean.sendMessage}" update="message"/>
                 
-            </h:panelGrid>
- 
-            <p:remoteCommand name="nextMessage" actionListener="#{messageBean.firstUnreadMessage}"
-                             oncomplete="updateMessages(xhr, status, args);"/>
+            </p:panelGrid>
+         
+            <p:dataList id="active-messages" value="#{messageBean.activeMessages}" var="message">
+                <h:outputLabel value="#{message}"/>
+            </p:dataList>
+
         </h:form>
         <hr/>
         <h3>Live chat</h3>

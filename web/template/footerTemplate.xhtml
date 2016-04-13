@@ -18,9 +18,13 @@
         <!-- Do not enter tags before the composition line since they are ignored by JSF -->
         <ui:composition>
             <div align="center" >
-                <h:outputLabel value="MapChat ver. 0.6" />
+                <h:panelGroup>
+                    <a href="https://www.facebook.com">Facebook</a>
+                    <a href="http://www.twitter.com">Twitter</a>
+                </h:panelGroup>
                 <p:separator />
-                <h:outputLabel value="Copyright © 2016. Virginia Polytechnic Institute and State University" />
+                <h:outputLabel value="MapChat ver. 0.6" class="leftAlign"/>
+                <h:outputLabel value="Copyright © 2016. Virginia Polytechnic Institute and State University" class="rightAlign" />
             </div>
         </ui:composition>
         <!-- Do not enter tags after the composition line since they are ignored by JSF -->

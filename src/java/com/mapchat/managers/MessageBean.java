@@ -7,10 +7,7 @@ package com.mapchat.managers;
 import com.mapchat.chat.Message;
 import com.mapchat.chat.MessageManagerLocal;
 import java.io.Serializable;
-import java.util.Collections;
 import java.util.Date;
-import java.util.LinkedList;
-import java.util.List;
 import javax.ejb.EJB;
 import javax.el.ELContext;
 import javax.faces.bean.ManagedBean;
@@ -31,10 +28,13 @@ public class MessageBean implements Serializable {
     @EJB
     MessageManagerLocal mm;
     
-    private final List messages;
+    //private final List messages;
     private Date lastUpdate;
     private String messageUser;
     private String messageInput;
+    private String selectedChatroom;
+    private String[] availableChatrooms;
+    private String[] activeMessages;
 
     @ManagedProperty(value="#{profileViewManager}")
     private ProfileViewManager profileViewManager;
@@ -51,7 +51,7 @@ public class MessageBean implements Serializable {
      * Creates a new instance of MessageBean
      */
     public MessageBean() {
-        messages = Collections.synchronizedList(new LinkedList());
+        //messages = Collections.synchronizedList(new LinkedList());
         lastUpdate = new Date(0);
     }
     
@@ -71,6 +71,36 @@ public class MessageBean implements Serializable {
         this.messageInput = messageInput;
     }
    
+    
+    public String[] getActiveMessages() {
+        if (selectedChatroom != null) {
+            activeMessages = mm.getMessagesByChatroom(selectedChatroom).toArray(new String[0]);
+        }
+        return activeMessages;
+    }
+
+    public void setActiveMessages(String[] activeMessages) {
+        this.activeMessages = activeMessages;
+    }
+
+    public String[] getAvailableChatrooms() {
+        availableChatrooms = mm.getAvailableChatrooms().toArray(new String[0]);
+        return availableChatrooms;
+    }
+
+    public void setAvailableChatrooms(String[] availableChatrooms) {
+        this.availableChatrooms = availableChatrooms;
+    }
+
+    public String getSelectedChatroom() {
+        return selectedChatroom;
+    }
+
+    public void setSelectedChatroom(String selectedChatroom) {
+        this.selectedChatroom = selectedChatroom;
+    }
+
+    
     public Date getLastUpdate() {
         return lastUpdate;
     }
@@ -80,10 +110,13 @@ public class MessageBean implements Serializable {
     }
  
     public void sendMessage(ActionEvent evt) {
+        if (selectedChatroom == null) {
+            return;
+        }
         Message msg = new Message();
         msg.setMessage(messageInput);
         msg.setUser(profileViewManager.getLoggedInUser().getFirstName());
-        mm.sendMessage(msg);
+        mm.sendMessage(msg, selectedChatroom);
         messageInput = "";
     }
     
@@ -95,9 +128,12 @@ public class MessageBean implements Serializable {
     }
  
     public void firstUnreadMessage(ActionEvent evt) {
+       if (selectedChatroom == null)
+       {
+           return;
+       }
        RequestContext ctx = RequestContext.getCurrentInstance();
- 
-       Message m = mm.getFirstAfter(lastUpdate);
+       Message m = mm.getFirstAfter(lastUpdate, selectedChatroom);
  
        ctx.addCallbackParam("ok", m!=null);
        if(m==null)
