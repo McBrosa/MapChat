@@ -5,6 +5,7 @@ package com.mapchat.chat;
  * Copyright © 2016 Sean Arcayan. All rights reserved. * 
  */
 import java.io.Serializable;
+import java.time.LocalDateTime;
 import java.util.Date;
  
 /**
@@ -12,7 +13,7 @@ import java.util.Date;
  * @author Danon
  */
 public class Message implements Serializable {
-    private Date dateSent;
+    private Date dateSent; // this should probably be changed to LocalDateTime or LocalDate to account for timezones
     private String user;
     private String message;
  
@@ -43,5 +44,18 @@ public class Message implements Serializable {
  
     public void setUser(String user) {
         this.user = user;
+    }
+    
+    @Override
+    public String toString() {
+            
+        StringBuilder builder = new StringBuilder("[");
+        builder.append(dateSent);
+        builder.append("] ");
+        builder.append(user);
+        builder.append(" : ");
+        builder.append(message);
+        return builder.toString();
+        
     }
 }

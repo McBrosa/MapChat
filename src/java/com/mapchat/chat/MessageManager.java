@@ -5,6 +5,7 @@ package com.mapchat.chat;
  * Copyright © 2016 Sean Arcayan. All rights reserved. * 
  */
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
@@ -23,10 +24,10 @@ import javax.ejb.Startup;
 @Startup
 public class MessageManager implements MessageManagerLocal {
  
-    // Chatroom data structure of <id, chatroom name>
-    private Map<Integer, String> chatroomID_Name;
+    // List of Chatrooms
+    private List<String> chatroomNameList;
     // Chatroom data structure of <id, messages>
-    private Map<Integer, List> chatroomID_Messages;
+    private Map<String, List> chatroomName_Messages;
     
     //private final List messages =
     //        Collections.synchronizedList(new LinkedList());
@@ -34,31 +35,31 @@ public class MessageManager implements MessageManagerLocal {
     @PostConstruct
     public void init() {
         
-        chatroomID_Name = 
-            Collections.synchronizedMap(new HashMap());
-        chatroomID_Messages = 
-            Collections.synchronizedMap(new HashMap());
+        chatroomNameList = Collections.synchronizedList(new ArrayList<String>());
+        
+        chatroomName_Messages = 
+            Collections.synchronizedMap(new HashMap<String, List>());
         
         // Chatrooms all users have access to
-        chatroomID_Name.put(1, "Chatroom 1");
-        chatroomID_Name.put(2, "Chatroom 2");
-        chatroomID_Name.put(3, "Chatroom 3");
+        chatroomNameList.add("Chatroom 1");
+        chatroomNameList.add("Chatroom 2");
+        chatroomNameList.add("Chatroom 3");
         
-        chatroomID_Messages.put(1, Collections.synchronizedList(new LinkedList()));
-        chatroomID_Messages.put(2, Collections.synchronizedList(new LinkedList()));
-        chatroomID_Messages.put(3, Collections.synchronizedList(new LinkedList()));
-        
+        // create a message stream for each chatroom
+        for (String room : chatroomNameList) {
+            chatroomName_Messages.put(room, Collections.synchronizedList(new LinkedList<Message>()));
+        }    
     }
     
     @Override
-    public void sendMessage(Message msg) {
-        chatroomID_Messages.get(1).add(msg);
+    public void sendMessage(Message msg, String chatroomName) {
+        chatroomName_Messages.get(chatroomName).add(msg);
         msg.setDateSent(new Date());
     }
  
     @Override
-    public Message getFirstAfter(Date after) {
-        List messages = chatroomID_Messages.get(1);
+    public Message getFirstAfter(Date after, String chatroomName) {
+        List messages = chatroomName_Messages.get(chatroomName);
         if(messages.isEmpty())
             return null;
         if(after == null)
@@ -69,5 +70,19 @@ public class MessageManager implements MessageManagerLocal {
         }
         return null;
     }
- 
+
+    @Override
+    public List<String> getAvailableChatrooms() {
+        return chatroomNameList;
+    }
+    
+    @Override
+    public List<String> getMessagesByChatroom(String chatroomName) {
+        List<Message> msgs = chatroomName_Messages.get(chatroomName);
+        List<String> strMsgs = new ArrayList<>();
+        for (Message msg : msgs) {
+            strMsgs.add(msg.toString());
+        }
+        return strMsgs;
+    }
 }

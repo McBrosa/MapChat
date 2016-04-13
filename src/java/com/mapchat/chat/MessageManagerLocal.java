@@ -6,6 +6,7 @@ package com.mapchat.chat;
  */
 
 import java.util.Date;
+import java.util.List;
 import javax.ejb.Local;
  
 /**
@@ -15,8 +16,12 @@ import javax.ejb.Local;
 @Local
 public interface MessageManagerLocal {
  
-    void sendMessage(Message msg);
+    void sendMessage(Message msg, String chatroomName);
  
-    Message getFirstAfter(Date after);
+    Message getFirstAfter(Date after, String chatroomName);
+    
+    List<String> getAvailableChatrooms();
+    
+    List<String> getMessagesByChatroom(String chatroomName);
  
 }
