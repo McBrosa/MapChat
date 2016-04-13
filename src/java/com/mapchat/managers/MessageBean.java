@@ -31,7 +31,7 @@ public class MessageBean implements Serializable {
     @EJB
     MessageManagerLocal mm;
     
-    private final List messages;
+    //private final List messages;
     private Date lastUpdate;
     private String messageUser;
     private String messageInput;
@@ -51,7 +51,7 @@ public class MessageBean implements Serializable {
      * Creates a new instance of MessageBean
      */
     public MessageBean() {
-        messages = Collections.synchronizedList(new LinkedList());
+        //messages = Collections.synchronizedList(new LinkedList());
         lastUpdate = new Date(0);
     }
     
