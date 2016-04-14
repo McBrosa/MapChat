@@ -8,6 +8,8 @@ import com.mapchat.chat.Message;
 import com.mapchat.chat.MessageManagerLocal;
 import java.io.Serializable;
 import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.ejb.EJB;
 import javax.el.ELContext;
 import javax.faces.bean.ManagedBean;
@@ -16,6 +18,8 @@ import javax.faces.event.ActionEvent;
 import org.primefaces.context.RequestContext;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.context.FacesContext;
+import javax.faces.event.ValueChangeEvent;
+import org.primefaces.json.JSONException;
  
 /**
  *
@@ -34,7 +38,7 @@ public class MessageBean implements Serializable {
     private String messageInput;
     private String selectedChatroom;
     private String[] availableChatrooms;
-    private String[] activeMessages;
+    private Message[] activeMessages;
 
     @ManagedProperty(value="#{profileViewManager}")
     private ProfileViewManager profileViewManager;
@@ -72,14 +76,14 @@ public class MessageBean implements Serializable {
     }
    
     
-    public String[] getActiveMessages() {
+    public Message[] getActiveMessages() {
         if (selectedChatroom != null) {
-            activeMessages = mm.getMessagesByChatroom(selectedChatroom).toArray(new String[0]);
+            activeMessages = mm.getMessagesByChatroom(selectedChatroom).toArray(new Message[0]);
         }
         return activeMessages;
     }
 
-    public void setActiveMessages(String[] activeMessages) {
+    public void setActiveMessages(Message[] activeMessages) {
         this.activeMessages = activeMessages;
     }
 
@@ -144,6 +148,15 @@ public class MessageBean implements Serializable {
        ctx.addCallbackParam("user", m.getUser());
        ctx.addCallbackParam("dateSent", m.getDateSent().toString());
        ctx.addCallbackParam("text", m.getMessage());
+ 
+    }
+    
+    public void getChatroomMessages(ValueChangeEvent evt) {
+       if (selectedChatroom == null)
+       {
+           return;
+       }
+       FacesContext ctx = FacesContext.getCurrentInstance();
  
     }
  

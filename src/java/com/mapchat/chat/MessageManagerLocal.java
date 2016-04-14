@@ -22,6 +22,6 @@ public interface MessageManagerLocal {
     
     List<String> getAvailableChatrooms();
     
-    List<String> getMessagesByChatroom(String chatroomName);
+    List<Message> getMessagesByChatroom(String chatroomName);
  
 }

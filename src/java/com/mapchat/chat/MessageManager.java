@@ -77,12 +77,8 @@ public class MessageManager implements MessageManagerLocal {
     }
     
     @Override
-    public List<String> getMessagesByChatroom(String chatroomName) {
-        List<Message> msgs = chatroomName_Messages.get(chatroomName);
-        List<String> strMsgs = new ArrayList<>();
-        for (Message msg : msgs) {
-            strMsgs.add(msg.toString());
-        }
-        return strMsgs;
+    public List<Message> getMessagesByChatroom(String chatroomName) {
+        return chatroomName_Messages.get(chatroomName);
+        
     }
 }

@@ -10,12 +10,37 @@
         setInterval("nextMessage()", 200); //update the chart every 200 ms               
          
         function updateMessages(xhr, status, args) {
+            
             if(!args.ok) return;
-            $('#chat').append('<div class="msg" >[' +args.dateSent+ '] <strong>'+args.user+'</strong>: '+args.text+'</div>');
+            var messages = document.getElementById('messages');
+            var div = document.createElement('div');
+            div.className = "msg";
+            div.textContent = "[ " + args.user + " ] : " + args.text;
+            
+            messages.appendChild(div);
+            
+            //chat.appendChild('<div class="msg" >[' +args.dateSent+ '] <strong>'+args.user+'</strong>: '+args.text+'</div>');
+        }
+        
+        function retrieveMessages(xhr, status, args) {
+            if(!args.ok) {
+                alert('not ok');
+                return;
+            }
+            var msgJSON = args.msgJSON;
+            
+            alert(args.msgJSON);
+            for (msg in msgJSON) {
+                alert(msg.message);
+            }
         }
         
         function clearMessages() {
-            $('#chat').empty();
+            console.log('hi');
+            var messages = document.getElementById('messages');
+            while (messages.firstChild) {
+                messages.removeChild(messages.firstChild);
+            }
         }
          
     </script>
@@ -23,11 +48,13 @@
         <h:form prependId="false">
             <h:panelGrid columns="2">
                 <p:outputLabel for="chatroom" value="Chatroom" />
-                <h:selectOneMenu id="chatroom" value="#{messageBean.selectedChatroom}">
+                <h:selectOneMenu id="chatroom" value="#{messageBean.selectedChatroom}"
+                                    valueChangeListener="#{messageBean.getChatroomMessages}" 
+                                    onchange="retrieveMessages(xhr, status, args)">
                     <f:selectItem noSelectionOption="true" itemLabel="Please select"></f:selectItem>
                     <f:selectItems value="#{messageBean.availableChatrooms}" var="room"
                                            itemLabel="#{room}" itemValue="#{room}" />
-                    <f:ajax execute="@form" render="active-messages"/>
+                    
                 </h:selectOneMenu>
             </h:panelGrid>
             <p:panelGrid columns="2">
@@ -38,13 +65,19 @@
                 
             </p:panelGrid>
          
-            <p:dataList id="active-messages" value="#{messageBean.activeMessages}" var="message">
-                <h:outputLabel value="#{message}"/>
-            </p:dataList>
+            <p:remoteCommand name="nextMessage" actionListener="#{messageBean.firstUnreadMessage}"
+                             oncomplete="updateMessages(xhr, status, args);"/>
 
+            <p:remoteCommand name="retrieveMessages" actionListener="#{messageBean.getChatroomMessages}"
+                             oncomplete="retrieveMessages(xhr, status, args);"/>
         </h:form>
         <hr/>
         <h3>Live chat</h3>
-        <div id="chat" align="left"></div>
+        <div id="chat" align="left">
+            <div id="messages">
+                
+            </div>
+            
+        </div>
     </h:body>
 </html>
