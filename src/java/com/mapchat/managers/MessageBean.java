@@ -4,12 +4,11 @@ package com.mapchat.managers;
  * Created by Sean Arcayan on 2016.04.12  * 
  * Copyright © 2016 Sean Arcayan. All rights reserved. * 
  */
+import com.google.gson.Gson;
 import com.mapchat.chat.Message;
 import com.mapchat.chat.MessageManagerLocal;
 import java.io.Serializable;
 import java.util.Date;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.ejb.EJB;
 import javax.el.ELContext;
 import javax.faces.bean.ManagedBean;
@@ -17,9 +16,12 @@ import javax.faces.bean.ViewScoped;
 import javax.faces.event.ActionEvent;
 import org.primefaces.context.RequestContext;
 import javax.faces.bean.ManagedProperty;
+import javax.faces.component.ContextCallback;
+import javax.faces.component.UIComponent;
+import javax.faces.component.UIViewRoot;
+import javax.faces.component.html.HtmlOutputLabel;
+import javax.faces.component.html.HtmlPanelGroup;
 import javax.faces.context.FacesContext;
-import javax.faces.event.ValueChangeEvent;
-import org.primefaces.json.JSONException;
  
 /**
  *
@@ -39,6 +41,7 @@ public class MessageBean implements Serializable {
     private String selectedChatroom;
     private String[] availableChatrooms;
     private Message[] activeMessages;
+    private UIComponent found;
 
     @ManagedProperty(value="#{profileViewManager}")
     private ProfileViewManager profileViewManager;
@@ -121,6 +124,7 @@ public class MessageBean implements Serializable {
         msg.setMessage(messageInput);
         msg.setUser(profileViewManager.getLoggedInUser().getFirstName());
         mm.sendMessage(msg, selectedChatroom);
+        
         messageInput = "";
     }
     
@@ -151,13 +155,47 @@ public class MessageBean implements Serializable {
  
     }
     
-    public void getChatroomMessages(ValueChangeEvent evt) {
+    public void getChatroomMessages() {
        if (selectedChatroom == null)
        {
            return;
        }
-       FacesContext ctx = FacesContext.getCurrentInstance();
- 
+       RequestContext ctx = RequestContext.getCurrentInstance();
+       Gson gson = new Gson();
+       ctx.execute("console.log('hi from bean');");
+       ctx.addCallbackParam("msgjson", gson.toJson(getActiveMessages()));
+       System.out.println(gson.toJson(getActiveMessages()));
+       
+       ctx.execute("console.log(' from bean');");
+       System.out.println("gcmmm");
     }
- 
+    
+    public void createNewMessage(String user, String text) {
+        
+        HtmlPanelGroup div = new HtmlPanelGroup();
+        div.setLayout("block");
+        
+
+        HtmlOutputLabel tile = new HtmlOutputLabel();
+        tile.setValue("i'm here");
+        tile.setStyleClass("msg");
+        div.getChildren().add(tile);
+
+        UIViewRoot viewRoot = FacesContext.getCurrentInstance().getViewRoot();
+        UIComponent component = viewRoot.findComponent("chat-messages");
+        if (component == null) {
+            System.out.println("done");
+        }
+    
+    }
+    
+    private void doFind(FacesContext context, String clientId) {
+        FacesContext.getCurrentInstance().getViewRoot().invokeOnComponent(context, clientId, new ContextCallback() {
+            @Override
+            public void invokeContextCallback(FacesContext context, UIComponent component) {
+                found = component;
+            }
+        });
+    }
+    
 }

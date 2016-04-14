@@ -8,36 +8,44 @@
       xmlns:p="http://primefaces.org/ui">
     <script type="text/javascript">
         setInterval("nextMessage()", 200); //update the chart every 200 ms               
-         
+        
+        function createMessageNode(user, text) {
+            var div = document.createElement('div');
+            div.className = "msg";
+            div.textContent = "[ " + user + " ] : " + text;
+            return div;
+        }
+        
         function updateMessages(xhr, status, args) {
             
             if(!args.ok) return;
-            var messages = document.getElementById('messages');
-            var div = document.createElement('div');
-            div.className = "msg";
-            div.textContent = "[ " + args.user + " ] : " + args.text;
-            
-            messages.appendChild(div);
+            var messages = document.getElementById('chat-messages');
+            msgNode = createMessageNode(args.user, args.text);
+            messages.appendChild(msgNode);
             
             //chat.appendChild('<div class="msg" >[' +args.dateSent+ '] <strong>'+args.user+'</strong>: '+args.text+'</div>');
         }
         
         function retrieveMessages(xhr, status, args) {
-            if(!args.ok) {
-                alert('not ok');
-                return;
+            console.log('args: ' + args.msgjson);
+            var msgs = JSON.parse(args.msgjson);
+            var messages = document.getElementById('chat-messages');
+            for (msg of msgs) {
+                messages.appendChild(createMessageNode(msg.user, msg.message));
             }
-            var msgJSON = args.msgJSON;
             
-            alert(args.msgJSON);
-            for (msg in msgJSON) {
-                alert(msg.message);
-            }
+        }
+        
+        function handleChatroomChange() {
+            clearMessages();
+            console.log('beforeee');
+            getMessages({});
+            console.log('after');
         }
         
         function clearMessages() {
             console.log('hi');
-            var messages = document.getElementById('messages');
+            var messages = document.getElementById('chat-messages');
             while (messages.firstChild) {
                 messages.removeChild(messages.firstChild);
             }
@@ -49,8 +57,7 @@
             <h:panelGrid columns="2">
                 <p:outputLabel for="chatroom" value="Chatroom" />
                 <h:selectOneMenu id="chatroom" value="#{messageBean.selectedChatroom}"
-                                    valueChangeListener="#{messageBean.getChatroomMessages}" 
-                                    onchange="retrieveMessages(xhr, status, args)">
+                                    onchange="handleChatroomChange()">
                     <f:selectItem noSelectionOption="true" itemLabel="Please select"></f:selectItem>
                     <f:selectItems value="#{messageBean.availableChatrooms}" var="room"
                                            itemLabel="#{room}" itemValue="#{room}" />
@@ -68,15 +75,16 @@
             <p:remoteCommand name="nextMessage" actionListener="#{messageBean.firstUnreadMessage}"
                              oncomplete="updateMessages(xhr, status, args);"/>
 
-            <p:remoteCommand name="retrieveMessages" actionListener="#{messageBean.getChatroomMessages}"
+            <p:remoteCommand name="getMessages" actionListener="#{messageBean.getChatroomMessages}"
                              oncomplete="retrieveMessages(xhr, status, args);"/>
+            
         </h:form>
         <hr/>
         <h3>Live chat</h3>
         <div id="chat" align="left">
-            <div id="messages">
+            <p:panel id="chat-messages">
                 
-            </div>
+            </p:panel>
             
         </div>
     </h:body>
