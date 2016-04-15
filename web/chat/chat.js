@@ -24,7 +24,7 @@ function createMessageNode(user, text) {
  * @param {type} args
  * @returns {undefined}
  */
-function updateMessages(xhr, status, args) {
+function nextMessageJS(xhr, status, args) {
 
     if(!args.ok) return;
     
@@ -46,7 +46,7 @@ function updateMessages(xhr, status, args) {
  * @param {type} args contains arguments passed from the managed bean
  * @returns {undefined}
  */
-function retrieveMessages(xhr, status, args) {
+function retrieveMessagesJS(xhr, status, args) {
     
     // convert JSON representation of the array of messages in this chatroom 
     // to a javascript object
@@ -68,7 +68,7 @@ function retrieveMessages(xhr, status, args) {
  */
 function handleChatroomChange() {
     clearMessages();
-    getMessages({});
+    retrieveMessages({});
 }
 
 /**

@@ -17,7 +17,6 @@
                     <f:selectItem noSelectionOption="true" itemLabel="Please select"></f:selectItem>
                     <f:selectItems value="#{messageBean.availableChatrooms}" var="room"
                                            itemLabel="#{room}" itemValue="#{room}" />
-                    
                 </h:selectOneMenu>
             </h:panelGrid>
             <p:panelGrid columns="2">
@@ -29,19 +28,16 @@
             </p:panelGrid>
          
             <p:remoteCommand name="nextMessage" actionListener="#{messageBean.firstUnreadMessage}"
-                             oncomplete="updateMessages(xhr, status, args);"/>
+                             oncomplete="nextMessageJS(xhr, status, args);"/>
 
-            <p:remoteCommand name="getMessages" actionListener="#{messageBean.getChatroomMessages}"
-                             oncomplete="retrieveMessages(xhr, status, args);"/>
-            
+            <p:remoteCommand name="retrieveMessages" actionListener="#{messageBean.getChatroomMessages}"
+                             oncomplete="retrieveMessagesJS(xhr, status, args);"/>
         </h:form>
         <hr/>
         <h3>Live chat</h3>
         <div id="chat" align="left">
             <p:panel id="chat-messages">
-                
             </p:panel>
-            
         </div>
     </h:body>
 </html>
