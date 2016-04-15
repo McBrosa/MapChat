@@ -116,25 +116,31 @@ public class MessageBean implements Serializable {
         this.lastUpdate = lastUpdate;
     }
  
+    /**
+     * Send the message to a chatroom
+     * @param evt 
+     */
     public void sendMessage(ActionEvent evt) {
         if (selectedChatroom == null) {
             return;
         }
+        
+        // create messages and set properties
         Message msg = new Message();
         msg.setMessage(messageInput);
         msg.setUser(profileViewManager.getLoggedInUser().getFirstName());
+        
+        // send the message to the current chatroom
         mm.sendMessage(msg, selectedChatroom);
         
+        // reset the input box
         messageInput = "";
     }
-    
-    public String getCurrentUserFromAccountManager() {
-        ELContext elContext = FacesContext.getCurrentInstance().getELContext();
-        AccountManager accountManager = (AccountManager) FacesContext.getCurrentInstance().getApplication()
-            .getELResolver().getValue(elContext, null, "accountManager");
-        return accountManager.getFirstName();
-    }
  
+    /**
+     * Get the first unread message from the chatroom and send it to the front end
+     * @param evt 
+     */
     public void firstUnreadMessage(ActionEvent evt) {
        if (selectedChatroom == null)
        {
@@ -143,18 +149,25 @@ public class MessageBean implements Serializable {
        RequestContext ctx = RequestContext.getCurrentInstance();
        Message m = mm.getFirstAfter(lastUpdate, selectedChatroom);
  
+       // create a parameter "ok" and set it to m
        ctx.addCallbackParam("ok", m!=null);
        if(m==null)
            return;
  
        lastUpdate = m.getDateSent();
  
+       // set call back parameters
+       // in the javascript function, these can be retrieved through "args.<param>"
        ctx.addCallbackParam("user", m.getUser());
        ctx.addCallbackParam("dateSent", m.getDateSent().toString());
        ctx.addCallbackParam("text", m.getMessage());
  
     }
-    
+ 
+    /**
+     * Retrieve the messages from the current chatroom and convert them to JSON
+     * format. After that, set it as the context parameter to send to the frontend
+     */
     public void getChatroomMessages() {
        if (selectedChatroom == null)
        {
@@ -162,40 +175,7 @@ public class MessageBean implements Serializable {
        }
        RequestContext ctx = RequestContext.getCurrentInstance();
        Gson gson = new Gson();
-       ctx.execute("console.log('hi from bean');");
        ctx.addCallbackParam("msgjson", gson.toJson(getActiveMessages()));
        System.out.println(gson.toJson(getActiveMessages()));
-       
-       ctx.execute("console.log(' from bean');");
-       System.out.println("gcmmm");
     }
-    
-    public void createNewMessage(String user, String text) {
-        
-        HtmlPanelGroup div = new HtmlPanelGroup();
-        div.setLayout("block");
-        
-
-        HtmlOutputLabel tile = new HtmlOutputLabel();
-        tile.setValue("i'm here");
-        tile.setStyleClass("msg");
-        div.getChildren().add(tile);
-
-        UIViewRoot viewRoot = FacesContext.getCurrentInstance().getViewRoot();
-        UIComponent component = viewRoot.findComponent("chat-messages");
-        if (component == null) {
-            System.out.println("done");
-        }
-    
-    }
-    
-    private void doFind(FacesContext context, String clientId) {
-        FacesContext.getCurrentInstance().getViewRoot().invokeOnComponent(context, clientId, new ContextCallback() {
-            @Override
-            public void invokeContextCallback(FacesContext context, UIComponent component) {
-                found = component;
-            }
-        });
-    }
-    
 }
