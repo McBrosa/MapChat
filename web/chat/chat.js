@@ -7,7 +7,7 @@
  * Every 200 ms call nextMessage(), which is a remote command in chat.xhtml
  * This will update the chatroom messages
  */
-setInterval("nextMessage()", 200);                
+//setInterval("nextMessage()", 200);                
         
 function createMessageNode(user, text) {
     var div = document.createElement('div');

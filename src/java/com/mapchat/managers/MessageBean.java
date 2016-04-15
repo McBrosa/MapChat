@@ -34,14 +34,12 @@ public class MessageBean implements Serializable {
     @EJB
     MessageManagerLocal mm;
     
-    //private final List messages;
     private Date lastUpdate;
     private String messageUser;
     private String messageInput;
     private String selectedChatroom;
     private String[] availableChatrooms;
     private Message[] activeMessages;
-    private UIComponent found;
 
     @ManagedProperty(value="#{profileViewManager}")
     private ProfileViewManager profileViewManager;
@@ -58,7 +56,6 @@ public class MessageBean implements Serializable {
      * Creates a new instance of MessageBean
      */
     public MessageBean() {
-        //messages = Collections.synchronizedList(new LinkedList());
         lastUpdate = new Date(0);
     }
     
@@ -82,6 +79,7 @@ public class MessageBean implements Serializable {
     public Message[] getActiveMessages() {
         if (selectedChatroom != null) {
             activeMessages = mm.getMessagesByChatroom(selectedChatroom).toArray(new Message[0]);
+            System.out.println("num messages: " + activeMessages.length);
         }
         return activeMessages;
     }
@@ -117,7 +115,7 @@ public class MessageBean implements Serializable {
     }
  
     /**
-     * Send the message to a chatroom
+     * Send the message to a chat room
      * @param evt 
      */
     public void sendMessage(ActionEvent evt) {
@@ -161,7 +159,6 @@ public class MessageBean implements Serializable {
        ctx.addCallbackParam("user", m.getUser());
        ctx.addCallbackParam("dateSent", m.getDateSent().toString());
        ctx.addCallbackParam("text", m.getMessage());
- 
     }
  
     /**

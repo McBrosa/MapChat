@@ -10,34 +10,41 @@
         
     <h:body>
         <h:form prependId="false">
-            <h:panelGrid columns="2">
+            <p:panelGrid columns="2">
                 <p:outputLabel for="chatroom" value="Chatroom" />
                 <h:selectOneMenu id="chatroom" value="#{messageBean.selectedChatroom}"
-                                    onchange="handleChatroomChange()">
+                                    >
                     <f:selectItem noSelectionOption="true" itemLabel="Please select"></f:selectItem>
                     <f:selectItems value="#{messageBean.availableChatrooms}" var="room"
                                            itemLabel="#{room}" itemValue="#{room}" />
+                    <p:ajax update="chat-messages1"/>
                 </h:selectOneMenu>
-            </h:panelGrid>
+            </p:panelGrid>
             <p:panelGrid columns="2">
                 
                 Text: <p:inputText value="#{messageBean.messageInput}" id="message"/>
                 <p:commandButton type="reset" value="Clear"/>
-                <p:commandButton value="Send!" id="send-message" actionListener="#{messageBean.sendMessage}" update="message"/>
+                <p:commandButton value="Send!" id="send-message" actionListener="#{messageBean.sendMessage}" update="message chat-messages1"/>
                 
             </p:panelGrid>
          
+            
             <p:remoteCommand name="nextMessage" actionListener="#{messageBean.firstUnreadMessage}"
                              oncomplete="nextMessageJS(xhr, status, args);"/>
 
             <p:remoteCommand name="retrieveMessages" actionListener="#{messageBean.getChatroomMessages}"
                              oncomplete="retrieveMessagesJS(xhr, status, args);"/>
+           
+            <p:dataTable id="chat-messages1" value="#{messageBean.activeMessages}" var="msg" 
+                            scrollRows="20" liveScroll="true" scrollHeight="500" lazy="true" scrollable="true">
+                <p:column headerText="Chat Messages">
+                    <h:outputText value="#{msg}"/>
+                </p:column>
+            </p:dataTable>
+            
         </h:form>
         <hr/>
         <h3>Live chat</h3>
-        <div id="chat" align="left">
-            <p:panel id="chat-messages">
-            </p:panel>
-        </div>
+            
     </h:body>
 </html>
