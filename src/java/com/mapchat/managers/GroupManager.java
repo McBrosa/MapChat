@@ -15,6 +15,7 @@ import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -129,7 +130,7 @@ public class GroupManager implements Serializable {
             groupsFacade.create(group);
             Groups foundGroup = groupsFacade.findByGroupname(group.getGroupName());
             UserGroup userGroup = new UserGroup();
-            userGroup.setGroupId(foundGroup);
+            userGroup.setGroupId(foundGroup.getId());
             currentUser = usersFacade.find(FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("user_id"));
             userGroup.setUserId(currentUser.getId());
             userGroupFacade.create(userGroup);
@@ -142,25 +143,34 @@ public class GroupManager implements Serializable {
         return "groups";
     }
     
-    /**public String showAllGroups()
+    /*public String addUser() {
+        statusMessage = "";
+        return "groups";
+    }
+    public String showAllUsers(Integer groupId)
+    {
+        
+    }*/
+    public String showAllGroups(Integer userId)
     {
         String groupsString = "";
         
         //if(currentGroups == null) {
             currentGroups = new HashMap<String, ArrayList<String>>();
             currentUser = usersFacade.find(FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("user_id"));
-            ArrayList<UserGroup> searchResult = (ArrayList<UserGroup>)userGroupFacade.findByUserId(currentUser.getId());
+            //ArrayList<UserGroup> searchResult = new ArrayList<UserGroup>(userGroupFacade.findByUserId(currentUser.getId()));
+            ArrayList<UserGroup> searchResult = new ArrayList<UserGroup>(userGroupFacade.findAll());
             
-            UserGroup temp = userGroupFacade.findByUserId(currentUser.getId()).get(0);
-            groupsString = currentUser.getId() + " , " + temp.getGroupId() + ", " + temp.getUserId();
-            *///groupsString += userGroupFacade.findByUserId(currentUser.getId()).size();
+            //UserGroup temp = userGroupFacade.findByUserId(currentUser.getId()).get(0);
+            //groupsString = currentUser.getId() + " , " + temp.getGroupId() + ", " + temp.getUserId();
+            //groupsString += userGroupFacade.findByUserId(1).size();
             //groupsString += userGroupFacade.test(currentUser.getId());
-            /*for(int i = 0; i < searchResult.size(); i++)
+            for(int i = 0; i < searchResult.size(); i++)
             {
-                groupsString += searchResult.size() + "<<>>";
-                groupsString += searchResult.get(i).getGroupId().getId();
-            }*/
-        //}
+                //groupsString += searchResult.size() + "<<>>";
+                groupsString += "Group ID: " + (searchResult.get(i).getGroupId()) + " User ID: " + searchResult.get(i).getUserId() + "\n<br />";
+            }
+        //
         /*Iterator iterator = currentGroups.entrySet().iterator();
         ArrayList<String> groupsArrayList = new ArrayList<String>();
         while(iterator.hasNext())
@@ -170,6 +180,6 @@ public class GroupManager implements Serializable {
             groupsString += pair.getKey() + "\n";
         }*/
         
-        /*return groupsString;
-    }*/
+        return groupsString;
+    }
 }

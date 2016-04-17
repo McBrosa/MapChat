@@ -13,6 +13,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
@@ -46,7 +47,7 @@ public class Groups implements Serializable {
     @Size(min = 1, max = 255)
     @Column(name = "group_name")
     private String groupName;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "groupId")
+    @ManyToMany(cascade = CascadeType.ALL, mappedBy = "groups")
     private Collection<UserGroup> userGroupCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "groupId")
     private Collection<File1> fileCollection;

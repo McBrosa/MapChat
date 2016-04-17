@@ -13,6 +13,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
@@ -104,8 +105,8 @@ public class User implements Serializable {
     @Size(min = 1, max = 255)
     @Column(name = "email")
     private String email;
-    @OneToOne(cascade = CascadeType.ALL, mappedBy = "user")
-    private UserGroup userGroup;
+    @ManyToMany(cascade = CascadeType.ALL, mappedBy = "user")
+    private Collection<UserGroup> userGroupCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "userId")
     private Collection<File1> fileCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "userId")
@@ -228,12 +229,13 @@ public class User implements Serializable {
         this.email = email;
     }
 
-    public UserGroup getUserGroup() {
-        return userGroup;
+   @XmlTransient
+    public Collection<UserGroup> getUserGroupCollection() {
+        return userGroupCollection;
     }
 
-    public void setUserGroup(UserGroup userGroup) {
-        this.userGroup = userGroup;
+    public void setUserGroupCollection(Collection<UserGroup> userGroupCollection) {
+        this.userGroupCollection = userGroupCollection;
     }
 
     @XmlTransient

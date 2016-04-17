@@ -5,11 +5,13 @@
 package com.mapchat.entitypackage;
 
 import java.io.Serializable;
+import java.util.Collection;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
@@ -37,11 +39,16 @@ public class UserGroup implements Serializable {
     @Column(name = "user_id")
     private Integer userId;
     @JoinColumn(name = "user_id", referencedColumnName = "id", insertable = false, updatable = false)
-    @OneToOne(optional = false)
-    private User user;
+    @ManyToMany(targetEntity=User.class)
+    private Collection<User> user;
+    @Id
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "group_id")
+    private Integer groupId;
     @JoinColumn(name = "group_id", referencedColumnName = "id")
-    @OneToOne(optional = false)
-    private Groups groupId;
+    @ManyToMany(targetEntity=Groups.class)
+    private Collection<Groups> groups;
 
     public UserGroup() {
     }
@@ -57,21 +64,29 @@ public class UserGroup implements Serializable {
     public void setUserId(Integer userId) {
         this.userId = userId;
     }
-
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
-
-    public Groups getGroupId() {
+    
+    public Integer getGroupId() {
         return groupId;
     }
 
-    public void setGroupId(Groups groupId) {
-        this.groupId = groupId;
+    public void setGroupId(Integer groupsId) {
+        this.groupId = groupsId;
+    }
+
+    public Collection<User> getUser() {
+        return user;
+    }
+
+    public void setUser(Collection<User> user) {
+        this.user = user;
+    }
+
+    public Collection<Groups> getGroups() {
+        return groups;
+    }
+
+    public void setGroups(Collection<Groups> groups) {
+        this.groups = groups;
     }
 
     @Override

@@ -30,26 +30,27 @@ public class UserGroupFacade extends AbstractFacade<UserGroup> {
         super(UserGroup.class);
     }
     
-    /**public List<UserGroup> findByUserId(Integer userId) {
-        if (em.createQuery("SELECT g FROM UserGroup g WHERE g.userId = :userId")
+    public List<UserGroup> findByUserId(Integer userId) {
+        if (em.createQuery("SELECT g FROM UserGroup g WHERE g.user.id = :userId")
                 .setParameter("userId", userId)
                 .getResultList().isEmpty()) {
             return null;
         }
         else {
-            return (List<UserGroup>) (em.createQuery("SELECT g FROM UserGroup g WHERE g.userId = :userId")
+            return (List<UserGroup>) (em.createQuery("SELECT g FROM UserGroup g WHERE g.user.id = :userId")
                 .setParameter("userId", userId)).getResultList();        
         }
     }
-    public String test(Integer userId) {
-        if (em.createQuery("SELECT u FROM UserGroup u WHERE u.userId = :userId")
-                .setParameter("userId", userId)
+    public List<UserGroup> findByGroupId(Integer groupId) {
+        if (em.createQuery("SELECT g FROM UserGroup g WHERE g.groupId.id = :groupId")
+                .setParameter("groupId", groupId)
                 .getResultList().isEmpty()) {
             return null;
         }
         else {
-            return (em.createQuery("SELECT u FROM UserGroup u")).getResultList().size() + "";        
+            return (List<UserGroup>) (em.createQuery("SELECT g FROM UserGroup g WHERE g.groupId.id = :groupId")
+                .setParameter("groupId", groupId)).getResultList();        
         }
-    }**/
+    }
     
 }
