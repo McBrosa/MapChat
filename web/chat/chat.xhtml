@@ -30,7 +30,7 @@
          
             
             <p:remoteCommand name="nextMessage" actionListener="#{messageBean.firstUnreadMessage}"
-                             oncomplete="nextMessageJS(xhr, status, args);"/>
+                             update="chat-messages1"/>
 
             <p:remoteCommand name="retrieveMessages" actionListener="#{messageBean.getChatroomMessages}"
                              oncomplete="retrieveMessagesJS(xhr, status, args);"/>
