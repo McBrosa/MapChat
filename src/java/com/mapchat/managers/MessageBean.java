@@ -10,18 +10,11 @@ import com.mapchat.chat.MessageManagerLocal;
 import java.io.Serializable;
 import java.util.Date;
 import javax.ejb.EJB;
-import javax.el.ELContext;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.event.ActionEvent;
 import org.primefaces.context.RequestContext;
 import javax.faces.bean.ManagedProperty;
-import javax.faces.component.ContextCallback;
-import javax.faces.component.UIComponent;
-import javax.faces.component.UIViewRoot;
-import javax.faces.component.html.HtmlOutputLabel;
-import javax.faces.component.html.HtmlPanelGroup;
-import javax.faces.context.FacesContext;
  
 /**
  *
@@ -79,7 +72,7 @@ public class MessageBean implements Serializable {
     public Message[] getActiveMessages() {
         if (selectedChatroom != null) {
             activeMessages = mm.getMessagesByChatroom(selectedChatroom).toArray(new Message[0]);
-            System.out.println("num messages: " + activeMessages.length);
+            
         }
         return activeMessages;
     }

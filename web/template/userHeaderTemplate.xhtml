@@ -23,7 +23,7 @@
                     </h:commandLink>
 
                     <h:panelGroup>
-                        <p:commandButton action="Profile" value="My Profile" icon="ui-icon-home"/>
+                        <p:commandButton action="Profile?faces-redirect=true" value="My Profile" icon="ui-icon-home"/>
                         <p:commandButton action="#{accountManager.logout()}" value="Logout" icon="ui-icon-minus"/>
                     </h:panelGroup>
                 </h:panelGrid>
