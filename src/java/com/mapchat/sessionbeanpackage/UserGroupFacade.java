@@ -31,26 +31,44 @@ public class UserGroupFacade extends AbstractFacade<UserGroup> {
     }
     
     public List<UserGroup> findByUserId(Integer userId) {
-        if (em.createQuery("SELECT g FROM UserGroup g WHERE g.user.id = :userId")
+        if (em.createNamedQuery("UserGroup.findByUserId")
                 .setParameter("userId", userId)
                 .getResultList().isEmpty()) {
             return null;
         }
         else {
-            return (List<UserGroup>) (em.createQuery("SELECT g FROM UserGroup g WHERE g.user.id = :userId")
+            return (List<UserGroup>) (em.createNamedQuery("UserGroup.findByUserId")
                 .setParameter("userId", userId)).getResultList();        
         }
     }
     public List<UserGroup> findByGroupId(Integer groupId) {
-        if (em.createQuery("SELECT g FROM UserGroup g WHERE g.groupId.id = :groupId")
+        if (em.createNamedQuery("UserGroup.findByGroupId")
                 .setParameter("groupId", groupId)
                 .getResultList().isEmpty()) {
             return null;
         }
         else {
-            return (List<UserGroup>) (em.createQuery("SELECT g FROM UserGroup g WHERE g.groupId.id = :groupId")
+            return (List<UserGroup>) (em.createNamedQuery("UserGroup.findByGroupId")
                 .setParameter("groupId", groupId)).getResultList();        
         }
     }
-    
+    public List<UserGroup> findByIds(Integer userId, Integer groupId) {
+        if (em.createNamedQuery("UserGroup.findByIds")
+                .setParameter("userId", userId)
+                .setParameter("groupId", groupId)
+                .getResultList().isEmpty()) {
+            return null;
+        }
+        else {
+            return (List<UserGroup>) (em.createNamedQuery("UserGroup.findByIds")
+                .setParameter("userId", userId)
+                .setParameter("groupId", groupId)
+                .getResultList());        
+        }
+    }
+    public void removeUserGroup(UserGroup userGroup) {
+        em.createQuery("DELETE FROM UserGroup WHERE u.userId = :userId AND u.groupId = :groupId")
+                .setParameter("userId", userGroup.getUserId())
+                .setParameter("groupId", userGroup.getGroupId());
+    }
 }

@@ -15,10 +15,6 @@ import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
 import javax.ejb.EJBException;
 import javax.faces.context.FacesContext;
 
@@ -30,10 +26,13 @@ import javax.faces.context.FacesContext;
 @SessionScoped
 public class GroupManager implements Serializable {
     
-    private HashMap<String, ArrayList<String>> currentGroups;
-    private String newGroup;
-    private String message;
+    //private HashMap<String, ArrayList<String>> currentGroups;
+    private String groupNameToCreate;
+    private String groupNameToDelete;
+    private String usernameToAdd;
+    private String usernameToDelete;
     private User currentUser;
+    private String message;
     private String statusMessage;
     
     @EJB
@@ -46,6 +45,39 @@ public class GroupManager implements Serializable {
     private UserFacade usersFacade;
   
     public GroupManager() {
+    }
+    
+
+    public String getGroupNameToCreate() {
+        return groupNameToCreate;
+    }
+
+    public String getGroupNameToDelete() {
+        return groupNameToDelete;
+    }
+
+    public String getUsernameToAdd() {
+        return usernameToAdd;
+    }
+
+    public String getUsernameToDelete() {
+        return usernameToDelete;
+    }
+
+    public void setGroupNameToCreate(String groupNameToCreate) {
+        this.groupNameToCreate = groupNameToCreate;
+    }
+
+    public void setGroupNameToDelete(String groupNameToDelete) {
+        this.groupNameToDelete = groupNameToDelete;
+    }
+
+    public void setUsernameToAdd(String usernameToAdd) {
+        this.usernameToAdd = usernameToAdd;
+    }
+
+    public void setUsernameToDelete(String usernameToDelete) {
+        this.usernameToDelete = usernameToDelete;
     }
     
     public String getStatusMessage()
@@ -66,21 +98,15 @@ public class GroupManager implements Serializable {
         currentUser = user;
     }
     
-    public HashMap<String, ArrayList<String>> getCurrentGroups() {
+  
+    
+    /*public HashMap<String, ArrayList<String>> getCurrentGroups() {
         return currentGroups;
     }
     
     public void setCurrentGroups(HashMap<String, ArrayList<String>> currentGroups) {
         this.currentGroups = currentGroups;
-    }
-    
-    public String getNewGroup() {
-        return this.newGroup;
-    }
-    
-    public void setNewGroup(String newGroup) {
-        this.newGroup = newGroup;
-    }
+    }*/
     
     public String getMessage() {
         return message;
@@ -90,7 +116,7 @@ public class GroupManager implements Serializable {
         this.message = message;
     }
     
-    public ArrayList<String> getGroups() {
+    /*public ArrayList<String> getGroups() {
         Iterator iterator = currentGroups.entrySet().iterator();
         ArrayList<String> groups = new ArrayList<String>();
         while(iterator.hasNext())
@@ -119,44 +145,162 @@ public class GroupManager implements Serializable {
     
     public void removeUser(String group, String user) {
         currentGroups.get(group).remove(user);
-    }
+    }*/
         
     public String createGroup() {
         statusMessage = "";
         try
         {
-            Groups group = new Groups();
-            group.setGroupName(newGroup);
-            groupsFacade.create(group);
-            Groups foundGroup = groupsFacade.findByGroupname(group.getGroupName());
-            UserGroup userGroup = new UserGroup();
-            userGroup.setGroupId(foundGroup.getId());
-            currentUser = usersFacade.find(FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("user_id"));
-            userGroup.setUserId(currentUser.getId());
-            userGroupFacade.create(userGroup);
+            //Check to see if the group already exists
+            Groups check = groupsFacade.findByGroupname(groupNameToCreate);
+            if(check == null)
+            {
+                Groups group = new Groups();
+                group.setGroupName(groupNameToCreate);
+                groupsFacade.create(group);
+                Groups foundGroup = groupsFacade.findByGroupname(group.getGroupName());
+                UserGroup userGroup = new UserGroup();
+                userGroup.setGroupId(foundGroup.getId());
+                currentUser = usersFacade.find(FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("user_id"));
+                userGroup.setUserId(currentUser.getId());
+                userGroupFacade.create(userGroup);
+                groupNameToCreate = "";
+            }
+            else
+            {
+                statusMessage += groupNameToCreate + " already exists";
+                groupNameToCreate = "";
+                return "";
+            }
         } catch(EJBException e)
         {
-            newGroup = "";
+            groupNameToCreate = "";
             statusMessage += "Something went wrong creating the group";
             return "";
         }
         return "groups";
     }
     
-    /*public String addUser() {
+    public String addUser(Integer groupId) {
         statusMessage = "";
+        try
+        {
+            //Check to see if the user exists
+            User check = usersFacade.findByUsername(usernameToAdd);
+            if(check == null)
+            {
+                statusMessage += usernameToAdd + " does not exist";
+                usernameToAdd = "";
+                return "";
+            }
+            
+            
+            
+            
+            //Check to see if the user is already in the group
+            if(userGroupFacade.findByIds(check.getId(), groupId) != null)
+            {
+                statusMessage += usernameToAdd + " is already in the group";
+                usernameToAdd = "";
+                return "";
+            }
+            User user = usersFacade.findByUsername(usernameToAdd);
+            UserGroup userGroup = new UserGroup();
+            userGroup.setUserId(user.getId());
+            userGroup.setGroupId(groupId);
+            userGroupFacade.create(userGroup);
+            usernameToAdd = "";
+        } catch(EJBException e)
+        {
+            usernameToAdd = "";
+            statusMessage += "Something went wrong adding the user to the group";
+            return "";
+        }
         return "groups";
     }
-    public String showAllUsers(Integer groupId)
+    
+    /*public String addUser(String groupName) {
+        statusMessage = "";
+        try
+        {
+            Groups group = groupsFacade.findByGroupname(groupName);
+            User user = usersFacade.findByUsername(userInputUserName);
+            UserGroup userGroup = new UserGroup();
+            userGroup.setUserId(user.getId());
+            userGroup.setGroupId(group.getId());
+            userGroupFacade.create(userGroup);
+        } catch(EJBException e)
+        {
+            userInputUserName = "";
+            statusMessage += "Something went wrong adding the user to the group";
+            return "";
+        }
+        return "groups";
+    }*/
+    
+    public String removeUser(Integer groupId) {
+        statusMessage = "";
+        try
+        {
+            //Check to see if the user exists
+            User check = usersFacade.findByUsername(usernameToDelete);
+            if(check == null)
+            {
+                statusMessage += usernameToDelete + " does not exist";
+                usernameToDelete = "";
+                return "";
+            }
+            //Check to see if the user is in the group
+            if(userGroupFacade.findByIds(check.getId(), groupId) == null)
+            {
+                statusMessage += usernameToDelete + " is not in the group";
+                usernameToDelete = "";
+                return "";
+            }
+            User user = usersFacade.findByUsername(usernameToDelete);
+            UserGroup userGroup = new UserGroup();
+            userGroup.setUserId(user.getId());
+            userGroup.setGroupId(groupId);
+            userGroupFacade.removeUserGroup(userGroup);
+            usernameToDelete = "";
+        } catch(EJBException e)
+        {
+            usernameToDelete = "";
+            statusMessage += "Something went wrong removing the user to the group";
+            return "";
+        }
+        return "groups";
+    }
+    
+    /*public String removeUser(String groupName) {
+        statusMessage = "";
+        try
+        {
+            Groups group = groupsFacade.findByGroupname(groupName);
+            User user = usersFacade.findByUsername(userInputUserName);
+            UserGroup userGroup = new UserGroup();
+            userGroup.setUserId(user.getId());
+            userGroup.setGroupId(group.getId());
+            userGroupFacade.remove(userGroup);
+        } catch(EJBException e)
+        {
+            userInputUserName = "";
+            statusMessage += "Something went wrong adding the user to the group";
+            return "";
+        }
+        return "groups";
+    }*/
+    
+    /*public String showAllUsers(Integer groupId)
     {
         
     }*/
-    public String showAllGroups(Integer userId)
+    public String showAllGroups()
     {
         String groupsString = "";
         
         //if(currentGroups == null) {
-            currentGroups = new HashMap<String, ArrayList<String>>();
+            //currentGroups = new HashMap<String, ArrayList<String>>();
             currentUser = usersFacade.find(FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("user_id"));
             //ArrayList<UserGroup> searchResult = new ArrayList<UserGroup>(userGroupFacade.findByUserId(currentUser.getId()));
             ArrayList<UserGroup> searchResult = new ArrayList<UserGroup>(userGroupFacade.findAll());
@@ -168,7 +312,7 @@ public class GroupManager implements Serializable {
             for(int i = 0; i < searchResult.size(); i++)
             {
                 //groupsString += searchResult.size() + "<<>>";
-                groupsString += "Group ID: " + (searchResult.get(i).getGroupId()) + " User ID: " + searchResult.get(i).getUserId() + "\n<br />";
+                groupsString += "Group ID: " + (searchResult.get(i).getGroupId()) + " User ID: " + searchResult.get(i).getUserId() + " ";
             }
         //
         /*Iterator iterator = currentGroups.entrySet().iterator();

@@ -29,7 +29,9 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "UserGroup.findAll", query = "SELECT u FROM UserGroup u"),
-    @NamedQuery(name = "UserGroup.findByUserId", query = "SELECT u FROM UserGroup u WHERE u.userId = :userId")})
+    @NamedQuery(name = "UserGroup.findByUserId", query = "SELECT u FROM UserGroup u WHERE u.userId = :userId"),
+    @NamedQuery(name = "UserGroup.findByGroupId", query = "SELECT u FROM UserGroup u WHERE u.groupId = :groupId"),
+    @NamedQuery(name = "UserGroup.findByIds", query = "SELECT u FROM UserGroup u WHERE u.userId = :userId AND u.groupId = :groupId")})
 public class UserGroup implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -38,7 +40,7 @@ public class UserGroup implements Serializable {
     @NotNull
     @Column(name = "user_id")
     private Integer userId;
-    @JoinColumn(name = "user_id", referencedColumnName = "id", insertable = false, updatable = false)
+    @JoinColumn(name = "user_id", referencedColumnName = "id")
     @ManyToMany(targetEntity=User.class)
     private Collection<User> user;
     @Id

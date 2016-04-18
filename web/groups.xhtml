@@ -7,7 +7,7 @@ Copyright © 2016 Alan Cai. All rights reserved.
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html">
     <h:head>
-        <title>TODO supply a title</title>
+        <title>Groups</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     </h:head>
     <h:body>
@@ -17,12 +17,32 @@ Copyright © 2016 Alan Cai. All rights reserved.
         <p>Groups you are in:</p>
         <p>#{groupManager.showAllGroups()}</p>
         <div>
+            <h:outputLabel id="error" value="#{groupManager.statusMessage}"  />
             <h:form>
-                <h:outputLabel id="error" value="#{groupManager.statusMessage}"  />
                 <h:outputLabel styleClass="outputLabel" for="newgroupname" value="Group Name: " />
-                <h:inputText id="newgroupname" value="#{groupManager.newGroup}"/>
+                <h:inputText id="newgroupname" value="#{groupManager.groupNameToCreate}"/>
                 <h:commandButton id="create"  action="#{groupManager.createGroup()}" value="Create" styleClass="buttonText"/>
             </h:form>
+            <h:form>
+                <h:outputLabel styleClass="outputLabel" for="newuserid" value="Userame: " />
+                <h:inputText id="newuserid" value="#{groupManager.usernameToAdd}"/>
+                <h:commandButton id="create"  action="#{groupManager.addUser(1)}" value="Add By Id" styleClass="buttonText"/>
+            </h:form>
+            <!--h:form>
+                <h:outputLabel styleClass="outputLabel" for="newusername" value="Userame: " />
+                <h:inputText id="newusername" value="#{groupManager.userInputUserName}"/>
+                <h:commandButton id="create"  action="#{groupManager.addUser("Hi")}" value="Add By Groupname" styleClass="buttonText"/>
+            </h:form-->
+            <h:form>
+                <h:outputLabel styleClass="outputLabel" for="olduserid" value="Userame: " />
+                <h:inputText id="olduserid" value="#{groupManager.usernameToDelete}"/>
+                <h:commandButton id="create"  action="#{groupManager.removeUser(1)}" value="Remove By Id" styleClass="buttonText"/>
+            </h:form>
+            <!--h:form>
+                <h:outputLabel styleClass="outputLabel" for="oldusername" value="Userame: " />
+                <h:inputText id="oldusername" value="#{groupManager.userInputUserName}"/>
+                <h:commandButton id="create"  action="#{groupManager.removeUser("Hi")}" value="Remove By Groupname" styleClass="buttonText"/>
+            </h:form-->
         </div>
     </h:body>
 </html>
