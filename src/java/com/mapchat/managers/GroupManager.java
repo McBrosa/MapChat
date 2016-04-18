@@ -151,7 +151,7 @@ public class GroupManager implements Serializable {
     {
         
     }*/
-    public String showAllGroups(Integer userId)
+    public String showAllGroups()
     {
         String groupsString = "";
         
