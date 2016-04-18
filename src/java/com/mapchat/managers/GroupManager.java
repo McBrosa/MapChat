@@ -152,9 +152,9 @@ public class GroupManager implements Serializable {
         try
         {
             //Check to see if the group already exists
-            Groups check = groupsFacade.findByGroupname(groupNameToCreate);
-            if(check == null)
-            {
+            //Groups check = groupsFacade.findByGroupname(groupNameToCreate);
+            //if(check == null)
+            //{
                 Groups group = new Groups();
                 group.setGroupName(groupNameToCreate);
                 groupsFacade.create(group);
@@ -165,13 +165,13 @@ public class GroupManager implements Serializable {
                 userGroup.setUserId(currentUser.getId());
                 userGroupFacade.create(userGroup);
                 groupNameToCreate = "";
-            }
+            /*}
             else
             {
                 statusMessage += groupNameToCreate + " already exists";
                 groupNameToCreate = "";
                 return "";
-            }
+            }*/
         } catch(EJBException e)
         {
             groupNameToCreate = "";
