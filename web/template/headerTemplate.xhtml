@@ -30,14 +30,15 @@
 
                         <p:password id="password"  class="form-control" value="#{loginManager.password}"/>
                         <p:watermark for="password" value="Password" />
+                        
+                        
+                        <p:commandButton id="login"  action="#{loginManager.loginUser()}" style="margin: 5px;"
+                                             value="Login" icon="ui-icon-person" update="invalid"/>
                         <br/>
                         <div align="right">
-                            <p:commandButton id="login"  action="#{loginManager.loginUser()}" 
-                                             value="Login" icon="ui-icon-person" update="invalid"/>
-                            <p:commandButton id="retrieve"  action="#{loginManager.resetPassword()}" 
-                                             value="Forgot Password" icon="ui-icon-help"/>
-                            <br/>
-                            <p:outputLabel id="invalid" value ="#{loginManager.errorMessage}" style="color: tomato"/>
+                            <p:commandLink id="retrieve"  action="#{loginManager.resetPassword()}" 
+                                             value="Forgot Password"/>
+                            <p:outputLabel id="invalid" value ="#{loginManager.errorMessage}" style="color: gold"/>
                         </div>
                     </h:panelGroup>
                 </h:panelGrid>

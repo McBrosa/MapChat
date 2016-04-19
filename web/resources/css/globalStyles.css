@@ -20,7 +20,7 @@ html, body {
 }
 
 /* Style the text used under the standard HTML tag "body" */
-body {
+body, p {
     font-family: "Times New Roman", Times, Serif;
     font-size: 12pt;
     font-style: normal;
@@ -29,24 +29,79 @@ body {
     color: black;
 }
 
-/* Style the text used under the standard HTML tag "h1" for header 1 */
+/* Style the text used under the standard HTML tag "h1" */
 h1 {
-	font-family: Arial, Helvetica, sans-serif;
-	font-size: 36pt;
-	font-style: normal;
-	font-weight: bold;
-	text-decoration: none;
-	color: black;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 36pt;
+    font-style: normal;
+    font-weight: bold;
+    text-decoration: none;
+    color: black;
 }
 
-/* Style the text used under the standard HTML tag "h2" for header 2 */
+/* Style the text used under the standard HTML tag "h2" */
 h2 {
-	font-family: Arial, Helvetica, sans-serif;
-	font-size: 14pt;
-	font-style: normal;
-	font-weight: normal;
-	text-decoration: none;
-	color: gold;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 14pt;
+    font-style: normal;
+    font-weight: normal;
+    text-decoration: none;
+    color: gold;
+}
+
+/* Style the text used under the standard HTML tag "h3" */
+h3 {
+    font-family: "Avant Garde", Avantgarde, sans-serif;
+    font-size: 24px;
+    text-decoration: underline;
+    text-transform: uppercase;
+    text-align: center;
+    color: black;
+    margin: 0;
+}
+
+/**
+ * Animates the Welcome text in the index.xhtml file
+ */
+#welcome {
+    -webkit-animation: fadein 5s; /* Safari, Chrome and Opera > 12.1 */
+       -moz-animation: fadein 5s; /* Firefox < 16 */
+        -ms-animation: fadein 5s; /* Internet Explorer */
+         -o-animation: fadein 5s; /* Opera < 12.1 */
+            animation: fadein 5s;
+}
+
+#welcome h3 {
+    font-size: 72px;
+}
+
+@keyframes fadein {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+}
+
+/* Firefox < 16 */
+@-moz-keyframes fadein {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+}
+
+/* Safari, Chrome and Opera > 12.1 */
+@-webkit-keyframes fadein {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+}
+
+/* Internet Explorer */
+@-ms-keyframes fadein {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+}
+
+/* Opera < 12.1 */
+@-o-keyframes fadein {
+    from { opacity: 0; }
+    to   { opacity: 1; }
 }
 
 .leftAlign {
@@ -101,6 +156,13 @@ style the text within the div content of the siteTemplate. */
     font-weight: normal;
     text-decoration: none;
     color: black;
+}
+
+/**
+ * infoPage is a class to help pad the content of certain pages
+ */
+.infoPage {
+    padding: 15px;
 }
 
 /* The editableContent id is used in siteTemplate.xhtml as <div id="editableContent"> to 
