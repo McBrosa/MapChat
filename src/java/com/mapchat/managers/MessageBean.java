@@ -6,7 +6,6 @@ package com.mapchat.managers;
  */
 import com.google.gson.Gson;
 import com.mapchat.entitypackage.Message;
-import com.mapchat.chat.MessageManagerLocal;
 import com.mapchat.sessionbeanpackage.MessageFacade;
 import java.io.Serializable;
 import java.util.Arrays;
@@ -29,9 +28,6 @@ import javax.faces.bean.ManagedProperty;
 public class MessageBean implements Serializable {
  
     @EJB
-    MessageManagerLocal mm;
-    
-    @EJB
     private MessageFacade msgFacade;
     
     private Date lastUpdate;
@@ -43,6 +39,17 @@ public class MessageBean implements Serializable {
 
     @ManagedProperty(value="#{profileViewManager}")
     private ProfileViewManager profileViewManager;
+    
+    @ManagedProperty(value="#{groupManager}")
+    private GroupManager groupManager;
+
+    public GroupManager getGroupManager() {
+        return groupManager;
+    }
+
+    public void setGroupManager(GroupManager groupManager) {
+        this.groupManager = groupManager;
+    }
 
     public ProfileViewManager getProfileViewManager() {
         return profileViewManager;
@@ -79,7 +86,7 @@ public class MessageBean implements Serializable {
     public String[] getActiveMessages() {
         
         if (selectedChatroom != null) {
-            Message[] msgs = mm.getMessagesByChatroom(selectedChatroom).toArray(new Message[0]);
+            Message[] msgs = groupManager.getMessagesByChatroom(selectedChatroom).toArray(new Message[0]);
             String[] ret = Arrays.stream(msgs).map(Object::toString).toArray(String[]::new);
             return ret;
         }
@@ -91,7 +98,7 @@ public class MessageBean implements Serializable {
     }
 
     public String[] getAvailableChatrooms() {
-        availableChatrooms = mm.getAvailableChatrooms().toArray(new String[0]);
+        availableChatrooms = groupManager.getAvailableChatrooms().toArray(new String[0]);
         return availableChatrooms;
     }
 
@@ -131,10 +138,13 @@ public class MessageBean implements Serializable {
         msg.setUserId(profileViewManager.getLoggedInUser()); // automatically translates to id in the db
         msg.setTime(new Date());
         //msg.setGroupId(); // TODO eventually will be groupManager.getCurrentGroup();
-        // send the message to the current chatroom
-        mm.sendMessage(msg, selectedChatroom);
         
+        // send the message to the current chatroom
+        groupManager.getMessagesByChatroom(selectedChatroom).add(msg);
+        
+        // send the message to the database 
         msgFacade.create(msg);
+        
         // reset the input box
         messageInput = "";
     }
@@ -144,10 +154,10 @@ public class MessageBean implements Serializable {
      * TODO
      */
     public void getChatroomMessages() {
-       List<String> chatroomNames = mm.getAvailableChatrooms();
+       List<String> chatroomNames = groupManager.getAvailableChatrooms();
        List<Message> chatmsgs;
        for (String name : chatroomNames) {
-           chatmsgs = mm.getMessagesByChatroom(name); // locally stored messages
+           chatmsgs = groupManager.getMessagesByChatroom(name); // locally stored messages
            
            // Message[] msgs  = msgFacade.getMessagesByGroupId(groupManager.getCurrentGroup()) // messages on DB
            // for (Message msg : msgs) {

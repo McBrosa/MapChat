@@ -5,6 +5,7 @@
 package com.mapchat.managers;
 
 import com.mapchat.entitypackage.Groups;
+import com.mapchat.entitypackage.Message;
 import com.mapchat.entitypackage.User;
 import com.mapchat.entitypackage.UserGroup;
 import com.mapchat.sessionbeanpackage.GroupsFacade;
@@ -15,6 +16,12 @@ import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import javax.annotation.PostConstruct;
 import javax.ejb.EJBException;
 import javax.faces.context.FacesContext;
 
@@ -44,10 +51,45 @@ public class GroupManager implements Serializable {
     @EJB
     private UserFacade usersFacade;
   
+ 
+    // List of Chatrooms
+    private List<String> globalChatroomNameList;
+    // Chatroom data structure of <chatroom name, list>
+    private Map<String, List> chatroomName_Messages;
+    
+    @PostConstruct
+    public void init() {
+        
+        globalChatroomNameList = Collections.synchronizedList(new ArrayList<String>());
+        
+        chatroomName_Messages = 
+            Collections.synchronizedMap(new HashMap<String, List>());
+        
+        // Chatrooms all users have access to
+        globalChatroomNameList.add("#Music");
+        globalChatroomNameList.add("#For Sale");
+        globalChatroomNameList.add("#Entertainment");
+        
+        // create a message stream for each chatroom
+        for (String room : globalChatroomNameList) {
+            chatroomName_Messages.put(room, Collections.synchronizedList(new LinkedList<Message>()));
+        }    
+    }
+    
+    public List<String> getAvailableChatrooms() {
+        return globalChatroomNameList;
+    }
+    
+    
+    public List<Message> getMessagesByChatroom(String chatroomName) {
+        
+        return chatroomName_Messages.get(chatroomName);
+        
+    }    
+    
     public GroupManager() {
     }
     
-
     public String getGroupNameToCreate() {
         return groupNameToCreate;
     }
@@ -127,7 +169,7 @@ public class GroupManager implements Serializable {
             /*}
             else
             {
-                statusMessage += groupNameToCreate + " already exists";
+                sgtatusMessage += groupNameToCreate + " already exists";
                 groupNameToCreate = "";
                 return "";
             }*/
