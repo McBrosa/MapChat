@@ -7,9 +7,12 @@ package com.mapchat.managers;
 import com.google.gson.Gson;
 import com.mapchat.entitypackage.Message;
 import com.mapchat.chat.MessageManagerLocal;
+import com.mapchat.sessionbeanpackage.MessageFacade;
 import java.io.Serializable;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.List;
+import java.util.UUID;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
@@ -27,6 +30,9 @@ public class MessageBean implements Serializable {
  
     @EJB
     MessageManagerLocal mm;
+    
+    @EJB
+    private MessageFacade msgFacade;
     
     private Date lastUpdate;
     private String messageUser;
@@ -122,27 +128,33 @@ public class MessageBean implements Serializable {
         // create messages and set properties
         Message msg = new Message();
         msg.setMessage(messageInput);
-        msg.setUserId(profileViewManager.getLoggedInUser()); // TODO replace with actual ID
-        
+        msg.setUserId(profileViewManager.getLoggedInUser()); // automatically translates to id in the db
+        msg.setTime(new Date());
+        //msg.setGroupId(); // TODO eventually will be groupManager.getCurrentGroup();
         // send the message to the current chatroom
         mm.sendMessage(msg, selectedChatroom);
         
+        msgFacade.create(msg);
         // reset the input box
         messageInput = "";
     }
  
     /**
-     * Retrieve the messages from the current chatroom and convert them to JSON
-     * format. After that, set it as the context parameter to send to the frontend
+     * Retrieve all the messages from the DB for each chat room
+     * TODO
      */
     public void getChatroomMessages() {
-       if (selectedChatroom == null)
-       {
-           return;
+       List<String> chatroomNames = mm.getAvailableChatrooms();
+       List<Message> chatmsgs;
+       for (String name : chatroomNames) {
+           chatmsgs = mm.getMessagesByChatroom(name); // locally stored messages
+           
+           // Message[] msgs  = msgFacade.getMessagesByGroupId(groupManager.getCurrentGroup()) // messages on DB
+           // for (Message msg : msgs) {
+           //   chatmsgs.add(msg);
+           // }
+           
        }
-       RequestContext ctx = RequestContext.getCurrentInstance();
-       Gson gson = new Gson();
-       ctx.addCallbackParam("msgjson", gson.toJson(getActiveMessages()));
-       System.out.println(gson.toJson(getActiveMessages()));
+       
     }
 }

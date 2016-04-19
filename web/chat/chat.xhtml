@@ -31,8 +31,8 @@
             
             <p:remoteCommand name="nextMessage" update="chat-messages1"/>
 
-            <p:remoteCommand name="retrieveMessages" actionListener="#{messageBean.getChatroomMessages}"
-                             oncomplete="retrieveMessagesJS(xhr, status, args);"/>
+            <p:remoteCommand name="retrieveMessagesFromDB" actionListener="#{messageBean.getChatroomMessages}"
+                             update="chat-messages1"/>
            
             <p:dataTable id="chat-messages1" value="#{messageBean.activeMessages}" var="msg" 
                             scrollRows="20" liveScroll="true" scrollHeight="500" lazy="true" scrollable="true">

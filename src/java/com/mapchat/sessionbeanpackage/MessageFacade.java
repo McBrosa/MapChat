@@ -5,6 +5,7 @@
 package com.mapchat.sessionbeanpackage;
 
 import com.mapchat.entitypackage.Message;
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -26,6 +27,23 @@ public class MessageFacade extends AbstractFacade<Message> {
 
     public MessageFacade() {
         super(Message.class);
+    }
+    
+    public Message getUser(int id) {
+        return em.find(Message.class, id);
+    }
+    
+    public List<Message> getMessagesByGroupId(Integer gid) {
+        if (em.createNamedQuery("Message.findByGroupId")
+            .setParameter("gid", gid)
+            .getResultList().isEmpty()) {
+            return null;
+        }
+        else {
+            return (List<Message>) (em.createNamedQuery("Message.findByGroupId")
+                .setParameter("gid", gid)
+                .getSingleResult());        
+        }
     }
     
 }
