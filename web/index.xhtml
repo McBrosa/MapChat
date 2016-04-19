@@ -3,102 +3,27 @@
 <html xmlns="http://www.w3.org/1999/xhtml"   
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:ui="http://java.sun.com/jsf/facelets"
-      xmlns:f="http://xmlns.jcp.org/jsf/core"
       xmlns:p="http://primefaces.org/ui">
 
     <h:body>
         <!-- This page is constructed based on the siteTemplate -->
         <ui:composition template="/template/siteTemplate.xhtml">
-
-            <!-- Header is expected to be the same for the entire site.
-            However, it can be changed by using the following.
-            
-            <ui:define name="header">
-                <h1>A new header layout can be created here for a specific page. </h1>
-            </ui:define>
-            -->
-
-            <!-- Create the content for this page below -->
             <ui:define name="editableContent">
-                <h:form class="form-signin">
-                    <div align="center">
-                        <h:panelGrid columns="2">
-                            <f:event listener="#{accountManager.validateInformation}" type="postValidate"/>
-                            <p:panel id="signup-panel" styleClass="mc-panel">
-
-                                <h2 class="form-signin-heading">Don't have an account? Sign up now!</h2>
-
-                                <p:inputText id="firstName" value="#{accountManager.firstName}" 
-                                             required="true" label="First Name">
-                                    <f:validateLength minimum="2" />
-                                </p:inputText>
-                                <p:watermark for="firstName" value="First Name" />
-
-                                <p:inputText id="middleName" value="#{accountManager.middleName}" 
-                                             required="false" label="Middle Name">
-                                </p:inputText>
-                                <p:watermark for="middleName" value="Middle Name/Initial" />
-
-                                <p:inputText id="lastName" value="#{accountManager.lastName}" 
-                                             required="true" label="Last Name">
-                                    <f:validateLength minimum="2" />
-                                </p:inputText>
-                                <p:watermark for="lastName" value="Last Name" />
-                                <br/>
-
-                                <p:selectOneMenu id="security_ques" value="#{accountManager.security_question}" required="true" 
-                                                 style="margin-top: 5px;">
-                                    <f:selectItems value="#{accountManager.security_questions}"/>
-                                </p:selectOneMenu>                  
-
-                                <p:inputText id="security_ans" value="#{accountManager.security_answer}" 
-                                             required="true" label="City">
-                                    <f:validateLength minimum="4" />
-                                </p:inputText>
-                                <p:watermark for="security_ans" value="Answer" />    
-                                <br/>
-
-                                <p:inputText id="email" value="#{accountManager.email}" 
-                                             label="Email" required="true">
-                                    <f:validateLength minimum="2" />
-                                    <f:validator validatorId="emailValidator" /> 
-                                </p:inputText>
-                                <p:watermark for="email" value="Email" />
-
-                                <p:inputMask id="phone" value="#{accountManager.phone}" mask="(999) 999-9999"/>
-                                <p:watermark for="phone" value="(###) ###-####" />
-                                <br/>
-
-                                <p:inputText id="username" value="#{accountManager.username}" 
-                                             required="true" label="Username">
-                                    <f:validateLength minimum="4" />
-                                </p:inputText>
-                                <p:watermark for="username" value="Username" />
-                                <br/>
-
-                                <p:password id="password" value="#{accountManager.password}" 
-                                            feedback="true" required="true">
-                                    <f:validator validatorId="passwordValidator" /> 
-                                </p:password>
-                                <p:watermark for="password" value="Password" />
-                                <br/>   
-
-                                <p:password id="confirmPassword" required="true" />
-                                <p:watermark for="confirmPassword" value="Confirm Password" />
-
-                                <br/>
-                                <br/>
-                                <p:commandButton class="btn btn-lg btn-success btn-block" id="signUp" update="signup-panel" 
-                                             action="#{accountManager.createAccount()}" value="Sign Up" />
-                            </p:panel>
-                            
-                            <p:panel id="error-panel" style="background: transparent; border: 0px black;">
-                                <div align="left">
-                                    <p:messages id="msgs" autoUpdate="true" closable="true"/>
-                                    <p:outputLabel id="error" value="#{accountManager.statusMessage}"/>
-                                </div>
-                            </p:panel>
-                        </h:panelGrid>
+                <h:form>
+                    <div id="welcome" class="infoPage" align="center">
+                        <h3>Welcome to MapChat</h3>
+                        <p>
+                            Every chatted with friends and wanted to know EXACTLY where they were? 
+                            Well do we have an app for you!
+                        </p>
+                        <p:imageSwitch effect="fade">
+                            <ui:repeat value="#{imagesView.images}" var="image">
+                                <p:graphicImage name="/web/resources/images/switcher/#{image}" id="image" />
+                            </ui:repeat>
+                        </p:imageSwitch>
+                        <br/>
+                        <p:commandButton id="createBtn" action="Create" value="Create an Account" 
+                                         style="background-color: greenyellow; float: bottom;"/>
                     </div>
                 </h:form>
             </ui:define>
