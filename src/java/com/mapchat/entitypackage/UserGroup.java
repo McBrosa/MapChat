@@ -9,6 +9,8 @@ import java.util.Collection;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
@@ -29,6 +31,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "UserGroup.findAll", query = "SELECT u FROM UserGroup u"),
+    @NamedQuery(name = "UserGroup.findById", query = "SELECT u FROM UserGroup u WHERE u.id = :id"),
     @NamedQuery(name = "UserGroup.findByUserId", query = "SELECT u FROM UserGroup u WHERE u.userId = :userId"),
     @NamedQuery(name = "UserGroup.findByGroupId", query = "SELECT u FROM UserGroup u WHERE u.groupId = :groupId"),
     @NamedQuery(name = "UserGroup.findByIds", query = "SELECT u FROM UserGroup u WHERE u.userId = :userId AND u.groupId = :groupId")})
@@ -36,25 +39,38 @@ public class UserGroup implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Basic(optional = false)
+    @Column(name = "id")
+    private Integer id;
+    @Id
     @Basic(optional = false)
     @NotNull
     @Column(name = "user_id")
     private Integer userId;
-    @JoinColumn(name = "user_id", referencedColumnName = "id")
+    /*@JoinColumn(name = "user_id", referencedColumnName = "id")
     @ManyToMany(targetEntity=User.class)
-    private Collection<User> user;
+    private Collection<User> user;*/
     @Id
     @Basic(optional = false)
     @NotNull
     @Column(name = "group_id")
     private Integer groupId;
-    @JoinColumn(name = "group_id", referencedColumnName = "id")
+    /*@JoinColumn(name = "group_id", referencedColumnName = "id")
     @ManyToMany(targetEntity=Groups.class)
-    private Collection<Groups> groups;
+    private Collection<Groups> groups;*/
 
     public UserGroup() {
     }
 
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+    
     public UserGroup(Integer userId) {
         this.userId = userId;
     }
@@ -75,7 +91,7 @@ public class UserGroup implements Serializable {
         this.groupId = groupsId;
     }
 
-    public Collection<User> getUser() {
+   /* public Collection<User> getUser() {
         return user;
     }
 
@@ -89,12 +105,12 @@ public class UserGroup implements Serializable {
 
     public void setGroups(Collection<Groups> groups) {
         this.groups = groups;
-    }
+    }*/
 
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (userId != null ? userId.hashCode() : 0);
+        hash += (id != null ? id.hashCode() : 0);
         return hash;
     }
 
@@ -105,7 +121,7 @@ public class UserGroup implements Serializable {
             return false;
         }
         UserGroup other = (UserGroup) object;
-        if ((this.userId == null && other.userId != null) || (this.userId != null && !this.userId.equals(other.userId))) {
+        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
         return true;
@@ -113,7 +129,7 @@ public class UserGroup implements Serializable {
 
     @Override
     public String toString() {
-        return "com.mapchat.entitypackage.UserGroup[ userId=" + userId + " ]";
+        return "com.mapchat.entitypackage.UserGroup[ id=" + id + " ]";
     }
     
 }

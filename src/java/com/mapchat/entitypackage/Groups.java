@@ -47,8 +47,8 @@ public class Groups implements Serializable {
     @Size(min = 1, max = 255)
     @Column(name = "group_name")
     private String groupName;
-    @ManyToMany(cascade = CascadeType.ALL, mappedBy = "groups")
-    private Collection<UserGroup> userGroupCollection;
+    /*@ManyToMany(cascade = CascadeType.ALL, mappedBy = "groups")
+    private Collection<UserGroup> userGroupCollection;*/
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "groupId")
     private Collection<File1> fileCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "groupId")
@@ -82,14 +82,14 @@ public class Groups implements Serializable {
         this.groupName = groupName;
     }
 
-    @XmlTransient
+    /*@XmlTransient
     public Collection<UserGroup> getUserGroupCollection() {
         return userGroupCollection;
     }
 
     public void setUserGroupCollection(Collection<UserGroup> userGroupCollection) {
         this.userGroupCollection = userGroupCollection;
-    }
+    }*/
 
     @XmlTransient
     public Collection<File1> getFileCollection() {

@@ -181,6 +181,38 @@ public class GroupManager implements Serializable {
         return "groups";
     }
     
+    public String deleteGroup(Integer groupId) {
+        statusMessage = "";
+        try
+        {
+            //Check to see if the group already exists
+            //Groups check = groupsFacade.findByGroupname(groupNameToCreate);
+            //if(check == null)
+            //{
+                //Groups foundGroup = groupsFacade.findById(groupId);
+                groupsFacade.deleteGroup(groupId);
+                UserGroup userGroup = new UserGroup();
+                userGroup.setGroupId(groupId);
+                currentUser = usersFacade.find(FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("user_id"));
+                userGroup.setUserId(currentUser.getId());
+                userGroupFacade.remove(userGroup);
+                groupNameToCreate = "";
+            /*}
+            else
+            {
+                statusMessage += groupNameToCreate + " already exists";
+                groupNameToCreate = "";
+                return "";
+            }*/
+        } catch(EJBException e)
+        {
+            groupNameToCreate = "";
+            statusMessage += "Something went wrong deleting the group";
+            return "";
+        }
+        return "groups";
+    }
+    
     public String addUser(Integer groupId) {
         statusMessage = "";
         try
@@ -251,17 +283,15 @@ public class GroupManager implements Serializable {
                 return "";
             }
             //Check to see if the user is in the group
-            if(userGroupFacade.findByIds(check.getId(), groupId) == null)
+            UserGroup foundUserGroup = userGroupFacade.findByIds(check.getId(), groupId);
+            if(foundUserGroup == null)
             {
                 statusMessage += usernameToDelete + " is not in the group";
                 usernameToDelete = "";
                 return "";
             }
-            User user = usersFacade.findByUsername(usernameToDelete);
-            UserGroup userGroup = new UserGroup();
-            userGroup.setUserId(user.getId());
-            userGroup.setGroupId(groupId);
-            userGroupFacade.removeUserGroup(userGroup);
+            statusMessage = "UserGroup " + foundUserGroup.getId() + " deleted";
+            userGroupFacade.deleteUserGroup(foundUserGroup);
             usernameToDelete = "";
         } catch(EJBException e)
         {
@@ -312,8 +342,12 @@ public class GroupManager implements Serializable {
             for(int i = 0; i < searchResult.size(); i++)
             {
                 //groupsString += searchResult.size() + "<<>>";
-                groupsString += "Group ID: " + (searchResult.get(i).getGroupId()) + " User ID: " + searchResult.get(i).getUserId() + " ";
+                groupsString += "Group ID: " + (searchResult.get(i).getGroupId()) + " User ID: " + searchResult.get(i).getUserId() + " Id: " + searchResult.get(i).getId() + "/";
             }
+            
+            UserGroup test = userGroupFacade.test();
+            if(test != null)
+            groupsString += ">>" + test.getId() + "<<";
         //
         /*Iterator iterator = currentGroups.entrySet().iterator();
         ArrayList<String> groupsArrayList = new ArrayList<String>();

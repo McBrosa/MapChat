@@ -52,7 +52,7 @@ public class UserGroupFacade extends AbstractFacade<UserGroup> {
                 .setParameter("groupId", groupId)).getResultList();        
         }
     }
-    public List<UserGroup> findByIds(Integer userId, Integer groupId) {
+    public UserGroup findByIds(Integer userId, Integer groupId) {
         if (em.createNamedQuery("UserGroup.findByIds")
                 .setParameter("userId", userId)
                 .setParameter("groupId", groupId)
@@ -60,15 +60,18 @@ public class UserGroupFacade extends AbstractFacade<UserGroup> {
             return null;
         }
         else {
-            return (List<UserGroup>) (em.createNamedQuery("UserGroup.findByIds")
+            return (UserGroup) (em.createNamedQuery("UserGroup.findByIds")
                 .setParameter("userId", userId)
                 .setParameter("groupId", groupId)
-                .getResultList());        
+                .getSingleResult());        
         }
     }
-    public void removeUserGroup(UserGroup userGroup) {
-        em.createQuery("DELETE FROM UserGroup WHERE u.userId = :userId AND u.groupId = :groupId")
-                .setParameter("userId", userGroup.getUserId())
-                .setParameter("groupId", userGroup.getGroupId());
+    
+    public UserGroup test() {
+        return em.find(UserGroup.class, new Integer(6));
+    }
+    public void deleteUserGroup(UserGroup usergroup){   
+        UserGroup temp = em.merge(usergroup);
+        em.remove(temp);
     }
 }

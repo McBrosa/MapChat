@@ -105,8 +105,8 @@ public class User implements Serializable {
     @Size(min = 1, max = 255)
     @Column(name = "email")
     private String email;
-    @ManyToMany(cascade = CascadeType.ALL, mappedBy = "user")
-    private Collection<UserGroup> userGroupCollection;
+    /*@ManyToMany(cascade = CascadeType.ALL, mappedBy = "user")
+    private Collection<UserGroup> userGroupCollection;*/
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "userId")
     private Collection<File1> fileCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "userId")
@@ -229,14 +229,14 @@ public class User implements Serializable {
         this.email = email;
     }
 
-   @XmlTransient
+   /*@XmlTransient
     public Collection<UserGroup> getUserGroupCollection() {
         return userGroupCollection;
     }
 
     public void setUserGroupCollection(Collection<UserGroup> userGroupCollection) {
         this.userGroupCollection = userGroupCollection;
-    }
+    }*/
 
     @XmlTransient
     public Collection<File1> getFileCollection() {
