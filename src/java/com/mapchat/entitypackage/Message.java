@@ -136,7 +136,12 @@ public class Message implements Serializable {
 
     @Override
     public String toString() {
-        return "com.mapchat.entitypackage.Message[ id=" + id + " ]";
+        StringBuilder sb = new StringBuilder("[ ");
+        sb.append(userId.getFirstName());
+        sb.append(" ] : ");
+        sb.append(message);
+        return sb.toString();
+        
     }
     
 }

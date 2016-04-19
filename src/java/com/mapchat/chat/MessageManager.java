@@ -15,6 +15,7 @@ import java.util.Map;
 import javax.annotation.PostConstruct;
 import javax.ejb.Singleton;
 import javax.ejb.Startup;
+import com.mapchat.entitypackage.Message;
  
 /**
  * Simple chat logic
@@ -25,28 +26,25 @@ import javax.ejb.Startup;
 public class MessageManager implements MessageManagerLocal {
  
     // List of Chatrooms
-    private List<String> chatroomNameList;
-    // Chatroom data structure of <id, messages>
+    private List<String> globalChatroomNameList;
+    // Chatroom data structure of <chatroom name, list>
     private Map<String, List> chatroomName_Messages;
     
-    //private final List messages =
-    //        Collections.synchronizedList(new LinkedList());
- 
     @PostConstruct
     public void init() {
         
-        chatroomNameList = Collections.synchronizedList(new ArrayList<String>());
+        globalChatroomNameList = Collections.synchronizedList(new ArrayList<String>());
         
         chatroomName_Messages = 
             Collections.synchronizedMap(new HashMap<String, List>());
         
         // Chatrooms all users have access to
-        chatroomNameList.add("Chatroom 1");
-        chatroomNameList.add("Chatroom 2");
-        chatroomNameList.add("Chatroom 3");
+        globalChatroomNameList.add("#Music");
+        globalChatroomNameList.add("#For Sale");
+        globalChatroomNameList.add("#Entertainment");
         
         // create a message stream for each chatroom
-        for (String room : chatroomNameList) {
+        for (String room : globalChatroomNameList) {
             chatroomName_Messages.put(room, Collections.synchronizedList(new LinkedList<Message>()));
         }    
     }
@@ -54,30 +52,16 @@ public class MessageManager implements MessageManagerLocal {
     @Override
     public void sendMessage(Message msg, String chatroomName) {
         chatroomName_Messages.get(chatroomName).add(msg);
-        msg.setDateSent(new Date());
-    }
- 
-    @Override
-    public Message getFirstAfter(Date after, String chatroomName) {
-        List messages = chatroomName_Messages.get(chatroomName);
-        if(messages.isEmpty())
-            return null;
-        if(after == null)
-            return (Message)messages.get(0);
-        for(Object m : messages) {
-            if(((Message)m).getDateSent().after(after))
-                return (Message)m;
-        }
-        return null;
     }
 
     @Override
     public List<String> getAvailableChatrooms() {
-        return chatroomNameList;
+        return globalChatroomNameList;
     }
     
     @Override
     public List<Message> getMessagesByChatroom(String chatroomName) {
+        
         return chatroomName_Messages.get(chatroomName);
         
     }

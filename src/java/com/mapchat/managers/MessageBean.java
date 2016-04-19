@@ -5,9 +5,10 @@ package com.mapchat.managers;
  * Copyright © 2016 Sean Arcayan. All rights reserved. * 
  */
 import com.google.gson.Gson;
-import com.mapchat.chat.Message;
+import com.mapchat.entitypackage.Message;
 import com.mapchat.chat.MessageManagerLocal;
 import java.io.Serializable;
+import java.util.Arrays;
 import java.util.Date;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
@@ -32,7 +33,7 @@ public class MessageBean implements Serializable {
     private String messageInput;
     private String selectedChatroom;
     private String[] availableChatrooms;
-    private Message[] activeMessages;
+    private String[] activeMessages;
 
     @ManagedProperty(value="#{profileViewManager}")
     private ProfileViewManager profileViewManager;
@@ -69,15 +70,17 @@ public class MessageBean implements Serializable {
     }
    
     
-    public Message[] getActiveMessages() {
+    public String[] getActiveMessages() {
+        
         if (selectedChatroom != null) {
-            activeMessages = mm.getMessagesByChatroom(selectedChatroom).toArray(new Message[0]);
-            
+            Message[] msgs = mm.getMessagesByChatroom(selectedChatroom).toArray(new Message[0]);
+            String[] ret = Arrays.stream(msgs).map(Object::toString).toArray(String[]::new);
+            return ret;
         }
-        return activeMessages;
+        return null;
     }
 
-    public void setActiveMessages(Message[] activeMessages) {
+    public void setActiveMessages(String[] activeMessages) {
         this.activeMessages = activeMessages;
     }
 
@@ -119,39 +122,13 @@ public class MessageBean implements Serializable {
         // create messages and set properties
         Message msg = new Message();
         msg.setMessage(messageInput);
-        msg.setUser(profileViewManager.getLoggedInUser().getFirstName());
+        msg.setUserId(profileViewManager.getLoggedInUser()); // TODO replace with actual ID
         
         // send the message to the current chatroom
         mm.sendMessage(msg, selectedChatroom);
         
         // reset the input box
         messageInput = "";
-    }
- 
-    /**
-     * Get the first unread message from the chatroom and send it to the front end
-     * @param evt 
-     */
-    public void firstUnreadMessage(ActionEvent evt) {
-       if (selectedChatroom == null)
-       {
-           return;
-       }
-       RequestContext ctx = RequestContext.getCurrentInstance();
-       Message m = mm.getFirstAfter(lastUpdate, selectedChatroom);
- 
-       // create a parameter "ok" and set it to m
-       ctx.addCallbackParam("ok", m!=null);
-       if(m==null)
-           return;
- 
-       lastUpdate = m.getDateSent();
- 
-       // set call back parameters
-       // in the javascript function, these can be retrieved through "args.<param>"
-       ctx.addCallbackParam("user", m.getUser());
-       ctx.addCallbackParam("dateSent", m.getDateSent().toString());
-       ctx.addCallbackParam("text", m.getMessage());
     }
  
     /**
