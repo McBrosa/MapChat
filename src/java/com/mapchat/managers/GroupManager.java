@@ -325,6 +325,17 @@ public class GroupManager implements Serializable {
     {
         
     }*/
+    
+    public ArrayList<Integer> getUsers(Integer groupId) {
+        ArrayList<Integer> userIds = new ArrayList<Integer>();
+        ArrayList<UserGroup> searchResult = new ArrayList<UserGroup>(userGroupFacade.findByGroupId(groupId));
+        for(int i = 0; i < searchResult.size(); i++)
+        {
+            userIds.add(searchResult.get(i).getUserId());
+        }
+        return userIds;
+    }
+    
     public String showAllGroups()
     {
         String groupsString = "";
