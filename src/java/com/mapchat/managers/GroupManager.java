@@ -16,6 +16,7 @@ import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -52,38 +53,31 @@ public class GroupManager implements Serializable {
     private UserFacade usersFacade;
   
  
-    // List of Chatrooms
-    private List<String> globalChatroomNameList;
-    // Chatroom data structure of <chatroom name, list>
-    private Map<String, List> chatroomName_Messages;
+    // List of global groups
+    private List<String> globalGroups;
+    // Chatroom data structure of <group name, list of messages>
+    private Map<String, Collection> groupNameMessagesMap;
     
     @PostConstruct
     public void init() {
         
-        globalChatroomNameList = Collections.synchronizedList(new ArrayList<String>());
+        globalGroups = Collections.synchronizedList(new ArrayList<String>());
         
-        chatroomName_Messages = 
-            Collections.synchronizedMap(new HashMap<String, List>());
+        groupNameMessagesMap = 
+            Collections.synchronizedMap(new HashMap<String, Collection>());
         
-        // Chatrooms all users have access to
-        globalChatroomNameList.add("#Music");
-        globalChatroomNameList.add("#For Sale");
-        globalChatroomNameList.add("#Entertainment");
+        initializeGlobalGroups();
         
-        // create a message stream for each chatroom
-        for (String room : globalChatroomNameList) {
-            chatroomName_Messages.put(room, Collections.synchronizedList(new LinkedList<Message>()));
-        }    
     }
     
     public List<String> getAvailableChatrooms() {
-        return globalChatroomNameList;
+        return globalGroups;
     }
     
     
     public List<Message> getMessagesByChatroom(String chatroomName) {
         
-        return chatroomName_Messages.get(chatroomName);
+        return (List<Message>)groupNameMessagesMap.get(chatroomName);
         
     }    
     
@@ -336,5 +330,28 @@ public class GroupManager implements Serializable {
         }*/
         
         return groupsString;
+    }
+    
+    private void initializeGlobalGroups() {
+        // Groups all users have access to
+        globalGroups.add("#Music");
+        globalGroups.add("#For Sale");
+        globalGroups.add("#Entertainment");
+        
+        // create a message stream for each group
+        for (String grpName : globalGroups) {
+            Collection<Message> collection = Collections.synchronizedList(new LinkedList<Message>());
+            groupNameMessagesMap.put(grpName, collection);
+            
+            // check if the group already exists
+            if (groupsFacade.findByGroupname(grpName) == null) {   
+                // create the group and set the properties
+                Groups g = new Groups();
+                g.setGroupName(grpName);
+                g.setMessageCollection(collection);
+                // g.setFileCollection(insert file collection);
+                groupsFacade.create(g);
+            }
+        }    
     }
 }
