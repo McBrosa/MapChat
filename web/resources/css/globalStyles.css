@@ -64,11 +64,11 @@ h3 {
  * Animates the Welcome text in the index.xhtml file
  */
 #welcome {
-    -webkit-animation: fadein 5s; /* Safari, Chrome and Opera > 12.1 */
-       -moz-animation: fadein 5s; /* Firefox < 16 */
-        -ms-animation: fadein 5s; /* Internet Explorer */
-         -o-animation: fadein 5s; /* Opera < 12.1 */
-            animation: fadein 5s;
+    -webkit-animation: fadein 3s; /* Safari, Chrome and Opera > 12.1 */
+       -moz-animation: fadein 3s; /* Firefox < 16 */
+        -ms-animation: fadein 3s; /* Internet Explorer */
+         -o-animation: fadein 3s; /* Opera < 12.1 */
+            animation: fadein 3s;
 }
 
 #welcome h3 {
@@ -271,7 +271,6 @@ style the footer component of the siteTemplate */
 }
 
 #map {
-    background-color: darkseagreen;
     position: fixed;
     height: 100%;
     float: left;

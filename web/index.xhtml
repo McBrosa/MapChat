@@ -16,14 +16,14 @@
                             Every chatted with friends and wanted to know EXACTLY where they were? 
                             Well do we have an app for you!
                         </p>
-                        <p:imageSwitch effect="fade">
+                        <p:imageSwitch effect="fade" speed="500" style="border: 4px gold solid;">
                             <ui:repeat value="#{imagesView.images}" var="image">
-                                <p:graphicImage name="/web/resources/images/switcher/#{image}" id="image" />
+                                <p:graphicImage name="images/switcher/#{image}" id="image" />
                             </ui:repeat>
                         </p:imageSwitch>
                         <br/>
                         <p:commandButton id="createBtn" action="Create" value="Create an Account" 
-                                         style="background-color: greenyellow; float: bottom;"/>
+                                         style="background-color: gold; float: bottom;"/>
                     </div>
                 </h:form>
             </ui:define>
