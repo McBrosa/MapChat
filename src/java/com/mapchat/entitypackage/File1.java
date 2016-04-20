@@ -187,9 +187,17 @@ public class File1 implements Serializable {
     
     public String getThumbnailName() {
         return getId() + "_thumbnail." + getExtension();
-    }
+    }    
+    
+    public String getIconName() {
+        return getId() + "_icon." + getExtension();
+    }    
     
     public String getThumbnailFilePath() {
         return Constants.ROOT_DIRECTORY + getThumbnailName();
+    }
+    
+    public String getIconFilePath() {
+        return Constants.ROOT_DIRECTORY + getIconName();
     }
 }
