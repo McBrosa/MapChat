@@ -10,13 +10,15 @@ public class Constants {
     // Change /Users/Balci/FileStorageLocation/ below to /home/cs4984/Balci/FileStorageLocation/
     // for deployment to the server by replacing Balci with your last name.
     //-----------------------------------------------------------
-    public static final String ROOT_DIRECTORY = "C:/Users/Nathan/FileStorageLocation/";
+    public static final String ROOT_DIRECTORY = "C:/Users/Alan/FileStorageLocation/";
 
     public static final String TEMP_FILE = "tmp_file";
 
     public static final Integer THUMBNAIL_SZ = 200;
     
     public static final Integer ICON_SZ = 50;
+    
+    public static final Integer MAX_MESSAGES = 1000;
 
     public static final Integer MAX_CAPTION_SIZE = 140;
     
@@ -27,7 +29,8 @@ public class Constants {
         "VA","VI","VT","WA","WI","WV","WY"
     };
     
-    public static final String[] QUESTIONS = {"In what city were you born?",
+    public static final String[] QUESTIONS = {"Security Question (Please Select One)",
+        "In what city were you born?",
         "What elementary school did you attend?",
         "What is the last name of your most favorite teacher?",
         "What is your father's middle name?",
