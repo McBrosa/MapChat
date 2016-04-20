@@ -33,7 +33,6 @@ public class MessageBean implements Serializable {
     private Date lastUpdate;
     private String messageUser;
     private String messageInput;
-    private String selectedChatroom;
     private String[] availableChatrooms;
     private String[] activeMessages;
 
@@ -85,8 +84,8 @@ public class MessageBean implements Serializable {
     
     public String[] getActiveMessages() {
         
-        if (selectedChatroom != null) {
-            Message[] msgs = groupManager.getMessagesByChatroom(selectedChatroom).toArray(new Message[0]);
+        if (groupManager.getCurrentGroupName() != null) {
+            Message[] msgs = groupManager.getMessagesByChatroom(groupManager.getCurrentGroupName()).toArray(new Message[0]);
             String[] ret = Arrays.stream(msgs).map(Object::toString).toArray(String[]::new);
             return ret;
         }
@@ -105,15 +104,6 @@ public class MessageBean implements Serializable {
     public void setAvailableChatrooms(String[] availableChatrooms) {
         this.availableChatrooms = availableChatrooms;
     }
-
-    public String getSelectedChatroom() {
-        return selectedChatroom;
-    }
-
-    public void setSelectedChatroom(String selectedChatroom) {
-        this.selectedChatroom = selectedChatroom;
-    }
-
     
     public Date getLastUpdate() {
         return lastUpdate;
@@ -128,7 +118,7 @@ public class MessageBean implements Serializable {
      * @param evt 
      */
     public void sendMessage(ActionEvent evt) {
-        if (selectedChatroom == null) {
+        if (groupManager.getCurrentGroupName() == null) {
             return;
         }
         
@@ -140,7 +130,7 @@ public class MessageBean implements Serializable {
         //msg.setGroupId(); // TODO eventually will be groupManager.getCurrentGroup();
         
         // send the message to the current chatroom
-        groupManager.getMessagesByChatroom(selectedChatroom).add(msg);
+        groupManager.getMessagesByChatroom(groupManager.getCurrentGroupName()).add(msg);
         
         // send the message to the database 
         msgFacade.create(msg);

@@ -9,17 +9,8 @@
     <script type="text/javascript" src="chat/chat.js"/>
         
     <h:body>
-        <h:form prependId="false">
-            <p:panelGrid columns="2">
-                <p:outputLabel for="chatroom" value="Chatroom" />
-                <h:selectOneMenu id="chatroom" value="#{messageBean.selectedChatroom}"
-                                    >
-                    <f:selectItem noSelectionOption="true" itemLabel="Please select"></f:selectItem>
-                    <f:selectItems value="#{messageBean.availableChatrooms}" var="room"
-                                           itemLabel="#{room}" itemValue="#{room}" />
-                    <p:ajax update="chat-messages1"/>
-                </h:selectOneMenu>
-            </p:panelGrid>
+        <h:form prependId="false" id="chat-form">
+            <p:outputLabel id="currentGroupNameLabel" value="#{groupManager.currentGroupName}"/>
             <p:panelGrid columns="2">
                 
                 Text: <p:inputText value="#{messageBean.messageInput}" id="message"/>

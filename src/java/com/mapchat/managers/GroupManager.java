@@ -24,6 +24,7 @@ import java.util.List;
 import java.util.Map;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJBException;
+import javax.faces.bean.ManagedProperty;
 import javax.faces.context.FacesContext;
 
 /**
@@ -42,6 +43,13 @@ public class GroupManager implements Serializable {
     private User currentUser;
     private String message;
     private String statusMessage;
+    private String currentGroupName;
+    private List<String> nonGlobalGroupNames;        
+    private List<String> globalGroupNames; // List of global groups
+    private Map<String, Collection> groupNameMessagesMap; // Chatroom data structure of <group name, list of messages>
+    
+    @ManagedProperty(value="#{profileViewManager}")
+    private ProfileViewManager profileViewManager;
     
     @EJB
     private GroupsFacade groupsFacade;
@@ -51,27 +59,64 @@ public class GroupManager implements Serializable {
     
     @EJB
     private UserFacade usersFacade;
-  
- 
-    // List of global groups
-    private List<String> globalGroups;
-    // Chatroom data structure of <group name, list of messages>
-    private Map<String, Collection> groupNameMessagesMap;
     
     @PostConstruct
     public void init() {
-        
-        globalGroups = Collections.synchronizedList(new ArrayList<String>());
-        
+        nonGlobalGroupNames = Collections.synchronizedList(new ArrayList<String>());
+        globalGroupNames = Collections.synchronizedList(new ArrayList<String>());
         groupNameMessagesMap = 
             Collections.synchronizedMap(new HashMap<String, Collection>());
         
         initializeGlobalGroups();
         
     }
+
+    public ProfileViewManager getProfileViewManager() {
+        return profileViewManager;
+    }
+
+    public void setProfileViewManager(ProfileViewManager profileViewManager) {
+        this.profileViewManager = profileViewManager;
+    }   
+    
+    public String getCurrentGroupName() {
+        return currentGroupName;
+    }
+
+    public void setCurrentGroupName(String currentGroupName) {
+        this.currentGroupName = currentGroupName;
+    }
+
+    public List<String> getNonGlobalGroupNames() {
+        List<UserGroup> usergroups = userGroupFacade.findByUserId(profileViewManager.getLoggedInUser().getId());
+        if (usergroups == null) 
+        {
+            return null;
+        }
+        
+        for (UserGroup ug : usergroups) {
+            String name = groupsFacade.getGroup(ug.getGroupId()).getGroupName();
+            nonGlobalGroupNames.add(groupsFacade.getGroup(ug.getGroupId()).getGroupName());
+            System.out.println("group name: " + name);
+        }
+        return nonGlobalGroupNames;
+    }
+
+    public void setNonGlobalGroupNames(List<String> nonGlobalGroupNames) {
+        this.nonGlobalGroupNames = nonGlobalGroupNames;
+    }    
+    
+    
+    public List<String> getGlobalGroupNames() {
+        return globalGroupNames;
+    }
+
+    public void setGlobalGroupNames(List<String> globalGroupNames) {
+        this.globalGroupNames = globalGroupNames;
+    }
     
     public List<String> getAvailableChatrooms() {
-        return globalGroups;
+        return globalGroupNames;
     }
     
     
@@ -332,14 +377,17 @@ public class GroupManager implements Serializable {
         return groupsString;
     }
     
+    /**
+     * Initialize global groups
+     */
     private void initializeGlobalGroups() {
         // Groups all users have access to
-        globalGroups.add("#Music");
-        globalGroups.add("#For Sale");
-        globalGroups.add("#Entertainment");
+        globalGroupNames.add("#Music");
+        globalGroupNames.add("#For Sale");
+        globalGroupNames.add("#Entertainment");
         
         // create a message stream for each group
-        for (String grpName : globalGroups) {
+        for (String grpName : globalGroupNames) {
             Collection<Message> collection = Collections.synchronizedList(new LinkedList<Message>());
             groupNameMessagesMap.put(grpName, collection);
             
