@@ -187,7 +187,7 @@ style the header component of the siteTemplate */
 style the footer component of the siteTemplate */
 #footer {
     background-color: silver;
-    padding-top: 20px;
+    padding-top: 10px;
     position: absolute;
     height: 70px;
     width: 100%;

@@ -12,15 +12,16 @@
                 <h:form>
                     <div id="welcome" class="infoPage" align="center">
                         <h3>Welcome to MapChat</h3>
-                        <p>
-                            Every chatted with friends and wanted to know EXACTLY where they were? 
-                            Well do we have an app for you!
-                        </p>
-                        <p:imageSwitch effect="fade" speed="500" style="border: 4px gold solid;">
-                            <ui:repeat value="#{imagesView.images}" var="image">
-                                <p:graphicImage name="images/switcher/#{image}" id="image" />
-                            </ui:repeat>
-                        </p:imageSwitch>
+                        <h:panelGrid columns="2" columnClasses="leftAlign, rightAlign" cellspacing="5px">
+                            <p:imageSwitch effect="fade" speed="500" style="border: 4px gold solid;">
+                                <ui:repeat value="#{imagesView.images}" var="image">
+                                    <p:graphicImage name="images/switcher/#{image}" id="image" />
+                                </ui:repeat>
+                            </p:imageSwitch>
+                            <p>
+                                The premier location conscious messenger application.
+                            </p>
+                        </h:panelGrid>
                         <br/>
                         <p:commandButton id="createBtn" action="Create" value="Create an Account" 
                                          style="background-color: gold; float: bottom;"/>
