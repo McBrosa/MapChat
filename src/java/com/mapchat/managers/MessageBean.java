@@ -137,9 +137,16 @@ public class MessageBean implements Serializable {
         msg.setGroupId(curgrp); 
         
         // send the message to the current chatroom
-        groupManager.getMessagesByChatroom(curgrp).add(msg);
+        List<Message> cfq = groupManager.getMessagesByChatroom(curgrp);
         
-        // send the message to the database 
+        // if we reach capacity in the list, the oldest message will be removed
+        // from the list and the database
+        if (cfq.size() > Constants.MAX_MESSAGES) {
+            msgFacade.remove(cfq.remove(0));
+        }
+        
+        // send the current message to the database 
+        cfq.add(msg);
         msgFacade.create(msg);
         
         // reset the input box
