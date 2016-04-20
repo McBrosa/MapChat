@@ -20,12 +20,12 @@ Copyright © 2016 Alan Cai. All rights reserved.
                 <h:outputLabel value="Place create group content here."/>
             </p:overlayPanel>
             <!-- TODO this should probably be buttons... -->
-            <p:selectOneRadio layout="pageDirection" value="#{groupManager.currentGroupName}">
+            <p:selectOneRadio layout="pageDirection" value="#{groupManager.currentGroup}">
                 <f:facet name="global">
                     Global
                 </f:facet>
-                <f:selectItems value="#{groupManager.globalGroupNames}"/>
-                <p:ajax update=":chat-form:currentGroupNameLabel"/>
+                <f:selectItems value="#{groupManager.globalGroups}"/>
+                <p:ajax update=":chat-form:currentGroupLabel"/>
             </p:selectOneRadio>            
         </h:form>
         <!--

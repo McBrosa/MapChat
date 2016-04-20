@@ -10,7 +10,7 @@
         
     <h:body>
         <h:form prependId="false" id="chat-form">
-            <p:outputLabel id="currentGroupNameLabel" value="#{groupManager.currentGroupName}"/>
+            <p:outputLabel id="currentGroupLabel" value="#{groupManager.currentGroup.groupName}"/>
             <p:panelGrid columns="2">
                 
                 Text: <p:inputText value="#{messageBean.messageInput}" id="message"/>

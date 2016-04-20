@@ -5,12 +5,14 @@ package com.mapchat.managers;
  * Copyright © 2016 Sean Arcayan. All rights reserved. * 
  */
 import com.google.gson.Gson;
+import com.mapchat.entitypackage.Groups;
 import com.mapchat.entitypackage.Message;
 import com.mapchat.sessionbeanpackage.MessageFacade;
 import java.io.Serializable;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
@@ -83,10 +85,14 @@ public class MessageBean implements Serializable {
    
     
     public String[] getActiveMessages() {
-        
-        if (groupManager.getCurrentGroupName() != null) {
-            Message[] msgs = groupManager.getMessagesByChatroom(groupManager.getCurrentGroupName()).toArray(new Message[0]);
+
+        if (groupManager.getCurrentGroup() != null) {
+                    System.out.println("curgroup: " + groupManager.getCurrentGroup().getGroupName());
+            Message[] msgs = groupManager.getMessagesByChatroom(groupManager.getCurrentGroup()).toArray(new Message[0]);
             String[] ret = Arrays.stream(msgs).map(Object::toString).toArray(String[]::new);
+            for (String s : ret) {
+                System.out.println("msg: " + s);
+            }
             return ret;
         }
         return null;
@@ -118,7 +124,8 @@ public class MessageBean implements Serializable {
      * @param evt 
      */
     public void sendMessage(ActionEvent evt) {
-        if (groupManager.getCurrentGroupName() == null) {
+        Groups curgrp = groupManager.getCurrentGroup();
+        if (curgrp == null) {
             return;
         }
         
@@ -127,34 +134,15 @@ public class MessageBean implements Serializable {
         msg.setMessage(messageInput);
         msg.setUserId(profileViewManager.getLoggedInUser()); // automatically translates to id in the db
         msg.setTime(new Date());
-        //msg.setGroupId(); // TODO eventually will be groupManager.getCurrentGroup();
+        msg.setGroupId(curgrp); 
         
         // send the message to the current chatroom
-        groupManager.getMessagesByChatroom(groupManager.getCurrentGroupName()).add(msg);
+        groupManager.getMessagesByChatroom(curgrp).add(msg);
         
         // send the message to the database 
         msgFacade.create(msg);
         
         // reset the input box
         messageInput = "";
-    }
- 
-    /**
-     * Retrieve all the messages from the DB for each chat room
-     * TODO
-     */
-    public void getChatroomMessages() {
-       List<String> chatroomNames = groupManager.getAvailableChatrooms();
-       List<Message> chatmsgs;
-       for (String name : chatroomNames) {
-           chatmsgs = groupManager.getMessagesByChatroom(name); // locally stored messages
-           
-           // Message[] msgs  = msgFacade.getMessagesByGroupId(groupManager.getCurrentGroup()) // messages on DB
-           // for (Message msg : msgs) {
-           //   chatmsgs.add(msg);
-           // }
-           
-       }
-       
     }
 }
