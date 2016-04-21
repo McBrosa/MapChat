@@ -4,6 +4,11 @@
  */
 
 function enterNewGroupName() {
+    var groupName = "";
+    while(groupName.trim() === "")
+        groupName = window.prompt("Enter new group's name: ");
+    var hidden = document.getElementById("create-groups-form:newgroupname");
+    hidden.value = groupName;
     
 }
 
@@ -13,5 +18,3 @@ function enterUsernameToAdd() {
 function enterUsernameToRemove() {
     
 }
-
-

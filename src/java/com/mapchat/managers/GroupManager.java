@@ -224,6 +224,12 @@ public class GroupManager implements Serializable {
                 userGroup.setUserId(currentUser.getId());
                 userGroupFacade.create(userGroup);
                 groupNameToCreate = "";
+                // add to the map
+                Collection<Message> collection = Collections.synchronizedList(new LinkedList<Message>());
+                groupMessageMap.put(foundGroup, collection);
+                allGroups.add(foundGroup);
+                //Uncomment next line when other functionalities work to work on this one
+                //currentGroup = foundGroup;
             /*}
             else
             {
@@ -237,7 +243,7 @@ public class GroupManager implements Serializable {
             statusMessage += "Something went wrong creating the group";
             return "";
         }
-        return "groups";
+        return "";
     }
     
     public String deleteGroup(Integer groupId) {
@@ -274,7 +280,8 @@ public class GroupManager implements Serializable {
         return "groups";
     }
     
-    public String addUser(Integer groupId) {
+    public String addUser() {
+        Integer groupId = currentGroup.getId();
         statusMessage = "";
         try
         {
@@ -312,7 +319,8 @@ public class GroupManager implements Serializable {
         return "groups";
     }
     
-    public String removeUser(Integer groupId) {
+    public String removeUser() {
+        Integer groupId = currentGroup.getId();
         statusMessage = "";
         try
         {
