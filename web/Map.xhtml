@@ -22,58 +22,21 @@
     <h:body>
         <p:growl id="messages" showDetail="true" />
         <p:gmap widgetVar="map" center="0,0" zoom="18" fitBounds="true" type="HYBRID" style="width:100%; height:100%;"
-                model="#{markersView.simpleModel}" />
+                model="#{markersView.simpleModel}">
+            <p:ajax event="overlaySelect" listener="#{markersView.onMarkerSelect}" />
+            <p:gmapInfoWindow id="infoWindow">
+                <p:outputPanel style="text-align: center; display: block; margin: auto; text-decoration: #000000;">
+                    <h:outputText value="#{markersView.marker.data}" />
+                    <br />
+                    <h:outputText value="#{markersView.marker.title}" />
+                </p:outputPanel>
+            </p:gmapInfoWindow>    
+        </p:gmap>
         <h:form id="formId">
             <h:inputHidden id="latitude" value="#{accountManager.selected.locationX}"/>
             <h:inputHidden id="longitude" value="#{accountManager.selected.locationY}"/>
-            <!--<h:inputHidden id="profilePic" value="#{accountManager.userPhotoLocation()}" />-->
-<!--            <h:commandLink id="update" action="#{accountManager.updateLocation()}" style="display:none" />-->
             <p:remoteCommand name="update" actionListener="#{accountManager.updateLocation()}" />
         </h:form>
         <h:outputScript library="js" name="map.js" />
-<!--        <script type="text/javascript">
-            var currentMarker = null;
-            if (navigator.geolocation) {
-                checkGeolocationByHTML5();
-            } else {
-                checkGeolocationByLoaderAPI(); // HTML5 not supported! Fall back to Loader API.
-            }
-
-            function checkGeolocationByHTML5() {
-                navigator.geolocation.getCurrentPosition(function(position) {
-                    setMapCenter(position.coords.latitude, position.coords.longitude);
-                }, function() {
-                    checkGeolocationByLoaderAPI(); // Error! Fall back to Loader API.
-                });
-            }
-
-            function checkGeolocationByLoaderAPI() {
-                if (google.loader.ClientLocation) {
-                    setMapCenter(google.loader.ClientLocation.latitude, google.loader.ClientLocation.longitude);
-                } else {
-                    // Unsupported! Show error/warning?
-                }
-            }
-
-            function setMapCenter(latitude, longitude) {
-                PF('map').getMap().setCenter(new google.maps.LatLng(latitude, longitude));
-                document.getElementById('formId:latitude').value = latitude;
-                document.getElementById('formId:longitude').value = longitude;
-                
-                var icon = {
-                    //url: document.getElementById('formId:profilePic').value, // url
-                    scaledSize: new google.maps.Size(50, 50) // scaled size
-//                  origin: new google.maps.Point(0,0), // origin
-//                  anchor: new google.maps.Point(0, 0) // anchor
-                };
-                
-                currentMarker = new google.maps.Marker({
-                    position:new google.maps.LatLng(latitude, longitude),
-                    icon:icon
-                });
-                PF('map').addOverlay(currentMarker);
-                update();
-            }
-        </script>-->
     </h:body>    
 </html>
