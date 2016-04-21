@@ -13,7 +13,11 @@ function enterNewGroupName() {
 }
 
 function enterUsernameToAdd() {
-    
+    var username = "";
+    while(username.trim() === "")
+        username = window.prompt("Enter new user's username: ");
+    var hidden = document.getElementById("add-user-form:addusername");
+    hidden.value = username;
 }
 function enterUsernameToRemove() {
     

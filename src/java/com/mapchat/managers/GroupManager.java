@@ -277,7 +277,7 @@ public class GroupManager implements Serializable {
             statusMessage += "Something went wrong deleting the group";
             return "";
         }
-        return "groups";
+        return "";
     }
     
     public String addUser() {
@@ -316,7 +316,7 @@ public class GroupManager implements Serializable {
             statusMessage += "Something went wrong adding the user to the group";
             return "";
         }
-        return "groups";
+        return "";
     }
     
     public String removeUser() {
