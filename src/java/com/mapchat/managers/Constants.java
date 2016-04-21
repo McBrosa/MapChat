@@ -1,7 +1,3 @@
-/*
- * Created by Nathan Rosa on 2016.03.22  * 
- * Copyright © 2016 Nathan Rosa. All rights reserved. * 
- */
 package com.mapchat.managers;
 
 public class Constants {
@@ -13,6 +9,8 @@ public class Constants {
     public static final String ROOT_DIRECTORY = "C:/Users/Alan/FileStorageLocation/";
 
     public static final String TEMP_FILE = "tmp_file";
+    
+    public static final Integer MAX_MESSAGES = 1000;
 
     public static final Integer THUMBNAIL_SZ = 200;
     

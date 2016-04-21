@@ -68,6 +68,14 @@ public class FileManager {
     @EJB
     private File1Facade fileFacade;
 
+    public File1Facade getFileFacade() {
+        return fileFacade;
+    }
+
+    public void setFileFacade(File1Facade fileFacade) {
+        this.fileFacade = fileFacade;
+    }
+
     // Returns the uploaded file
     public UploadedFile getFile() {
         return file;
@@ -210,7 +218,7 @@ public class FileManager {
         } catch (IOException ex) {
             Logger.getLogger(FileManager.class.getName()).log(Level.SEVERE, null, ex);
         }
-    }  
+    }
 
     public void deletePhoto() {
         FacesMessage resultMsg;
@@ -239,4 +247,13 @@ public class FileManager {
         }
         FacesContext.getCurrentInstance().addMessage(null, resultMsg);
     }
-}
+    
+    public String filePath()
+    {
+        String user_name = (String) FacesContext.getCurrentInstance()
+                    .getExternalContext().getSessionMap().get("username");
+
+        User user = userFacade.findByUsername(user_name);
+        return "FileStorageLocatin/" + fileFacade.findFilesByUserID(user.getId()).get(0).getThumbnailName();    
+    }
+ }
