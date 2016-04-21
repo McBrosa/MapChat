@@ -19,7 +19,7 @@ Copyright © 2016 Osman Balci. All rights reserved.
             <ui:define name="editableContent">
                 <h:form class="form-signin">
                 <h:panelGrid columns="2" columnClasses="leftAlign, rightAlign">
-                        <p:panel id="user-photo" styleClass="mc-panel">
+                        <p:panel id="user-photo" class="mc-panel">
                             <p:commandLink id="photo-link" action="EditPhoto" styleClass="user-pic" ajax="false">
                                 <h:graphicImage value="FileStorageLocation/#{accountManager.userPhoto()}" />
                             </p:commandLink>
@@ -28,7 +28,7 @@ Copyright © 2016 Osman Balci. All rights reserved.
                             <h2>#{profileViewManager.loggedInUser.firstName} #{profileViewManager.loggedInUser.lastName}</h2>
                             <p:link value="Edit Profile"  outcome="EditAccount" style="color: goldenrod;" />
                         </p:panel>
-                        <p:panel id="info-panel" styleClass="mc-panel">
+                        <p:panel id="info-panel" class="mc-panel">
                             <p:tabView  id="user-info">
                               <p:tab title="Basic Info">
                                 <!-- Basic Info goes here -->
@@ -51,7 +51,8 @@ Copyright © 2016 Osman Balci. All rights reserved.
                               </p:tab>           
                             </p:tabView>
                             <br/>
-                            <h:commandButton value="Dashboard" action="Dashboard?faces-redirect=true" />
+                            <p:commandButton value="Dashboard" style="background-color: gold;"
+                                             action="Dashboard?faces-redirect=true" />
                         </p:panel>
                 </h:panelGrid>
                </h:form>

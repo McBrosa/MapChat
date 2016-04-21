@@ -259,8 +259,13 @@ style the footer component of the siteTemplate */
     -webkit-border-radius: 10px;
 }
 
+#introPanel {
+    height: 25%;
+    width: 25%;
+}
 
-/*** Chat.xhtml Styling ***/
+
+/*** Dashboard.xhtml Styling ***/
 
 #group {
     background-color: tomato;
@@ -292,4 +297,18 @@ style the footer component of the siteTemplate */
 /* Users' profile picture */
 .user-pic {
     margin: 10px;
+}
+
+
+/*** Create CSS ***/
+
+/* Form Styling for Create Panel content*/
+.create-content {
+    display: block;
+    width: 355px;
+    
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -ms-box-sizing: border-box;
+    box-sizing: border-box;
 }
