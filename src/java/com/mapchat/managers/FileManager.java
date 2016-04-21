@@ -159,6 +159,30 @@ public class FileManager implements Serializable{
             "There was a problem reading the image file. Please try again with a new photo file.");
     }
     
+    private BufferedImage makeRoundedCorner(BufferedImage image) {
+        int w = image.getWidth();
+        int h = image.getHeight();
+        int s = 0; if (w <= h) 
+        {
+            s = w;
+        }
+        else
+        {
+            s = h;
+        }
+        BufferedImage output = new BufferedImage(s, s, BufferedImage.TYPE_INT_ARGB);
+
+        Graphics2D g2 = output.createGraphics();
+
+        g2.fill(new Rectangle2D.Double(0, 0, s, s));
+        g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OUT, 1.0f));
+        g2.fill(new Ellipse2D.Double(0, 0, s, s));
+        g2.drawImage(image, 0, 0, null);
+
+        g2.dispose();
+
+        return output;
+    }
 
     /**
      * upload a file from the chat div in the dashboard
