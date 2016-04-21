@@ -15,64 +15,28 @@ Copyright © 2016 Alan Cai. All rights reserved.
     </h:head>
     <h:body>
         <h1>Groups</h1>
+        <p:commandButton id="group-modify-btn" value="+" type="button" />
+        <p:overlayPanel id="group-modify-panel" widgetVar="group-modify-panel" for="group-modify-btn" hideEffect="fade">
+            <h:form id="create-groups-form">
+                <h:inputHidden id="newgroupname" value="#{groupManager.groupNameToCreate}"></h:inputHidden>
+                <p:commandButton id="createGroup-btn" value="Create Group" onclick="enterNewGroupName()" action="#{groupManager.createGroup()}" update=":select_group:global_groups" />
+            </h:form>
+            <h:form id="add-user-form">
+                <h:inputHidden id="addusername" value="#{groupManager.usernameToAdd}"></h:inputHidden>
+                <p:commandButton id="addUser-btn" value="Add User" onclick="enterUsernameToAdd()" action="#{groupManager.addUser()}" />
+            </h:form>
+            <h:form id="remove-user-form">
+                <h:inputHidden id="removeusername" value="#{groupManager.usernameToDelete}"></h:inputHidden>
+                <p:commandButton id="removeUser-btn" value="Remove User" action="#{groupManager.removeUser()}" type="button" />
+            </h:form>
+        </p:overlayPanel>
         <h:form id="select_group">
-            <h:selectOneMenu id="global_groups" value="#{groupManager.currentGroup}">
-                <f:selectItem itemValue="#{null}" itemLabel="Select a Group" noSelectionOption="true"/>
-                <f:selectItems value="#{groupManager.allGroups}"/>
+            <p:selectOneButton id="global_groups" value="#{groupManager.currentGroup}">
+                <f:selectItems value="#{groupManager.allGroups}" class="select-btn-grp" />
                 <p:ajax update=":chat-form:currentGroupLabel :file-form:filedatapanel"/>
-            </h:selectOneMenu>
-                        
-        </h:form>
-        <h:form id="create-groups-form">
-            <h:inputHidden id="newgroupname" value="#{groupManager.groupNameToCreate}"></h:inputHidden>
-            <p:commandButton id="createGroup-btn" value="Create Group" onclick="enterNewGroupName()" action="#{groupManager.createGroup()}" update=":select_group:global_groups" />
-        </h:form>
-        <h:form id="add-user-form">
-            <h:inputHidden id="addusername" value="#{groupManager.usernameToAdd}"></h:inputHidden>
-            <p:commandButton id="addUser-btn" value="Add User" onclick="enterUsernameToAdd()" action="#{groupManager.addUser()}" />
-        </h:form>
-        <h:form id="remove-user-form">
-            <h:inputHidden id="removeusername" value="#{groupManager.usernameToDelete}"></h:inputHidden>
-            <p:commandButton id="removeUser-btn" value="Remove User" action="#{groupManager.removeUser()}" type="button" />
+            </p:selectOneButton>
         </h:form>
         <h:outputLabel id="error" value="#{groupManager.statusMessage}"  />
-        <!--
-        <div>
-            Groups
-        </div>
-        <p>Groups you are in:</p>
         
-        <p>#{groupManager.showAllGroups()}</p>
-        <div>
-            <h:outputLabel id="error" value="#{groupManager.statusMessage}"  />
-            <h:form>
-                
-            </h:form>
-            <h:form>
-                <h:outputLabel styleClass="outputLabel" for="newuserid" value="Userame: " />
-                <h:inputText id="newuserid" value="#{groupManager.usernameToAdd}"/>
-                <h:commandButton id="createUserGroup"  action="#{groupManager.addUser(1)}" value="Add By Id" styleClass="buttonText"/>
-            </h:form> -->
-            <!--h:form>
-                <h:outputLabel styleClass="outputLabel" for="newusername" value="Userame: " />
-                <h:inputText id="newusername" value="#{groupManager.userInputUserName}"/>
-                <h:commandButton id="create"  action="#{groupManager.addUser("Hi")}" value="Add By Groupname" styleClass="buttonText"/>
-            </h:form-->
-            <!--
-            <h:form>
-                <h:outputLabel styleClass="outputLabel" for="olduserid" value="Userame: " />
-                <h:inputText id="olduserid" value="#{groupManager.usernameToDelete}"/>
-                <h:commandButton id="deleteUserGroup"  action="#{groupManager.removeUser(1)}" value="Remove By Id" styleClass="buttonText"/>
-            </h:form>-->
-            <!--h:form>
-                <h:outputLabel styleClass="outputLabel" for="oldusername" value="Userame: " />
-                <h:inputText id="oldusername" value="#{groupManager.userInputUserName}"/>
-                <h:commandButton id="create"  action="#{groupManager.removeUser("Hi")}" value="Remove By Groupname" styleClass="buttonText"/>
-            </h:form--> 
-            <!--
-            <h:form>
-                <h:commandButton id="deleteGroup"  action="#{groupManager.deleteGroup(1)}" value="Delete Group" styleClass="buttonText"/>
-            </h:form>
-        </div>-->
     </h:body>
 </html>
