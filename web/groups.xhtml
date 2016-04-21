@@ -3,7 +3,7 @@
 Created by Alan Cai on 2016.03.23 
 Copyright © 2016 Alan Cai. All rights reserved.
 -->
-<!DOCTYPE html>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:p="http://primefaces.org/ui"
@@ -14,7 +14,7 @@ Copyright © 2016 Alan Cai. All rights reserved.
         <script type="text/javascript" src="resources/js/groups.js"/>
     </h:head>
     <h:body>
-        <h1>Groups</h1>
+        <h2>Groups</h2>
         <p:commandButton id="group-modify-btn" value="+" type="button" />
         <p:overlayPanel id="group-modify-panel" widgetVar="group-modify-panel" for="group-modify-btn" hideEffect="fade">
             <h:form id="create-groups-form">
@@ -31,7 +31,7 @@ Copyright © 2016 Alan Cai. All rights reserved.
             </h:form>
         </p:overlayPanel>
         <h:form id="select_group">
-            <p:selectOneButton id="global_groups" value="#{groupManager.currentGroup}">
+            <p:selectOneButton id="global_groups" class="vertical-btn-view" value="#{groupManager.currentGroup}">
                 <f:selectItems value="#{groupManager.allGroups}" class="select-btn-grp" />
                 <p:ajax update=":chat-form:currentGroupLabel :file-form:filedatapanel"/>
             </p:selectOneButton>

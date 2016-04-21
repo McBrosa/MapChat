@@ -265,10 +265,11 @@ style the footer component of the siteTemplate */
 }
 
 
-/*** Dashboard.xhtml Styling ***/
+/*** Dashboard Styling ***/
 
 #group {
-    background-color: tomato;
+    background-color: black;
+    overflow-y: scroll;
     position: fixed;
     height: 100%;
     float: left;
@@ -290,6 +291,16 @@ style the footer component of the siteTemplate */
     float: left;
     width: 30%;
     left: 70%;
+}
+
+.vertical-btn-view {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -ms-box-sizing: border-box;
+    box-sizing: border-box;
+    
+    display: block;
+    width: 50%;
 }
 
 /*** Profile CSS ***/

@@ -25,7 +25,7 @@
                     </h:commandLink>
 
                     <h:panelGroup>
-                        <p:inputText id="loginname"  class="form-control" value="#{loginManager.username}"/>
+                        <p:inputText id="loginname"  class="form-control" value="#{loginManager.username}" style="margin: 0 5px;"/>
                         <p:watermark for="loginname" value="Username" />
 
                         <p:password id="password"  class="form-control" value="#{loginManager.password}"/>
@@ -36,9 +36,9 @@
                                              value="Login" icon="ui-icon-person" update="invalid"/>
                         <br/>
                         <div align="right">
+                            <p:outputLabel id="invalid" value ="#{loginManager.errorMessage}" style="color: gold; margin: 0 10px;"/>
                             <p:commandLink id="retrieve"  action="#{loginManager.resetPassword()}" 
                                              value="Forgot Password"/>
-                            <p:outputLabel id="invalid" value ="#{loginManager.errorMessage}" style="color: gold"/>
                         </div>
                     </h:panelGroup>
                 </h:panelGrid>
