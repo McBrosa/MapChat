@@ -218,12 +218,15 @@ public class MessageBean implements Serializable {
     }
     
     public String[] getFileNamesInGroup() {
-        System.out.println("retrieve file names");
+        
         String directory = Constants.ROOT_DIRECTORY + groupManager.getCurrentGroup().getId();
-        System.out.println("directory: " + directory);
+        
         File folder = new File(directory);
         File[] listOfFiles = folder.listFiles();
-        System.out.println("file length: " + listOfFiles.length);
-        return Arrays.stream(listOfFiles).map(Object::toString).toArray(String[]::new);
+        String[] listOfFilesRelative = new String[listOfFiles.length];
+        for (int i = 0; i < listOfFiles.length; i++) {
+            listOfFilesRelative[i] = listOfFiles[i].getName();
+        }
+        return listOfFilesRelative;
     }
 }

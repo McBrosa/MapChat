@@ -42,6 +42,8 @@ import javax.faces.context.FacesContext;
 import javax.imageio.ImageIO;
 import javax.inject.Named;
 import org.imgscalr.Scalr;
+import org.primefaces.model.DefaultStreamedContent;
+import org.primefaces.model.StreamedContent;
 import org.primefaces.model.UploadedFile;
 
 @Named(value = "fileManager")
@@ -196,6 +198,7 @@ public class FileManager implements Serializable{
     /**
      * upload a file from the chat div in the dashboard
      * @param file
+     * @param grp
      */
     public void uploadFileToGroup(UploadedFile file, Groups grp) {
         if (file != null) {

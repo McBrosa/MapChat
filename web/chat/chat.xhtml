@@ -15,15 +15,17 @@
             <p:overlayPanel id="attachment-panel" widgetVar="attachment-panel" for="attachment-btn" hideEffect="fade">
                     <h:outputLabel value="Upload a File:" />
                     <p:fileUpload fileUploadListener="#{messageBean.uploadFile}" mode="advanced" dragDropSupport="true"
-                                  sizeLimit="1000000" allowTypes="/(\.|\/)(gif|jpe?g|png)$/" value="#{fileManager.file}" />
+                                  sizeLimit="1000000" allowTypes="/(\.|\/)(gif|jpe?g|png)$/" value="#{fileManager.file}" update=":file-form:filedatapanel"/>
             </p:overlayPanel>
         </h:form>
         <h:form id="file-form">
             <p:commandButton id="fileBtn" value="Files" type="button" />
             <p:overlayPanel id="filePanel" for="fileBtn" hideEffect="fade" dynamic="true" style="width:600px">
-                <p:dataTable id="filedatapanel" value="#{messageBean.fileNamesInGroup}" var="filename">
+                <p:dataTable id="filedatapanel" value="#{messageBean.fileNamesInGroup}" var="filename">                
                     <p:column>
-                        <h:outputText value="#{filename}" />
+                        <p:commandLink value="#{filename}" ajax="false" actionListener="#{fileDownloadManager.prepareDownload(filename)}" >
+                            <p:fileDownload value="#{fileDownloadManager.file}" />
+                        </p:commandLink>
                     </p:column>
                 </p:dataTable>
             </p:overlayPanel>
