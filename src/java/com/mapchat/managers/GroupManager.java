@@ -20,6 +20,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -46,7 +47,8 @@ public class GroupManager implements Serializable {
     private String message;
     private String statusMessage;
     private Groups currentGroup;
-    private Set<Groups> nonGlobalGroups;        
+    private List<Groups> allGroups;
+    private List<Groups> nonGlobalGroups;        
     private Set<Groups> globalGroups; // List of global groups
     private Map<Groups, Collection> groupMessageMap; // Chatroom data structure of <group name, list of messages>
     
@@ -67,11 +69,12 @@ public class GroupManager implements Serializable {
     
     @PostConstruct
     public void init() {
-        nonGlobalGroups = Collections.synchronizedSet(new HashSet<Groups>());
+        nonGlobalGroups = Collections.synchronizedList(new ArrayList<Groups>());
         groupMessageMap = 
             Collections.synchronizedMap(new HashMap<Groups, Collection>());
         
         initializeGlobalGroups();
+        initializeNonGlobalGroups();
         
     }
 
@@ -91,7 +94,7 @@ public class GroupManager implements Serializable {
         this.currentGroup = currentGroup;
     }
 
-    public Set<Groups> getNonGlobalGroups() {
+    public List<Groups> getNonGlobalGroups() {
         List<UserGroup> usergroups = userGroupFacade.findByUserId(profileViewManager.getLoggedInUser().getId());
         if (usergroups == null) 
         {
@@ -106,7 +109,7 @@ public class GroupManager implements Serializable {
         return nonGlobalGroups;
     }
 
-    public void setNonGlobalGroups(Set<Groups> nonGlobalGroups) {
+    public void setNonGlobalGroups(List<Groups> nonGlobalGroups) {
         this.nonGlobalGroups = nonGlobalGroups;
     }    
     
@@ -118,6 +121,22 @@ public class GroupManager implements Serializable {
 
     public void setGlobalGroups(Set<Groups> globalGroups) {
         this.globalGroups = globalGroups;
+    }
+    
+    public List<Groups> getAllGroups() {
+        allGroups = new ArrayList();
+        Iterator iter = groupMessageMap.keySet().iterator();
+        while(iter.hasNext())
+        {
+            allGroups.add((Groups) iter.next());
+        }
+        if(!allGroups.isEmpty())
+            currentGroup = allGroups.get(0);
+        return allGroups;
+    }
+
+    public void setAllGroups(List<Groups> allGroups) {
+        this.allGroups = allGroups;
     }
     
     public Set<Groups> getAvailableChatrooms() {
@@ -424,5 +443,41 @@ public class GroupManager implements Serializable {
         // 1. retrieve all groups the user is in
         // 2. loop through each group
         //      a. groupMessageMap.put(grp, grp.getMessageCollection());
+        
+        ArrayList<String> nonglobalGroupNames = new ArrayList();
+        User user = usersFacade.find(FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("user_id"));
+        List<UserGroup> groupsUserIsIn = userGroupFacade.findByUserId(user.getId());
+        for(UserGroup usergroup : groupsUserIsIn)
+        {
+            Groups found = groupsFacade.findById(usergroup.getGroupId());
+            nonglobalGroupNames.add(found.getGroupName());
+        }
+        
+        // create a message stream for each group
+        for (String grpName : nonglobalGroupNames) {
+            
+            Groups grp = groupsFacade.findByGroupname(grpName);
+            
+            // if the group doesnt exist
+            if (grp == null) {  
+                Collection<Message> collection = Collections.synchronizedList(new LinkedList<Message>());
+
+                // create the group and set the properties
+                Groups g = new Groups();
+                g.setGroupName(grpName);
+                g.setMessageCollection(collection);
+                // g.setFileCollection(insert file collection);
+                
+                // add to the database
+                groupsFacade.create(g);
+                
+                // add to the map
+                groupMessageMap.put(g, collection);
+            }
+            // if the group exists
+            else {
+                groupMessageMap.put(grp, grp.getMessageCollection());
+            }
+        }
     }
 }
