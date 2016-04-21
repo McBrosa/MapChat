@@ -19,8 +19,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -47,9 +45,7 @@ public class GroupManager implements Serializable {
     private String message;
     private String statusMessage;
     private Groups currentGroup;
-    private List<Groups> allGroups;
-    private List<Groups> nonGlobalGroups;        
-    private Set<Groups> globalGroups; // List of global groups
+    private Set<Groups> allGroups;
     private Map<Groups, Collection> groupMessageMap; // Chatroom data structure of <group name, list of messages>
     
     @ManagedProperty(value="#{profileViewManager}")
@@ -68,145 +64,44 @@ public class GroupManager implements Serializable {
     }
     
     @PostConstruct
-    public void init() {
-        nonGlobalGroups = Collections.synchronizedList(new ArrayList<Groups>());
+    public void init() {;
         groupMessageMap = 
             Collections.synchronizedMap(new HashMap<Groups, Collection>());
         
-        initializeGlobalGroups();
-        initializeNonGlobalGroups();
+            initializeGlobalGroups();
+            initializeNonGlobalGroups();
         
     }
-
-    public ProfileViewManager getProfileViewManager() {
-        return profileViewManager;
-    }
-
-    public void setProfileViewManager(ProfileViewManager profileViewManager) {
-        this.profileViewManager = profileViewManager;
-    }   
-    
-    public Groups getCurrentGroup() {
-        return currentGroup;
-    }
-
-    public void setCurrentGroup(Groups currentGroup) {
-        this.currentGroup = currentGroup;
-    }
-
-    public List<Groups> getNonGlobalGroups() {
-        List<UserGroup> usergroups = userGroupFacade.findByUserId(profileViewManager.getLoggedInUser().getId());
-        if (usergroups == null) 
-        {
-            return null;
-        }
-        
-        for (UserGroup ug : usergroups) {
-            String name = groupsFacade.getGroup(ug.getGroupId()).getGroupName();
-            nonGlobalGroups.add(groupsFacade.getGroup(ug.getGroupId()));
-            System.out.println("group name: " + name);
-        }
-        return nonGlobalGroups;
-    }
-
-    public void setNonGlobalGroups(List<Groups> nonGlobalGroups) {
-        this.nonGlobalGroups = nonGlobalGroups;
-    }    
-    
-    
-    public Set<Groups> getGlobalGroups() {
-        globalGroups = groupMessageMap.keySet();
-        return globalGroups;
-    }
-
-    public void setGlobalGroups(Set<Groups> globalGroups) {
-        this.globalGroups = globalGroups;
-    }
-    
-    public List<Groups> getAllGroups() {
-        allGroups = new ArrayList();
-        Iterator iter = groupMessageMap.keySet().iterator();
-        while(iter.hasNext())
-        {
-            allGroups.add((Groups) iter.next());
-        }
-        if(!allGroups.isEmpty())
-            currentGroup = allGroups.get(0);
-        return allGroups;
-    }
-
-    public void setAllGroups(List<Groups> allGroups) {
-        this.allGroups = allGroups;
-    }
-    
-    public Set<Groups> getAvailableChatrooms() {
-        return globalGroups;
-    }
-    
-    
-    public List<Message> getMessagesByChatroom(Groups chatroomName) {
-        return (List<Message>)groupMessageMap.get(chatroomName);
-    }    
-    
-    public String getGroupNameToCreate() {
-        return groupNameToCreate;
-    }
-
-    public String getGroupNameToDelete() {
-        return groupNameToDelete;
-    }
-
-    public String getUsernameToAdd() {
-        return usernameToAdd;
-    }
-
-    public String getUsernameToDelete() {
-        return usernameToDelete;
-    }
-
-    public void setGroupNameToCreate(String groupNameToCreate) {
-        this.groupNameToCreate = groupNameToCreate;
-    }
-
-    public void setGroupNameToDelete(String groupNameToDelete) {
-        this.groupNameToDelete = groupNameToDelete;
-    }
-
-    public void setUsernameToAdd(String usernameToAdd) {
-        this.usernameToAdd = usernameToAdd;
-    }
-
-    public void setUsernameToDelete(String usernameToDelete) {
-        this.usernameToDelete = usernameToDelete;
-    }
-    
-    public String getStatusMessage()
-    {
-        return statusMessage;
-    }
-    
-    public void setStatusMessage(String message)
-    {
-        statusMessage = message;
-    }
-    
-    public User getCurrentUser() {
-        return currentUser;
-    }
-    
-    public void setCurrentUser(User user) {
-        currentUser = user;
-    }
-    
-    public String getMessage() {
-        return message;
-    }
-    
-    public void setMessage(String message) {
-        this.message = message;
-    }
-        
     public String createGroup() {
+        statusMessage = "";
+        Groups grp = groupsFacade.findByGroupname(groupNameToCreate);
+        if (grp == null) {
+            // the group doesnt exist, so create it
+            Collection<Message> collection = Collections.synchronizedList(new LinkedList<Message>());
+            Groups g = new Groups();
+            g.setGroupName(groupNameToCreate);
+            g.setMessageCollection(collection);
+            // TODO add file collection
+            
+            // add to the database
+            groupsFacade.create(g);
+            
+            // add to the map
+            groupMessageMap.put(g, collection);
+            
+            // create the user group to link the user to the group
+            UserGroup userGroup = new UserGroup();
+            userGroup.setGroupId(g.getId());
+            currentUser = usersFacade.find(FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("user_id"));
+            userGroup.setUserId(currentUser.getId());
+            userGroupFacade.create(userGroup);
+        }
+        else {
+            // its already created!
+            statusMessage += "Group already exists!";
+        }
+        return "";
+        /*
         statusMessage = "";
         try
         {
@@ -239,6 +134,7 @@ public class GroupManager implements Serializable {
                 groupNameToCreate = "";
                 return "";
             }*/
+        /*
         } catch(EJBException e)
         {
             groupNameToCreate = "";
@@ -246,6 +142,7 @@ public class GroupManager implements Serializable {
             return "";
         }
         return "";
+        */
     }
     
     public String deleteGroup(Integer groupId) {
@@ -491,6 +388,14 @@ public class GroupManager implements Serializable {
                 
                 // add to the map
                 groupMessageMap.put(g, collection);
+                
+                // create the user group to link the user to the group
+                UserGroup userGroup = new UserGroup();
+                userGroup.setGroupId(g.getId());
+                currentUser = usersFacade.find(FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("user_id"));
+                userGroup.setUserId(currentUser.getId());
+                userGroupFacade.create(userGroup);
+                
             }
             // if the group exists
             else {
@@ -498,4 +403,96 @@ public class GroupManager implements Serializable {
             }
         }
     }
+    
+    public ProfileViewManager getProfileViewManager() {
+        return profileViewManager;
+    }
+
+    public void setProfileViewManager(ProfileViewManager profileViewManager) {
+        this.profileViewManager = profileViewManager;
+    }   
+    
+    public Groups getCurrentGroup() {
+        return currentGroup;
+    }
+
+    public void setCurrentGroup(Groups currentGroup) {
+        this.currentGroup = currentGroup;
+    }
+
+    public Set<Groups> getAllGroups() {
+        allGroups = groupMessageMap.keySet();
+        System.out.println("----");
+        for (Groups g : allGroups) {
+            System.out.println(g.getGroupName());
+        }
+        return allGroups;
+    }
+
+    public void setAllGroups(Set<Groups> allGroups) {
+        this.allGroups = allGroups;
+    }
+    
+    public List<Message> getMessagesByChatroom(Groups chatroomName) {
+        return (List<Message>)groupMessageMap.get(chatroomName);
+    }    
+    
+    public String getGroupNameToCreate() {
+        return groupNameToCreate;
+    }
+
+    public String getGroupNameToDelete() {
+        return groupNameToDelete;
+    }
+
+    public String getUsernameToAdd() {
+        return usernameToAdd;
+    }
+
+    public String getUsernameToDelete() {
+        return usernameToDelete;
+    }
+
+    public void setGroupNameToCreate(String groupNameToCreate) {
+        this.groupNameToCreate = groupNameToCreate;
+    }
+
+    public void setGroupNameToDelete(String groupNameToDelete) {
+        this.groupNameToDelete = groupNameToDelete;
+    }
+
+    public void setUsernameToAdd(String usernameToAdd) {
+        this.usernameToAdd = usernameToAdd;
+    }
+
+    public void setUsernameToDelete(String usernameToDelete) {
+        this.usernameToDelete = usernameToDelete;
+    }
+    
+    public String getStatusMessage()
+    {
+        return statusMessage;
+    }
+    
+    public void setStatusMessage(String message)
+    {
+        statusMessage = message;
+    }
+    
+    public User getCurrentUser() {
+        return currentUser;
+    }
+    
+    public void setCurrentUser(User user) {
+        currentUser = user;
+    }
+    
+    public String getMessage() {
+        return message;
+    }
+    
+    public void setMessage(String message) {
+        this.message = message;
+    }
+        
 }

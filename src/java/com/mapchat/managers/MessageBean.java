@@ -115,7 +115,7 @@ public class MessageBean implements Serializable {
     }
 
     public String[] getAvailableChatrooms() {
-        availableChatrooms = groupManager.getAvailableChatrooms().toArray(new String[0]);
+        availableChatrooms = groupManager.getAllGroups().toArray(new String[0]);
         return availableChatrooms;
     }
 
@@ -220,6 +220,8 @@ public class MessageBean implements Serializable {
     public String[] getFileNamesInGroup() {
         
         String directory = Constants.ROOT_DIRECTORY + groupManager.getCurrentGroup().getId();
+        
+        new File(directory).mkdirs();
         
         File folder = new File(directory);
         File[] listOfFiles = folder.listFiles();
