@@ -422,10 +422,6 @@ public class GroupManager implements Serializable {
 
     public Set<Groups> getAllGroups() {
         allGroups = groupMessageMap.keySet();
-        System.out.println("----");
-        for (Groups g : allGroups) {
-            System.out.println(g.getGroupName());
-        }
         return allGroups;
     }
 

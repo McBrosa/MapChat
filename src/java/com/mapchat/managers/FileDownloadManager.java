@@ -36,12 +36,6 @@ public class FileDownloadManager {
     
      
     public FileDownloadManager() {        
-       /*
-            
-            System.out.println("a: " + Constants.ROOT_DIRECTORY+ fileName);
-            file = new DefaultStreamedContent(stream, getExtension(fileName), fileName);
-            System.out.println("b");
-       */
         
     }
  
@@ -51,13 +45,8 @@ public class FileDownloadManager {
     
     public void prepareDownload(String fileName) throws FileNotFoundException {
         String path = Constants.ROOT_DIRECTORY + groupManager.getCurrentGroup().getId() + "/" + fileName;
-        System.out.println("I'M HERE with : " + path);
         InputStream stream = new FileInputStream(path);
         this.file = new DefaultStreamedContent(stream, getExtension(fileName), fileName);
-        if (file == null) {
-            System.out.println("file null");
-        }
-        System.out.println("ext: " + getExtension(fileName));
     }
     
     

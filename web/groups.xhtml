@@ -17,9 +17,7 @@ Copyright © 2016 Alan Cai. All rights reserved.
         <h1>Groups</h1>
         <h:form id="select_group">
             <h:selectOneMenu id="global_groups" value="#{groupManager.currentGroup}">
-                <f:facet name="global">
-                    Global
-                </f:facet>
+                <f:selectItem itemValue="#{null}" itemLabel="Select a Group" noSelectionOption="true"/>
                 <f:selectItems value="#{groupManager.allGroups}"/>
                 <p:ajax update=":chat-form:currentGroupLabel :file-form:filedatapanel"/>
             </h:selectOneMenu>

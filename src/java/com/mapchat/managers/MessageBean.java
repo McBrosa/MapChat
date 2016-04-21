@@ -217,6 +217,10 @@ public class MessageBean implements Serializable {
         return msg;
     }
     
+    /**
+     * Retrieve all the files for the group
+     * @return 
+     */
     public String[] getFileNamesInGroup() {
         
         String directory = Constants.ROOT_DIRECTORY + groupManager.getCurrentGroup().getId();
