@@ -142,17 +142,19 @@ public class MessageBean implements Serializable {
             return;
         }
                 
-        // send the message to the current chatroom
         List<Message> cfq = groupManager.getMessagesByChatroom(groupManager.getCurrentGroup());
         
         // if we reach capacity in the list, the oldest message will be removed
         // from the list and the database
         if (cfq.size() > Constants.MAX_MESSAGES) {
-            msgFacade.remove(cfq.remove(0));
+            msgFacade.remove(cfq.remove(cfq.size()-1));
         }
         
+        // send the message to the current chatroom
+        // add to the front of the list, remove from the end
+        cfq.add(0, msg);
+        
         // send the current message to the database 
-        cfq.add(msg);
         msgFacade.create(msg);
         
         // reset the input box
@@ -189,11 +191,13 @@ public class MessageBean implements Serializable {
         // if we reach capacity in the list, the oldest message will be removed
         // from the list and the database
         if (cfq.size() > Constants.MAX_MESSAGES) {
-            msgFacade.remove(cfq.remove(0));
+            msgFacade.remove(cfq.remove(cfq.size() - 1));
         }
         
+        // add to the front of the list, remove from the end
+        cfq.add(0, msg);
+        
         // send the current message to the database 
-        cfq.add(msg);
         msgFacade.create(msg);
     }
     

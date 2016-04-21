@@ -46,15 +46,15 @@
                              update="chat-messages1"/>
            
             <p:dataTable id="chat-messages1" value="#{messageBean.activeMessages}" var="msg" 
-                            scrollRows="20" liveScroll="true" scrollHeight="500" lazy="true" scrollable="true">
+                         scrollRows="15" scrollHeight="50%" lazy="true" scrollable="true"
+                            style="margin-bottom: 0">
                 <p:column headerText="Chat Messages">
                     <h:outputText value="#{msg}"/>
                 </p:column>
             </p:dataTable>
             
         </h:form>
-        <hr/>
-        <h3>Live chat</h3>
+       
             
     </h:body>
 </html>

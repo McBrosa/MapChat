@@ -22,7 +22,8 @@ Copyright © 2016 Alan Cai. All rights reserved.
                 </f:facet>
                 <f:selectItems value="#{groupManager.globalGroups}"/>
                 <p:ajax update=":chat-form:currentGroupLabel :file-form:filedatapanel"/>
-            </p:selectOneRadio>            
+            </h:selectOneMenu>
+                        
         </h:form>
         <h:form id="create-groups-form">
             <h:inputHidden id="newgroupname" value="#{groupManager.groupNameToCreate}"></h:inputHidden>
