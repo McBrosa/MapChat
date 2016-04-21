@@ -83,7 +83,7 @@ public class MarkersView implements Serializable {
     public String userPhotoLocation(User user) {
         List<File1> fileList = fileFacade.findFilesByUserID(user.getId());
         if (fileList.isEmpty()) {
-            return "FileStorageLocation/defaultUserPhoto.png";
+            return "FileStorageLocation/defaultUserPhoto_icon.png";
         }
         return "FileStorageLocation/" + fileList.get(0).getIconName();
     }
