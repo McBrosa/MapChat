@@ -131,7 +131,7 @@ public class Groups implements Serializable {
 
     @Override
     public String toString() {
-        return "com.mapchat.entitypackage.Groups[ id=" + id + " ]";
+        return groupName;
     }
     
 }

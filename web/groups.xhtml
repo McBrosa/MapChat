@@ -11,23 +11,33 @@ Copyright © 2016 Alan Cai. All rights reserved.
     <h:head>
         <title>Groups</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        <script type="text/javascript" src="resources/js/groups.js"/>
     </h:head>
     <h:body>
         <h1>Groups</h1>
-        <h:form id="groups-form">
-            <p:commandButton id="createGroup-btn" value="Create Group" type="button" />
-            <p:overlayPanel id="createGroup-panel" for="createGroup-btn" hideEffect="fade">
-                <h:outputLabel value="Place create group content here."/>
-            </p:overlayPanel>
-            <!-- TODO this should probably be buttons... -->
-            <p:selectOneRadio layout="pageDirection" value="#{groupManager.currentGroupName}">
+        <h:form id="select_group">
+            <h:selectOneMenu id="global_groups" value="#{groupManager.currentGroup}">
                 <f:facet name="global">
                     Global
                 </f:facet>
-                <f:selectItems value="#{groupManager.globalGroupNames}"/>
-                <p:ajax update=":chat-form:currentGroupNameLabel"/>
-            </p:selectOneRadio>            
+                <f:selectItems value="#{groupManager.globalGroups}"/>
+                <p:ajax update=":chat-form:currentGroupLabel :file-form:filedatapanel"/>
+            </h:selectOneMenu>
+                        
         </h:form>
+        <h:form id="create-groups-form">
+            <h:inputHidden id="newgroupname" value="#{groupManager.groupNameToCreate}"></h:inputHidden>
+            <p:commandButton id="createGroup-btn" value="Create Group" onclick="enterNewGroupName()" action="#{groupManager.createGroup()}" update=":select_group:global_groups" />
+        </h:form>
+        <h:form id="add-user-form">
+            <h:inputHidden id="addusername" value="#{groupManager.usernameToAdd}"></h:inputHidden>
+            <p:commandButton id="addUser-btn" value="Add User" onclick="enterUsernameToAdd()" action="#{groupManager.addUser()}" />
+        </h:form>
+        <h:form id="remove-user-form">
+            <h:inputHidden id="removeusername" value="#{groupManager.usernameToDelete}"></h:inputHidden>
+            <p:commandButton id="removeUser-btn" value="Remove User" action="#{groupManager.removeUser()}" type="button" />
+        </h:form>
+        <h:outputLabel id="error" value="#{groupManager.statusMessage}"  />
         <!--
         <div>
             Groups

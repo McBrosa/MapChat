@@ -39,5 +39,10 @@ public class File1Facade extends AbstractFacade<File1> {
                 .setParameter("id", fileId)
                 .getResultList();
     }
-     
+    public List<File1> findByGroupId(Integer groupId) {
+        return (List<File1>) em.createNamedQuery("File1.findByGroupId")
+                .setParameter("gid", groupId)
+                .getResultList();
+    }
+    
 }

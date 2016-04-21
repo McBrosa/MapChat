@@ -5,6 +5,7 @@
 package com.mapchat.managers;
 
 import com.mapchat.entitypackage.File1;
+import com.mapchat.entitypackage.Groups;
 import com.mapchat.entitypackage.User;
 import com.mapchat.sessionbeanpackage.File1Facade;
 import com.mapchat.sessionbeanpackage.GroupsFacade;
@@ -18,6 +19,7 @@ import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import java.awt.geom.Ellipse2D;
+import java.awt.geom.Rectangle2D;
 
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -25,8 +27,10 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.io.Serializable;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.Arrays;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -43,10 +47,12 @@ import org.primefaces.model.UploadedFile;
 @Named(value = "fileManager")
 @ManagedBean
 @SessionScoped
-public class FileManager {
+public class FileManager implements Serializable{
 
     // Instance Variables (Properties)
     private UploadedFile file;
+    
+    
     private String message = "";
     
     /**
@@ -127,23 +133,22 @@ public class FileManager {
             //Group1 group = groupFacade
             // Need to implement when groups are a thing
             // Insert photo record into database
-            String extension = file.getContentType();
-            extension = extension.startsWith("image/") ? extension.subSequence(6, extension.length()).toString() : "png";
+//            String extension = file.getContentType();
+//            extension = extension.startsWith("image/") ? extension.subSequence(6, extension.length()).toString() : "png";
             List<File1> fileList = fileFacade.findFilesByUserID(user.getId());
             if (!fileList.isEmpty()) {
                 fileFacade.remove(fileList.get(0));
             }
 
-            // Group id just being used as a filler for now
-            //Group1 group = new Group1(123);
-            fileFacade.create(new File1(extension, user));
+            fileFacade.create(new File1("png", user));
             File1 photo = fileFacade.findFilesByUserID(user.getId()).get(0);
             in = file.getInputstream();
             File uploadedFile = inputStreamToFile(in, photo.getFilename());
             BufferedImage icon = ImageIO.read(uploadedFile);
-            BufferedImage rounded = makeRoundedCorner(icon, 1);
-            File circle = new File(photo.getFilename());
+            BufferedImage rounded = makeRoundedCorner(icon);
+            File circle = new File(uploadedFile.getName().substring(0, uploadedFile.getName().lastIndexOf('.')) + ".png");
             ImageIO.write(rounded, "png", circle);
+            photo.setExtension("png");
             saveThumbnail(circle, photo);
             resultMsg = new FacesMessage("Success!", "File Successfully Uploaded!");
             return resultMsg;
@@ -154,11 +159,11 @@ public class FileManager {
             "There was a problem reading the image file. Please try again with a new photo file.");
     }
     
-    private BufferedImage makeRoundedCorner(BufferedImage image, int cornerRadius) {
+    private BufferedImage makeRoundedCorner(BufferedImage image) {
         int w = image.getWidth();
         int h = image.getHeight();
-        int s = 0;
-        if(w <= h)
+        int s = 0; 
+        if (w <= h) 
         {
             s = w;
         }
@@ -166,16 +171,13 @@ public class FileManager {
         {
             s = h;
         }
-        BufferedImage output = new BufferedImage(w, h, BufferedImage.TYPE_INT_RGB);
+        BufferedImage output = new BufferedImage(s, s, BufferedImage.TYPE_INT_ARGB);
 
         Graphics2D g2 = output.createGraphics();
 
-        g2.setComposite(AlphaComposite.Src);
-        g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-        g2.setColor((new Color(0f,0f,0f,0f )));
-        g2.clip(new Ellipse2D.Double(0, 0, s, s));
-        //g2.fill(new Ellipse2D.Double(0, 0, s, s));
-        g2.setComposite(AlphaComposite.SrcAtop);
+        g2.fill(new Rectangle2D.Double(0, 0, s, s));
+        g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OUT, 1.0f));
+        g2.fill(new Ellipse2D.Double(0, 0, s, s));
         g2.drawImage(image, 0, 0, null);
 
         g2.dispose();
@@ -183,6 +185,49 @@ public class FileManager {
         return output;
     }
 
+    /**
+     * upload a file from the chat div in the dashboard
+     * @param file
+     */
+    public void uploadFileToGroup(UploadedFile file, Groups grp) {
+        if (file != null) {
+            //File1 uploadedFile = new File1();
+            copyFileGroup(file, grp);
+            
+        }
+    }    
+    
+    public FacesMessage copyFileGroup(UploadedFile file, Groups grp) {
+        try {
+            deletePhoto();
+            
+            InputStream in = file.getInputstream();
+            
+            // create new directory if it doesnt exist
+            new File(Constants.ROOT_DIRECTORY + "/" + grp.getId()).mkdirs();
+            
+            File tempFile = inputStreamToFile(in, grp.getId() + "/" + file.getFileName());
+            in.close();
+
+            FacesMessage resultMsg;
+
+            String user_name = (String) FacesContext.getCurrentInstance()
+                    .getExternalContext().getSessionMap().get("username");
+
+            User user = userFacade.findByUsername(user_name);
+            String extension = file.getContentType();
+
+            fileFacade.create(new File1(extension, user, grp));
+            
+            resultMsg = new FacesMessage("Success!", "File Successfully Uploaded!");
+            return resultMsg;
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return new FacesMessage("Upload failure!",
+            "There was a problem reading the image file. Please try again with a new photo file.");
+    }
+    
     private File inputStreamToFile(InputStream inputStream, String childName)
             throws IOException {
         // Read in the series of bytes from the input stream
@@ -190,7 +235,7 @@ public class FileManager {
         inputStream.read(buffer);
 
         // Write the series of bytes on file.
-        File targetFile = new File(Constants.ROOT_DIRECTORY, childName);
+        File targetFile = new File(Constants.ROOT_DIRECTORY /* TODO add grp id here */, childName);
 
         OutputStream outStream;
         outStream = new FileOutputStream(targetFile);
@@ -205,12 +250,15 @@ public class FileManager {
         try {
             BufferedImage original = ImageIO.read(inputFile);
             BufferedImage thumbnail = Scalr.resize(original, Constants.THUMBNAIL_SZ);
+            BufferedImage icon = Scalr.resize(original, Constants.ICON_SZ);
             ImageIO.write(thumbnail, inputPhoto.getExtension(),
                 new File(Constants.ROOT_DIRECTORY, inputPhoto.getThumbnailName()));
+             ImageIO.write(icon, inputPhoto.getExtension(),
+                new File(Constants.ROOT_DIRECTORY, inputPhoto.getIconName()));
         } catch (IOException ex) {
             Logger.getLogger(FileManager.class.getName()).log(Level.SEVERE, null, ex);
         }
-    }
+    }  
 
     public void deletePhoto() {
         FacesMessage resultMsg;
@@ -239,4 +287,5 @@ public class FileManager {
         }
         FacesContext.getCurrentInstance().addMessage(null, resultMsg);
     }
+    
 }
