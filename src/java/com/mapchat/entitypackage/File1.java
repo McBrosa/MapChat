@@ -38,7 +38,8 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "File1.findBySize", query = "SELECT f FROM File1 f WHERE f.size = :size"),
     @NamedQuery(name = "File1.findByFileLocation", query = "SELECT f FROM File1 f WHERE f.fileLocation = :fileLocation"),
     @NamedQuery(name = "File1.findByExtension", query = "SELECT f FROM File1 f WHERE f.extension = :extension"),
-    @NamedQuery(name = "File1.findByTime", query = "SELECT f FROM File1 f WHERE f.time = :time")})
+    @NamedQuery(name = "File1.findByTime", query = "SELECT f FROM File1 f WHERE f.time = :time"),
+    @NamedQuery(name = "File1.findByGroupId", query = "SELECT f from File1 f WHERE f.groupId = :gid")})
 public class File1 implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id

@@ -4,22 +4,24 @@ package com.mapchat.managers;
  * Created by Sean Arcayan on 2016.04.12  * 
  * Copyright © 2016 Sean Arcayan. All rights reserved. * 
  */
-import com.google.gson.Gson;
+import com.mapchat.entitypackage.File1;
 import com.mapchat.entitypackage.Groups;
 import com.mapchat.entitypackage.Message;
+import com.mapchat.sessionbeanpackage.File1Facade;
 import com.mapchat.sessionbeanpackage.MessageFacade;
+import com.mapchat.sessionbeanpackage.UserFacade;
+import java.io.File;
 import java.io.Serializable;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
-import java.util.Set;
-import java.util.UUID;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.event.ActionEvent;
-import org.primefaces.context.RequestContext;
 import javax.faces.bean.ManagedProperty;
+import org.primefaces.event.FileUploadEvent;
+import org.primefaces.model.UploadedFile;
  
 /**
  *
@@ -32,6 +34,9 @@ public class MessageBean implements Serializable {
     @EJB
     private MessageFacade msgFacade;
     
+    @EJB
+    private File1Facade file1Facade;
+    
     private Date lastUpdate;
     private String messageUser;
     private String messageInput;
@@ -43,6 +48,17 @@ public class MessageBean implements Serializable {
     
     @ManagedProperty(value="#{groupManager}")
     private GroupManager groupManager;
+    
+    @ManagedProperty(value="#{fileManager}")
+    private FileManager fileManager;
+
+    public FileManager getFileManager() {
+        return fileManager;
+    }
+
+    public void setFileManager(FileManager fileManager) {
+        this.fileManager = fileManager;
+    }
 
     public GroupManager getGroupManager() {
         return groupManager;
@@ -87,12 +103,8 @@ public class MessageBean implements Serializable {
     public String[] getActiveMessages() {
 
         if (groupManager.getCurrentGroup() != null) {
-                    System.out.println("curgroup: " + groupManager.getCurrentGroup().getGroupName());
             Message[] msgs = groupManager.getMessagesByChatroom(groupManager.getCurrentGroup()).toArray(new Message[0]);
             String[] ret = Arrays.stream(msgs).map(Object::toString).toArray(String[]::new);
-            for (String s : ret) {
-                System.out.println("msg: " + s);
-            }
             return ret;
         }
         return null;
@@ -124,20 +136,14 @@ public class MessageBean implements Serializable {
      * @param evt 
      */
     public void sendMessage(ActionEvent evt) {
-        Groups curgrp = groupManager.getCurrentGroup();
-        if (curgrp == null) {
+        Message msg = generateMessage(messageInput);
+        if (msg == null)
+        {
             return;
         }
-        
-        // create messages and set properties
-        Message msg = new Message();
-        msg.setMessage(messageInput);
-        msg.setUserId(profileViewManager.getLoggedInUser()); // automatically translates to id in the db
-        msg.setTime(new Date());
-        msg.setGroupId(curgrp); 
-        
+                
         // send the message to the current chatroom
-        List<Message> cfq = groupManager.getMessagesByChatroom(curgrp);
+        List<Message> cfq = groupManager.getMessagesByChatroom(groupManager.getCurrentGroup());
         
         // if we reach capacity in the list, the oldest message will be removed
         // from the list and the database
@@ -151,5 +157,69 @@ public class MessageBean implements Serializable {
         
         // reset the input box
         messageInput = "";
+    }
+    
+    
+    /**
+     * upload a file to the group chatroom
+     * @param evt
+     */
+    public void uploadFile(FileUploadEvent evt) {
+        if (groupManager.getCurrentGroup() == null )
+        {
+            return;
+        }
+        
+        /*
+         * upload the file
+         */
+        fileManager.uploadFileToGroup(evt.getFile(), groupManager.getCurrentGroup());
+        
+        /*
+         * send a message to notify that a file was uploaded
+         */
+        Message msg = generateMessage("New File: " + evt.getFile().getFileName());
+        if (msg == null) {
+            return;
+        }
+        
+        // send the message to the current chatroom
+        List<Message> cfq = groupManager.getMessagesByChatroom(groupManager.getCurrentGroup());
+        
+        // if we reach capacity in the list, the oldest message will be removed
+        // from the list and the database
+        if (cfq.size() > Constants.MAX_MESSAGES) {
+            msgFacade.remove(cfq.remove(0));
+        }
+        
+        // send the current message to the database 
+        cfq.add(msg);
+        msgFacade.create(msg);
+    }
+    
+    private Message generateMessage(String msgContent) {
+        Groups curgrp = groupManager.getCurrentGroup();
+        if (curgrp == null) {
+            return null;
+        }
+        
+        // create messages and set properties
+        Message msg = new Message();
+        msg.setMessage(msgContent);
+        msg.setUserId(profileViewManager.getLoggedInUser()); // automatically translates to id in the db
+        msg.setTime(new Date());
+        msg.setGroupId(curgrp); 
+
+        return msg;
+    }
+    
+    public String[] getFileNamesInGroup() {
+        System.out.println("retrieve file names");
+        String directory = Constants.ROOT_DIRECTORY + groupManager.getCurrentGroup().getId();
+        System.out.println("directory: " + directory);
+        File folder = new File(directory);
+        File[] listOfFiles = folder.listFiles();
+        System.out.println("file length: " + listOfFiles.length);
+        return Arrays.stream(listOfFiles).map(Object::toString).toArray(String[]::new);
     }
 }

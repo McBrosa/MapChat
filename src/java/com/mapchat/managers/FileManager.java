@@ -5,6 +5,7 @@
 package com.mapchat.managers;
 
 import com.mapchat.entitypackage.File1;
+import com.mapchat.entitypackage.Groups;
 import com.mapchat.entitypackage.User;
 import com.mapchat.sessionbeanpackage.File1Facade;
 import com.mapchat.sessionbeanpackage.GroupsFacade;
@@ -26,8 +27,10 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.io.Serializable;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.Arrays;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -44,10 +47,12 @@ import org.primefaces.model.UploadedFile;
 @Named(value = "fileManager")
 @ManagedBean
 @SessionScoped
-public class FileManager {
+public class FileManager implements Serializable{
 
     // Instance Variables (Properties)
     private UploadedFile file;
+    
+    
     private String message = "";
     
     /**
@@ -154,7 +159,53 @@ public class FileManager {
             "There was a problem reading the image file. Please try again with a new photo file.");
     }
     
-    private BufferedImage makeRoundedCorner(BufferedImage image) {
+
+    /**
+     * upload a file from the chat div in the dashboard
+     * @param file
+     */
+    public void uploadFileToGroup(UploadedFile file, Groups grp) {
+        if (file != null) {
+            //File1 uploadedFile = new File1();
+            copyFileGroup(file, grp);
+            
+        }
+    }    
+    
+    public FacesMessage copyFileGroup(UploadedFile file, Groups grp) {
+        try {
+            deletePhoto();
+            
+            InputStream in = file.getInputstream();
+            
+            // create new directory if it doesnt exist
+            new File(Constants.ROOT_DIRECTORY + "/" + grp.getId()).mkdirs();
+            
+            File tempFile = inputStreamToFile(in, grp.getId() + "/" + file.getFileName());
+            in.close();
+
+            FacesMessage resultMsg;
+
+            String user_name = (String) FacesContext.getCurrentInstance()
+                    .getExternalContext().getSessionMap().get("username");
+
+            User user = userFacade.findByUsername(user_name);
+            String extension = file.getContentType();
+
+            fileFacade.create(new File1(extension, user, grp));
+            
+            resultMsg = new FacesMessage("Success!", "File Successfully Uploaded!");
+            return resultMsg;
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return new FacesMessage("Upload failure!",
+            "There was a problem reading the image file. Please try again with a new photo file.");
+    }
+    
+    
+    
+    private BufferedImage makeRoundedCorner(BufferedImage image, int cornerRadius) {
         int w = image.getWidth();
         int h = image.getHeight();
         int s = 0;
@@ -187,7 +238,7 @@ public class FileManager {
         inputStream.read(buffer);
 
         // Write the series of bytes on file.
-        File targetFile = new File(Constants.ROOT_DIRECTORY, childName);
+        File targetFile = new File(Constants.ROOT_DIRECTORY /* TODO add grp id here */, childName);
 
         OutputStream outStream;
         outStream = new FileOutputStream(targetFile);
@@ -239,4 +290,5 @@ public class FileManager {
         }
         FacesContext.getCurrentInstance().addMessage(null, resultMsg);
     }
+    
 }
