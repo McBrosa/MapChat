@@ -302,6 +302,6 @@ public class FileManager implements Serializable{
                     .getExternalContext().getSessionMap().get("username");
 
         User user = userFacade.findByUsername(user_name);
-        return "FileStorageLocatin/" + fileFacade.findFilesByUserID(user.getId()).get(0).getThumbnailName();    
+        return "FileStorageLocation/" + fileFacade.findFilesByUserID(user.getId()).get(0).getThumbnailName();    
     }
  }
