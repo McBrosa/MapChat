@@ -18,22 +18,17 @@
         <!-- Do not enter tags before the composition line since they are ignored by JSF -->
         <ui:composition>
             <div align="center" >
-                <h:panelGroup>
-                    <h:panelGroup>
+                <h:form>
+                    <h:panelGroup >
                         <a href="https://www.facebook.com"><img src="./resources/images/socialMediaIcons/facebook.png" /></a>
                         <a href="https://twitter.com/"><img src="./resources/images/socialMediaIcons/twitter.png" /></a>
-
                     </h:panelGroup>
-                    
-                    <h:form>
-                        <h:commandLink value="Leave A Comment" action="ReportBug.xhtml" />
-                    </h:form>
-
-                </h:panelGroup>
+                    <p:link value="Leave A Comment" outcome="ReportBug.xhtml" class="rightTopCornerAlign" style="font-size: 12px;"/>
                 <p:separator />
                 <h:outputLabel value="MapChat ver. 0.8" class="leftAlign" style="font-size: 10px;"/>
                 <h:outputLabel value="Copyright © 2016. Virginia Polytechnic Institute and State University" class="rightAlign" style="font-size: 10px;"/>
-
+                
+                </h:form>
             </div>
         </ui:composition>
         <!-- Do not enter tags after the composition line since they are ignored by JSF -->

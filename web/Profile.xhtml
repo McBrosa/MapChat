@@ -18,7 +18,7 @@ Copyright © 2016 Osman Balci. All rights reserved.
             
             <ui:define name="editableContent">
                 <h:form class="form-signin">
-                <h:panelGrid columns="2" columnClasses="leftAlign, rightAlign">
+                <h:panelGrid columns="2" >
                         <p:panel id="user-photo" class="mc-panel">
                             <p:commandLink id="photo-link" action="EditPhoto" styleClass="user-pic" ajax="false">
                                 <h:graphicImage value="FileStorageLocation/#{accountManager.userPhoto()}" />
@@ -29,7 +29,7 @@ Copyright © 2016 Osman Balci. All rights reserved.
                             <p:link value="Edit Profile"  outcome="EditAccount" style="color: goldenrod;" />
                         </p:panel>
                         <p:panel id="info-panel" class="mc-panel">
-                            <p:tabView  id="user-info">
+                            <p:tabView  id="user-info" style="background-color: slategray;">
                               <p:tab title="Basic Info">
                                 <!-- Basic Info goes here -->
                                 <h:panelGrid columns="2" cellpadding="10">

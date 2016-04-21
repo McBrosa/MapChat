@@ -2,48 +2,41 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://java.sun.com/jsf/html"
-      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
     <h:body>
         <ui:composition template="/template/siteTemplate.xhtml">
-            <!-- A user must be logged in to access chat, therefore the header must be changed to reflect this -->
-            <ui:define name="header">
-                <ui:include src="/template/headerTemplate.xhtml" />
-            </ui:define>
+            
             <ui:define name="editableContent">
                 <div align="center">
-                    If you notice any problems with our application please, you can Report a Bug here and Our Developers will be notified!
-                    <br />
-                    <br />
-
                     <h:form>
-                        <h:panelGrid columns="2">
-
-
-                            <h2> Subject:</h2>
-                            <h:panelGroup>
-                                <h:inputText size="30" id="subject"
-                                             value="#{emailClientBean.subject}"
-                                             required="true"
-                                             requiredMessage="Required"/>
-                                <h:message for="subject" style="color:red"/>
-                            </h:panelGroup>
-
-                            <h2>Message:</h2>
-                            <h:panelGroup>
-                                <h:inputTextarea cols="45" rows="15" id="message"
-                                                 value="#{emailClientBean.message}"
+                        <p:panel class="mc-panel">
+                            <h2>Please inform us if you have any ideas, questions, comments, or issues with the MapChat application.</h2>
+                            <h:outputText value="#{emailClientBean.statusMessage}" style="color:red" />
+                            <h:panelGrid columns="2" cellspacing="10px" >
+                                <h2> Subject:</h2>
+                                <h:panelGroup>
+                                    <h:inputText size="30" id="subject"
+                                                 value="#{emailClientBean.subject}"
                                                  required="true"
                                                  requiredMessage="Required"/>
-                                <h:message for="message" style="color:red"/>
-                            </h:panelGroup>
+                                    <h:message for="subject" style="color: red; margin-left: 10px;"/>
+                                </h:panelGroup>
 
-                            <div align="center">
+                                <h2>Message:</h2>
+                                <h:panelGroup>
+                                    <h:inputTextarea cols="45" rows="15" id="message"
+                                                     value="#{emailClientBean.message}"
+                                                     required="true"
+                                                     requiredMessage="Required"/>
+                                    <h:message for="message" style="color: red; margin-left: 10px;"/>
+                                </h:panelGroup>
+                            </h:panelGrid>
+                            <h:panelGrid columns="2" style="align-content: center" >
                                 <h:commandButton value="Send" action="#{emailClientBean.send()}"/>
-                                <h:outputText value="#{emailClientBean.statusMessage}" style="color:red"/>
-                                <h:commandButton value="Cancel" action="index.xhtml"/>
-                            </div>
-
-                        </h:panelGrid>
+                                <h:button value="Back" outcome="index.xhtml"/>
+                            </h:panelGrid>
+                        </p:panel>
                     </h:form>
                 </div>
             </ui:define>

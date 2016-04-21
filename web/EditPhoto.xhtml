@@ -13,7 +13,7 @@
             
             <ui:define name="editableContent">
                 <h:form class="form-horizontal" enctype="multipart/form-data">
-                    <h:panelGrid columns="2" columnClasses="leftAlign, rightAlign">
+                    <h:panelGrid columns="2" >
                         <p:panel id="user-photo" class="mc-panel">
                             <p:commandLink id="photo-link" action="EditPhoto" styleClass="user-pic" ajax="false">
                                 <h:graphicImage value="FileStorageLocation/#{accountManager.userPhoto()}" />
