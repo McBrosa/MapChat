@@ -215,6 +215,8 @@ public class GroupManager implements Serializable {
             //if(check == null)
             //{
                 Groups group = new Groups();
+                if(groupNameToCreate == null)
+                    return "";
                 group.setGroupName(groupNameToCreate);
                 groupsFacade.create(group);
                 Groups foundGroup = groupsFacade.findByGroupname(group.getGroupName());
@@ -286,6 +288,12 @@ public class GroupManager implements Serializable {
         try
         {
             //Check to see if the user exists
+            if(usernameToAdd.trim().equals(""))
+            {
+                statusMessage += "The no username entered";
+                usernameToAdd = "";
+                return "";
+            }
             User check = usersFacade.findByUsername(usernameToAdd);
             if(check == null)
             {
@@ -455,6 +463,8 @@ public class GroupManager implements Serializable {
         ArrayList<String> nonglobalGroupNames = new ArrayList();
         User user = usersFacade.find(FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("user_id"));
         List<UserGroup> groupsUserIsIn = userGroupFacade.findByUserId(user.getId());
+        if(groupsUserIsIn == null)
+            groupsUserIsIn = new ArrayList();
         for(UserGroup usergroup : groupsUserIsIn)
         {
             Groups found = groupsFacade.findById(usergroup.getGroupId());
