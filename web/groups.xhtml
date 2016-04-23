@@ -20,10 +20,10 @@ Copyright © 2016 Alan Cai. All rights reserved.
                 <!--f:selectItems value="Select a group"/-->
                 <f:selectItems value="#{groupManager.allGroups}"/>
                 <p:ajax update=":chat-form:currentGroupLabel"/>
-                <h:outputLabel id="error" value="#{groupManager.statusMessage}"  />
+                <h:outputLabel id="error" value="#{groupManager.statusMessage}"  style="color:white"/>
             </h:selectOneMenu>
         </h:form>
-        <p:commandButton id="group-modify-btn" value="+" type="button" />
+        <!--p:commandButton id="group-modify-btn" value="+" type="button" /-->
         <!--p:overlayPanel id="group-modify-panel" widgetVar="group-modify-panel" for="group-modify-btn" hideEffect="fade"-->
             <h:form id="create-groups-form">
                 <h:inputHidden id="newgroupname" value="#{groupManager.groupNameToCreate}"></h:inputHidden>
