@@ -21,22 +21,23 @@
     </h:head>
     <h:body>
         <p:growl id="messages" showDetail="true" />
-        <p:gmap widgetVar="map" center="0,0" zoom="18" fitBounds="true" type="HYBRID" style="width:100%; height:100%;"
-                model="#{markersView.simpleModel}">
-            <p:ajax event="overlaySelect" listener="#{markersView.onMarkerSelect}" />
-            <p:gmapInfoWindow id="infoWindow">
-                <p:outputPanel style="text-align: center; display: block; margin: auto; text-decoration: #000000;">
-                    <h:outputText value="#{markersView.marker.data}" />
-                    <br />
-                    <h:outputText value="#{markersView.marker.title}" />
-                </p:outputPanel>
-            </p:gmapInfoWindow>    
-        </p:gmap>
-        <h:form id="formId">
+        <h:form  prependId="false" id="map-form" enctype="multipart/form-data">
             <h:inputHidden id="latitude" value="#{accountManager.selected.locationX}"/>
             <h:inputHidden id="longitude" value="#{accountManager.selected.locationY}"/>
             <p:remoteCommand name="update" actionListener="#{accountManager.updateLocation()}" />
+            <p:remoteCommand name="group-update" actionListener="#{markersView.updateGroupLocations()}" />
         </h:form>
         <h:outputScript library="js" name="map.js" />
+            <p:gmap id="gmap" widgetVar="map" center="#{accountManager.selected.locationX},#{accountManager.selected.locationY}" zoom="18" fitBounds="true" type="HYBRID" style="width:100%; height:100%;"
+                    model="#{markersView.simpleModel}">
+                <p:ajax event="overlaySelect" listener="#{markersView.onMarkerSelect}" />
+                <p:gmapInfoWindow id="infoWindow">
+                    <p:outputPanel style="text-align: center; display: block; margin: auto; text-decoration: #000000;">
+                        <h:outputText value="#{markersView.markers[0].title}" />
+                        <br />
+                        <h:outputText value="#{markersView.marker.cursor.toString}" />
+                    </p:outputPanel>
+                </p:gmapInfoWindow>    
+            </p:gmap>
     </h:body>    
 </html>

@@ -15,23 +15,32 @@ Copyright © 2016 Alan Cai. All rights reserved.
     <h:body>
         
         <h:form id="select_group">
+            <p:remoteCommand name="refreshMap" action="#{markersView.init()}" update=":gmap" />
             <!--Putting the style for this following tag does not work in the css file-->
             <p:selectOneListbox style="width: 100% !important; height: 100% !important" id="global_groups" value="#{groupManager.currentGroup}">
                 <!--f:selectItems value="Select a group"/-->
                 <f:selectItems value="#{groupManager.allGroups}"/>
                 <p:ajax update=":chat-form:currentGroupLabel"/>
+                <p:ajax event="change" onstart="refreshMap()" />
             </p:selectOneListbox>
         </h:form>
         <!--h:form id="buttons-form"-->
             <!--p:commandButton id="group-modify-btn" value="Options" type="button" /-->
             <!--p:overlayPanel id="group-modify-panel" widgetVar="group-modify-panel" for="group-modify-btn" hideEffect="fade"-->
                 <h:form id="groups-buttons-form">
+                    <p:remoteCommand name="refreshMap" action="#{markersView.init()}" update=":gmap" />
                     <h:inputHidden id="newgroupname" value="#{groupManager.groupNameToCreate}"></h:inputHidden>
-                    <p:commandButton id="createGroup-btn" class="groups-button" value="Create Group" onclick="enterNewGroupName()" action="#{groupManager.createGroup()}" update=":select_group:global_groups error" />
+                    <p:commandButton id="createGroup-btn" class="groups-button" value="Create Group" onclick="enterNewGroupName()" action="#{groupManager.createGroup()}" update=":select_group:global_groups error">
+                        <p:ajax event="click" onsuccess="refreshMap()" />
+                    </p:commandButton>
                     <h:inputHidden id="addusername" value="#{groupManager.usernameToAdd}"></h:inputHidden>
-                    <p:commandButton id="addUser-btn" class="groups-button" value="Add User" onclick="enterUsernameToAdd()" action="#{groupManager.addUser()}" update="error"/>
+                    <p:commandButton id="addUser-btn" class="groups-button" value="Add User" onclick="enterUsernameToAdd()" action="#{groupManager.addUser()}" update="error">
+                        <p:ajax event="click" onsuccess="refreshMap()" />
+                    </p:commandButton>
                     <h:inputHidden id="removeusername" value="#{groupManager.usernameToDelete}"></h:inputHidden>
-                    <p:commandButton id="removeUser-btn" class="groups-button" value="Remove User" onclick="enterUsernameToRemove()" action="#{groupManager.removeUser()}" update=":select_group:global_groups error" />
+                    <p:commandButton id="removeUser-btn" class="groups-button" value="Remove User" onclick="enterUsernameToRemove()" action="#{groupManager.removeUser()}" update=":select_group:global_groups error">
+                        <p:ajax event="click" onsuccess="refreshMap()" />
+                    </p:commandButton>
                     <h:outputLabel id="error" value="#{groupManager.statusMessage}"  style="color:white"/>
                 </h:form>
             
