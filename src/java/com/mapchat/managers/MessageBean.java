@@ -15,6 +15,7 @@ import java.io.Serializable;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
+import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
@@ -51,7 +52,7 @@ public class MessageBean implements Serializable {
     
     @ManagedProperty(value="#{fileManager}")
     private FileManager fileManager;
-
+    
     public FileManager getFileManager() {
         return fileManager;
     }

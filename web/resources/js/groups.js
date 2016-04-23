@@ -20,5 +20,9 @@ function enterUsernameToAdd() {
     hidden.value = username;
 }
 function enterUsernameToRemove() {
-    
+    var username = "";
+    while(username.trim() === "")
+        username = window.prompt("Enter user's username: ");
+    var hidden = document.getElementById("remove-user-form:removeusername");
+    hidden.value = username;
 }

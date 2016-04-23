@@ -16,6 +16,7 @@ import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
@@ -47,14 +48,15 @@ public class GroupManager implements Serializable {
     private String message;
     private String statusMessage;
     private Groups currentGroup;
-    private List<Groups> allGroups;
-    private List<Groups> nonGlobalGroups;        
+    private Set<Groups> allGroups;
+    private Set<Groups> nonGlobalGroups;        
     private Set<Groups> globalGroups; // List of global groups
     private Map<Groups, Collection> groupMessageMap; // Chatroom data structure of <group name, list of messages>
-    
+    // Groups all users have access to
+    private ArrayList<String> globalgrps = new ArrayList();
+        
     @ManagedProperty(value="#{profileViewManager}")
     private ProfileViewManager profileViewManager;
-    
     @EJB
     private GroupsFacade groupsFacade;
   
@@ -69,7 +71,7 @@ public class GroupManager implements Serializable {
     
     @PostConstruct
     public void init() {
-        nonGlobalGroups = Collections.synchronizedList(new ArrayList<Groups>());
+        nonGlobalGroups = Collections.synchronizedSet(new HashSet<Groups>());
         groupMessageMap = 
             Collections.synchronizedMap(new HashMap<Groups, Collection>());
         
@@ -87,6 +89,8 @@ public class GroupManager implements Serializable {
     }   
     
     public Groups getCurrentGroup() {
+        if (currentGroup == null) return null;
+        System.out.println("current group: " + currentGroup.getGroupName());
         return currentGroup;
     }
 
@@ -94,7 +98,7 @@ public class GroupManager implements Serializable {
         this.currentGroup = currentGroup;
     }
 
-    public List<Groups> getNonGlobalGroups() {
+    public Set<Groups> getNonGlobalGroups() {
         List<UserGroup> usergroups = userGroupFacade.findByUserId(profileViewManager.getLoggedInUser().getId());
         if (usergroups == null) 
         {
@@ -109,7 +113,7 @@ public class GroupManager implements Serializable {
         return nonGlobalGroups;
     }
 
-    public void setNonGlobalGroups(List<Groups> nonGlobalGroups) {
+    public void setNonGlobalGroups(Set<Groups> nonGlobalGroups) {
         this.nonGlobalGroups = nonGlobalGroups;
     }    
     
@@ -123,19 +127,12 @@ public class GroupManager implements Serializable {
         this.globalGroups = globalGroups;
     }
     
-    public List<Groups> getAllGroups() {
-        allGroups = new ArrayList();
-        Iterator iter = groupMessageMap.keySet().iterator();
-        while(iter.hasNext())
-        {
-            allGroups.add((Groups) iter.next());
-        }
-        if(!allGroups.isEmpty())
-            currentGroup = allGroups.get(0);
+    public Set<Groups> getAllGroups() {
+         allGroups = groupMessageMap.keySet();
         return allGroups;
     }
 
-    public void setAllGroups(List<Groups> allGroups) {
+    public void setAllGroups(Set<Groups> allGroups) {
         this.allGroups = allGroups;
     }
     
@@ -210,13 +207,19 @@ public class GroupManager implements Serializable {
         statusMessage = "";
         try
         {
+            //check the group name entered
+            if(groupNameToCreate == null || groupNameToCreate.equals(""))
+            {
+                statusMessage += "Group name entered is empty";
+                groupNameToCreate = "";
+                return "";
+            }
             //Check to see if the group already exists
-            //Groups check = groupsFacade.findByGroupname(groupNameToCreate);
-            //if(check == null)
-            //{
+            Groups check = groupsFacade.findByGroupname(groupNameToCreate);
+            if(check == null)
+            {
                 Groups group = new Groups();
-                if(groupNameToCreate == null)
-                    return "";
+                
                 group.setGroupName(groupNameToCreate);
                 groupsFacade.create(group);
                 Groups foundGroup = groupsFacade.findByGroupname(group.getGroupName());
@@ -232,13 +235,13 @@ public class GroupManager implements Serializable {
                 allGroups.add(foundGroup);
                 //Uncomment next line when other functionalities work to work on this one
                 //currentGroup = foundGroup;
-            /*}
+            }
             else
             {
-                sgtatusMessage += groupNameToCreate + " already exists";
+                statusMessage += groupNameToCreate + " already exists";
                 groupNameToCreate = "";
                 return "";
-            }*/
+            }
         } catch(EJBException e)
         {
             groupNameToCreate = "";
@@ -283,17 +286,44 @@ public class GroupManager implements Serializable {
     }
     
     public String addUser() {
-        Integer groupId = currentGroup.getId();
         statusMessage = "";
+        if(usernameToAdd == null || usernameToAdd.trim().equals(""))
+        {
+            statusMessage += "No username entered";
+            usernameToAdd = "";
+            return "";
+        }
+        //Check the current group, if there is one
+        if(currentGroup == null)
+        {
+            statusMessage += "No group is selected";
+            usernameToAdd = "";
+            return "";
+        }
+        else if(currentGroup.getId() == null || currentGroup.getGroupName() == null)
+        {
+            statusMessage += "There is something wrong with the current group selected";
+            usernameToAdd = "";
+            return "";   
+        }
+        
+        Integer groupId = currentGroup.getId();
+        Groups publicGroup = groupsFacade.findById(groupId);
+        if(publicGroup == null)
+        {
+            statusMessage += "The current group does not exist";
+            usernameToAdd = "";
+            return "";
+        }
+        else if(globalgrps.contains(publicGroup.getGroupName()))
+        {
+            statusMessage += "Everyone is already a part of a global group";
+            usernameToAdd = "";
+            return "";
+        }
         try
         {
             //Check to see if the user exists
-            if(usernameToAdd.trim().equals(""))
-            {
-                statusMessage += "The no username entered";
-                usernameToAdd = "";
-                return "";
-            }
             User check = usersFacade.findByUsername(usernameToAdd);
             if(check == null)
             {
@@ -301,9 +331,6 @@ public class GroupManager implements Serializable {
                 usernameToAdd = "";
                 return "";
             }
-            
-            
-            
             
             //Check to see if the user is already in the group
             if(userGroupFacade.findByIds(check.getId(), groupId) != null)
@@ -328,8 +355,40 @@ public class GroupManager implements Serializable {
     }
     
     public String removeUser() {
-        Integer groupId = currentGroup.getId();
         statusMessage = "";
+        if(usernameToDelete == null || usernameToDelete.trim().equals(""))
+        {
+            statusMessage += "No username entered";
+            usernameToDelete = "";
+            return "";
+        }
+        //Check the current group, if there is one
+        if(currentGroup == null)
+        {
+            statusMessage += "No group is selected";
+            usernameToDelete = "";
+            return "";
+        }
+        else if(currentGroup.getId() == null || currentGroup.getGroupName() == null)
+        {
+            statusMessage += "There is something wrong with the current group selected";
+            usernameToDelete = "";
+            return "";   
+        }
+        Integer groupId = currentGroup.getId();
+        Groups publicGroup = groupsFacade.findById(groupId);
+        if(publicGroup == null)
+        {
+            statusMessage += "The current group does not exist";
+            usernameToDelete = "";
+            return "";
+        }
+        else if(globalgrps.contains(publicGroup.getGroupName()))
+        {
+            statusMessage += "Cannot remove someone from a global group";
+            usernameToDelete = "";
+            return "";
+        }
         try
         {
             //Check to see if the user exists
@@ -363,7 +422,7 @@ public class GroupManager implements Serializable {
             statusMessage += "Something went wrong removing the user to the group";
             return "";
         }
-        return "groups";
+        return "";
     }
     
     public ArrayList<Integer> getUsers(Integer groupId) {
@@ -416,12 +475,12 @@ public class GroupManager implements Serializable {
      * Initialize global groups
      */
     private void initializeGlobalGroups() {
-        // Groups all users have access to
-        String[] globalgrps = { 
-            "#Music",
-            "#For Sale",
-            "#Entertainment"
-        };
+        if(globalgrps == null || globalgrps.isEmpty())
+        {
+            globalgrps.add("#Music");
+            globalgrps.add("#For Sale");
+            globalgrps.add("#Entertainment");
+        }
         // create a message stream for each group
         for (String grpName : globalgrps) {
             
@@ -442,6 +501,7 @@ public class GroupManager implements Serializable {
                 
                 // add to the map
                 groupMessageMap.put(g, collection);
+                
             }
             // if the group exists
             else {

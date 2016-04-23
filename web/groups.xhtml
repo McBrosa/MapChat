@@ -17,27 +17,24 @@ Copyright © 2016 Alan Cai. All rights reserved.
         <h1>Groups</h1>
         <h:form id="select_group">
             <h:selectOneMenu id="global_groups" value="#{groupManager.currentGroup}">
-                <f:facet name="global">
-                    Global
-                </f:facet>
-                <f:selectItems value="#{groupManager.globalGroups}"/>
+                <f:selectItem noSelectionOption="true" itemLabel="Select One" itemValue="#{null}"/>
+                <f:selectItems value="#{groupManager.allGroups}" />
                 <p:ajax update=":chat-form:currentGroupLabel :file-form:filedatapanel"/>
             </h:selectOneMenu>
-                        
+            <p:outputLabel id="error" value="#{groupManager.statusMessage}"  />
         </h:form>
         <h:form id="create-groups-form">
             <h:inputHidden id="newgroupname" value="#{groupManager.groupNameToCreate}"></h:inputHidden>
-            <p:commandButton id="createGroup-btn" value="Create Group" onclick="enterNewGroupName()" action="#{groupManager.createGroup()}" update=":select_group:global_groups" />
+            <p:commandButton id="createGroup-btn" value="Create Group" onclick="enterNewGroupName()" action="#{groupManager.createGroup()}" update=":select_group:global_groups :select_group:error" />
         </h:form>
         <h:form id="add-user-form">
             <h:inputHidden id="addusername" value="#{groupManager.usernameToAdd}"></h:inputHidden>
-            <p:commandButton id="addUser-btn" value="Add User" onclick="enterUsernameToAdd()" action="#{groupManager.addUser()}" />
+            <p:commandButton id="addUser-btn" value="Add User" onclick="enterUsernameToAdd()" action="#{groupManager.addUser()}" update=":select_group:error"/>
         </h:form>
         <h:form id="remove-user-form">
             <h:inputHidden id="removeusername" value="#{groupManager.usernameToDelete}"></h:inputHidden>
-            <p:commandButton id="removeUser-btn" value="Remove User" action="#{groupManager.removeUser()}" type="button" />
+            <p:commandButton id="removeUser-btn" value="Remove User" onclick="enterUsernameToRemove()" action="#{groupManager.removeUser()}" update=":select_group:global_groups :select_group:error"/>
         </h:form>
-        <h:outputLabel id="error" value="#{groupManager.statusMessage}"  />
         <!--
         <div>
             Groups
