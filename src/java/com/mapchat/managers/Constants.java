@@ -6,7 +6,7 @@ public class Constants {
     // Change /Users/Balci/FileStorageLocation/ below to /home/cs4984/Balci/FileStorageLocation/
     // for deployment to the server by replacing Balci with your last name.
     //-----------------------------------------------------------
-    public static final String ROOT_DIRECTORY = "C:/Users/Tiger/Desktop/FileStorageLocation/";
+    public static final String ROOT_DIRECTORY = "C:/Users/Alan/Desktop/FileStorageLocation/";
 
     public static final String TEMP_FILE = "tmp_file";
     
@@ -15,8 +15,6 @@ public class Constants {
     public static final Integer THUMBNAIL_SZ = 200;
 
     public static final Integer ICON_SZ = 50;
-    
-    public static final Integer MAX_MESSAGES = 1000;
 
     public static final Integer MAX_CAPTION_SIZE = 140;
     

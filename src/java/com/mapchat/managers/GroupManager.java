@@ -21,7 +21,6 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -75,8 +74,8 @@ public class GroupManager implements Serializable {
         groupMessageMap = 
             Collections.synchronizedMap(new HashMap<Groups, Collection>());
         
-        initializeGlobalGroups();
-        initializeNonGlobalGroups();
+            initializeGlobalGroups();
+            initializeNonGlobalGroups();
         
     }
 
@@ -205,6 +204,42 @@ public class GroupManager implements Serializable {
         
     public String createGroup() {
         statusMessage = "";
+        //check the group name entered
+        if(groupNameToCreate == null || groupNameToCreate.equals(""))
+        {
+            statusMessage += "Group name entered is empty";
+            groupNameToCreate = "";
+            return "";
+        }
+        Groups grp = groupsFacade.findByGroupname(groupNameToCreate);
+        if (grp == null) {
+            // the group doesnt exist, so create it
+            Collection<Message> collection = Collections.synchronizedList(new LinkedList<Message>());
+            Groups g = new Groups();
+            g.setGroupName(groupNameToCreate);
+            g.setMessageCollection(collection);
+            
+            // add to the database
+            groupsFacade.create(g);
+            
+            // add to the map
+            groupMessageMap.put(g, collection);
+            
+            // create the user group to link the user to the group
+            UserGroup userGroup = new UserGroup();
+            userGroup.setGroupId(g.getId());
+            currentUser = usersFacade.find(FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("user_id"));
+            userGroup.setUserId(currentUser.getId());
+            userGroupFacade.create(userGroup);
+        }
+        else {
+            // its already created!
+            statusMessage += "Group already exists!";
+            groupNameToCreate = "";
+        }
+        return "";
+        /*
+        statusMessage = "";
         try
         {
             //check the group name entered
@@ -249,6 +284,7 @@ public class GroupManager implements Serializable {
             return "";
         }
         return "";
+        */
     }
     
     public String deleteGroup(Integer groupId) {
@@ -551,6 +587,14 @@ public class GroupManager implements Serializable {
                 
                 // add to the map
                 groupMessageMap.put(g, collection);
+                
+                // create the user group to link the user to the group
+                UserGroup userGroup = new UserGroup();
+                userGroup.setGroupId(g.getId());
+                currentUser = usersFacade.find(FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("user_id"));
+                userGroup.setUserId(currentUser.getId());
+                userGroupFacade.create(userGroup);
+                
             }
             // if the group exists
             else {
@@ -558,4 +602,5 @@ public class GroupManager implements Serializable {
             }
         }
     }
+        
 }

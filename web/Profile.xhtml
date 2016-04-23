@@ -18,7 +18,7 @@ Copyright © 2016 Osman Balci. All rights reserved.
             
             <ui:define name="editableContent">
                 <h:form class="form-signin">
-                <h:panelGrid columns="2" columnClasses="leftAlign, rightAlign">
+                <h:panelGrid columns="2" >
                         <p:panel id="user-photo" class="mc-panel">
                             <p:commandLink id="photo-link" action="EditPhoto" styleClass="user-pic" ajax="false">
                                 <h:graphicImage value="FileStorageLocation/#{accountManager.userPhoto()}" />
@@ -29,24 +29,24 @@ Copyright © 2016 Osman Balci. All rights reserved.
                             <p:link value="Edit Profile"  outcome="EditAccount" style="color: goldenrod;" />
                         </p:panel>
                         <p:panel id="info-panel" class="mc-panel">
-                            <p:tabView  id="user-info">
+                            <p:tabView  id="user-info" style="background-color: slategray;">
                               <p:tab title="Basic Info">
                                 <!-- Basic Info goes here -->
                                 <h:panelGrid columns="2" cellpadding="10">
-                                  <h:outputText value="First Name: " />
-                                  <h:outputText value="#{profileViewManager.loggedInUser.firstName}" />
+                                  <h:outputText value="First Name: " style="color: gold;"/>
+                                  <h:outputText value="#{profileViewManager.loggedInUser.firstName}" style="color: gold;" />
 
-                                  <h:outputText value="Middle Name or Initial: " />
-                                  <h:outputText value="#{profileViewManager.loggedInUser.middleName}" />                      
+                                  <h:outputText value="Middle Name or Initial: " style="color: gold;" />
+                                  <h:outputText value="#{profileViewManager.loggedInUser.middleName}" style="color: gold;" />                      
 
-                                  <h:outputText value="Last Name: " />
-                                  <h:outputText value="#{profileViewManager.loggedInUser.lastName}" />
+                                  <h:outputText value="Last Name: " style="color: gold;" />
+                                  <h:outputText value="#{profileViewManager.loggedInUser.lastName}" style="color: gold;" />
 
-                                  <h:outputText value="Phone Number: " />
-                                  <h:outputText value="#{profileViewManager.loggedInUser.phone}" />     
+                                  <h:outputText value="Phone Number: " style="color: gold;" />
+                                  <h:outputText value="#{profileViewManager.loggedInUser.phone}" style="color: gold;" />     
 
-                                  <h:outputText value="Email " />
-                                  <h:outputText value="#{profileViewManager.loggedInUser.email}" />
+                                  <h:outputText value="Email " style="color: gold;" />
+                                  <h:outputText value="#{profileViewManager.loggedInUser.email}" style="color: gold;" />
                                 </h:panelGrid>
                               </p:tab>           
                             </p:tabView>

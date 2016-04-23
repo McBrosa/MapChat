@@ -116,7 +116,7 @@ public class MessageBean implements Serializable {
     }
 
     public String[] getAvailableChatrooms() {
-        availableChatrooms = groupManager.getAvailableChatrooms().toArray(new String[0]);
+        availableChatrooms = groupManager.getAllGroups().toArray(new String[0]);
         return availableChatrooms;
     }
 
@@ -218,13 +218,22 @@ public class MessageBean implements Serializable {
         return msg;
     }
     
+    /**
+     * Retrieve all the files for the group
+     * @return 
+     */
     public String[] getFileNamesInGroup() {
-        System.out.println("retrieve file names");
+        
         String directory = Constants.ROOT_DIRECTORY + groupManager.getCurrentGroup().getId();
-        System.out.println("directory: " + directory);
+        
+        new File(directory).mkdirs();
+        
         File folder = new File(directory);
         File[] listOfFiles = folder.listFiles();
-        System.out.println("file length: " + listOfFiles.length);
-        return Arrays.stream(listOfFiles).map(Object::toString).toArray(String[]::new);
+        String[] listOfFilesRelative = new String[listOfFiles.length];
+        for (int i = 0; i < listOfFiles.length; i++) {
+            listOfFilesRelative[i] = listOfFiles[i].getName();
+        }
+        return listOfFilesRelative;
     }
 }

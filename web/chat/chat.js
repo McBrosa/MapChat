@@ -9,6 +9,14 @@
  */
 setInterval("nextMessage()", 200);                
         
+function start() {
+    PF('statusDialog').show();
+}
+ 
+function stop() {
+    PF('statusDialog').hide();
+}
+        
 // the rest of the js file is unneeded, commented out just in case
 
 /*

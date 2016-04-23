@@ -15,11 +15,11 @@
             <ui:define name="editableContent">
                 <div align="center" style="width:50%; margin:0 auto;">
                     <h:form class="form-signin">
-                        <p:panel id="edit-account" >
+                        <p:panel id="edit-account" class="mc-panel">
                             <h2 class="form-signin-heading">Edit Your Account Information</h2>
                             <br/>
                             <f:event listener="#{accountManager.validateInformation}" type="postValidate"/>
-                            <p:panel id="panel" class="mc-panel">
+                            <p:panel id="panel" style="background-color: black;">
                                 <p:messages id="msgs" />
 
                                 <p:inputText id="firstName" value="#{accountManager.selected.firstName}"
