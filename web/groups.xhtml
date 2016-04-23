@@ -15,7 +15,7 @@ Copyright © 2016 Alan Cai. All rights reserved.
     <h:body>
         
         <h:form id="select_group">
-            <p:remoteCommand name="refreshMap" action="#{markersView.init()}" update=":gmap" />
+            <p:remoteCommand name="refreshMap" action="#{markersView.refreshMap()}" update=":gmap" />
             <!--Putting the style for this following tag does not work in the css file-->
             <p:selectOneListbox style="width: 100% !important; height: 100% !important" id="global_groups" value="#{groupManager.currentGroup}">
                 <!--f:selectItems value="Select a group"/-->
@@ -28,7 +28,7 @@ Copyright © 2016 Alan Cai. All rights reserved.
             <!--p:commandButton id="group-modify-btn" value="Options" type="button" /-->
             <!--p:overlayPanel id="group-modify-panel" widgetVar="group-modify-panel" for="group-modify-btn" hideEffect="fade"-->
                 <h:form id="groups-buttons-form">
-                    <p:remoteCommand name="refreshMap" action="#{markersView.init()}" update=":gmap" />
+                    <p:remoteCommand name="refreshMap" action="#{markersView.refreshMap()}" update=":gmap" />
                     <h:inputHidden id="newgroupname" value="#{groupManager.groupNameToCreate}"></h:inputHidden>
                     <p:commandButton id="createGroup-btn" class="groups-button" value="Create Group" onclick="enterNewGroupName()" action="#{groupManager.createGroup()}" update=":select_group:global_groups error">
                         <p:ajax event="click" onsuccess="refreshMap()" />

@@ -15,7 +15,9 @@ import com.mapchat.sessionbeanpackage.UserFacade;
 import com.mapchat.sessionbeanpackage.UserGroupFacade;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
@@ -35,8 +37,9 @@ import org.primefaces.model.map.Marker;
 public class MarkersView implements Serializable {
     
     private MapModel simpleModel;
-    private ArrayList<Marker> markers;
+    private Map<String, Integer> markerMap;
     private Marker marker;
+    private String markerInfo;
 
     @EJB
     private UserFacade userFacade;
@@ -53,20 +56,20 @@ public class MarkersView implements Serializable {
     @PostConstruct
     public void init() {
         simpleModel = new DefaultMapModel();
+        updateLocations();
+    }
+    
+    private void updateLocations()
+    {      
         User user = userFacade.find(FacesContext.getCurrentInstance().
                 getExternalContext().getSessionMap().get("user_id"));
-        markers = new ArrayList<Marker>();
+        markerMap = new HashMap<>();
         //The users location
         LatLng coord1 = new LatLng(user.getLocationX(), user.getLocationY());
         Marker currentMarker = new Marker(coord1, user.getUsername(), user, userPhotoLocation(user));
-        markers.add(currentMarker);
+        markerMap.put(currentMarker.getData().toString(), user.getId());
         simpleModel.addOverlay(currentMarker);
         
-        updateGroupLocations();
-    }
-    
-    public void updateGroupLocations()
-    {      
         if(groupManager.getCurrentGroup() != null)
         {
             List<UserGroup> usergroups = userGroupFacade.findByGroupId(groupManager.getCurrentGroup().getId()); 
@@ -74,10 +77,17 @@ public class MarkersView implements Serializable {
             usergroups.stream().forEach((ug) -> {
                 User current = userFacade.getUser(ug.getUserId());
                 Marker userMarker = new Marker(new LatLng(current.getLocationX(), current.getLocationY()), current.getUsername(), current, userPhotoLocation(current));
-                markers.add(userMarker);
+                markerMap.put(userMarker.getData().toString(),current.getId());
                 simpleModel.addOverlay(userMarker);
             });
         }
+    }
+    
+    public void refreshMap()
+    {
+        simpleModel.getMarkers().clear();
+        markerMap.clear();
+        updateLocations();
     }
   
     public MapModel getSimpleModel() {
@@ -86,18 +96,39 @@ public class MarkersView implements Serializable {
     
     public void onMarkerSelect(OverlaySelectEvent event) {
         marker = (Marker) event.getOverlay();
+        Integer userId = markerMap.get(marker.getData().toString());
+        User selectedUser = userFacade.getUser(userId);
+        marker.setTitle(selectedUser.getUsername());
+        marker.setData(selectedUser);
+        markerInfo(selectedUser);
     }
-      
+    
+    private void markerInfo(User user)
+    {
+        String userInfo = user.getUsername() + "<br />"
+                + "email: " + user.getEmail() + "<br/>"
+                + "phone: " + user.getPhone() + "<br />";
+        markerInfo = userInfo;
+    }
+
+    public String getMarkerInfo() {
+        return markerInfo;
+    }
+
+    public void setMarkerInfo(String markerInfo) {
+        this.markerInfo = markerInfo;
+    }
+    
     public Marker getMarker() {
-        return markers.get(0);
+        return marker;
     }
 
-    public ArrayList<Marker> getMarkers() {
-        return markers;
+    public Map<String, Integer> getMarkerMap() {
+        return markerMap;
     }
 
-    public void setMarkers(ArrayList<Marker> markers) {
-        this.markers = markers;
+    public void setMarkerMap(Map<String, Integer> markerMap) {
+        this.markerMap = markerMap;
     }
     
     public String userPhotoLocation(User user) {
