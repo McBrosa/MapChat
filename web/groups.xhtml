@@ -8,36 +8,35 @@ Copyright © 2016 Alan Cai. All rights reserved.
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:p="http://primefaces.org/ui"
       xmlns:f="http://xmlns.jcp.org/jsf/core">
-    <h:head>
-        <title>Groups</title>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
         <script type="text/javascript" src="resources/js/groups.js"/>
-    </h:head>
+        <h:outputStylesheet library="css" name="groups.css" />
+
     <h:body>
-        <h2>Groups</h2>
+        
         <h:form id="select_group">
-            <h:selectOneMenu id="global_groups" value="#{groupManager.currentGroup}">
+            <!--Putting the style for this following tag does not work in the css file-->
+            <p:selectOneListbox style="width: 100% !important; height: 100% !important" id="global_groups" value="#{groupManager.currentGroup}">
                 <!--f:selectItems value="Select a group"/-->
                 <f:selectItems value="#{groupManager.allGroups}"/>
                 <p:ajax update=":chat-form:currentGroupLabel"/>
-                <h:outputLabel id="error" value="#{groupManager.statusMessage}"  style="color:white"/>
-            </h:selectOneMenu>
+            </p:selectOneListbox>
         </h:form>
-        <!--p:commandButton id="group-modify-btn" value="+" type="button" /-->
-        <!--p:overlayPanel id="group-modify-panel" widgetVar="group-modify-panel" for="group-modify-btn" hideEffect="fade"-->
-            <h:form id="create-groups-form">
-                <h:inputHidden id="newgroupname" value="#{groupManager.groupNameToCreate}"></h:inputHidden>
-                <p:commandButton id="createGroup-btn" value="Create Group" onclick="enterNewGroupName()" action="#{groupManager.createGroup()}" update=":select_group:global_groups :select_group:error" />
-            </h:form>
-            <h:form id="add-user-form">
-                <h:inputHidden id="addusername" value="#{groupManager.usernameToAdd}"></h:inputHidden>
-                <p:commandButton id="addUser-btn" value="Add User" onclick="enterUsernameToAdd()" action="#{groupManager.addUser()}" update=":select_group:error"/>
-            </h:form>
-            <h:form id="remove-user-form">
-                <h:inputHidden id="removeusername" value="#{groupManager.usernameToDelete}"></h:inputHidden>
-                <p:commandButton id="removeUser-btn" value="Remove User" onclick="enterUsernameToRemove()" action="#{groupManager.removeUser()}" update=":select_group:global_groups :select_group:error" />
-            </h:form>
-        <!--/p:overlayPanel-->
+        <!--h:form id="buttons-form"-->
+            <!--p:commandButton id="group-modify-btn" value="Options" type="button" /-->
+            <!--p:overlayPanel id="group-modify-panel" widgetVar="group-modify-panel" for="group-modify-btn" hideEffect="fade"-->
+                <h:form id="groups-buttons-form">
+                    <h:inputHidden id="newgroupname" value="#{groupManager.groupNameToCreate}"></h:inputHidden>
+                    <p:commandButton id="createGroup-btn" class="groups-button" value="Create Group" onclick="enterNewGroupName()" action="#{groupManager.createGroup()}" update=":select_group:global_groups error" />
+                    <h:inputHidden id="addusername" value="#{groupManager.usernameToAdd}"></h:inputHidden>
+                    <p:commandButton id="addUser-btn" class="groups-button" value="Add User" onclick="enterUsernameToAdd()" action="#{groupManager.addUser()}" update="error"/>
+                    <h:inputHidden id="removeusername" value="#{groupManager.usernameToDelete}"></h:inputHidden>
+                    <p:commandButton id="removeUser-btn" class="groups-button" value="Remove User" onclick="enterUsernameToRemove()" action="#{groupManager.removeUser()}" update=":select_group:global_groups error" />
+                    <h:outputLabel id="error" value="#{groupManager.statusMessage}"  style="color:white"/>
+                </h:form>
+            
+            <!--/p:overlayPanel-->
+        <!--/h:form-->
         
     </h:body>
 </html>

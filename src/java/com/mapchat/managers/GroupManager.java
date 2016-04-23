@@ -235,8 +235,8 @@ public class GroupManager implements Serializable {
         else {
             // its already created!
             statusMessage += "Group already exists!";
-            groupNameToCreate = "";
         }
+        groupNameToCreate = "";
         return "";
         /*
         statusMessage = "";

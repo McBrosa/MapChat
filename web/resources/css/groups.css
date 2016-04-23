@@ -1,0 +1,43 @@
+/*
+Created by Alan Cai on 2016.04.22 
+Copyright © 2016 Alan Cai. All rights reserved.
+*/
+/* 
+    Created on : Apr 22, 2016, 9:56:50 PM
+    Author     : Alan
+*/
+
+#buttons-form {
+    width: 100%;
+}
+#groups-buttons-form {
+    text-align: center;
+    width: 100%;
+    padding-top: 5%;
+}
+
+.groups-button {
+    float: left;
+    clear: both;
+    width: 100%;
+}
+
+#group-modify-panel {
+    width: 100%;
+}
+
+#group-modify-btn {
+    padding-top: 2%;
+}
+
+/*#global_groups {
+    height: 100% !important;
+}*/
+
+#select_group {
+    height: 60%;
+}
+
+.ui-selectlistbox-listcontainer {
+    height: 100% !important;
+}
