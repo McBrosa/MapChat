@@ -15,46 +15,29 @@ Copyright © 2016 Alan Cai. All rights reserved.
     </h:head>
     <h:body>
         <h2>Groups</h2>
+        <h:form id="select_group">
+            <h:selectOneMenu id="global_groups" value="#{groupManager.currentGroup}">
+                <!--f:selectItems value="Select a group"/-->
+                <f:selectItems value="#{groupManager.allGroups}"/>
+                <p:ajax update=":chat-form:currentGroupLabel"/>
+                <h:outputLabel id="error" value="#{groupManager.statusMessage}"  />
+            </h:selectOneMenu>
+        </h:form>
         <p:commandButton id="group-modify-btn" value="+" type="button" />
-        <p:overlayPanel id="group-modify-panel" widgetVar="group-modify-panel" for="group-modify-btn" hideEffect="fade">
+        <!--p:overlayPanel id="group-modify-panel" widgetVar="group-modify-panel" for="group-modify-btn" hideEffect="fade"-->
             <h:form id="create-groups-form">
                 <h:inputHidden id="newgroupname" value="#{groupManager.groupNameToCreate}"></h:inputHidden>
-                <p:commandButton id="createGroup-btn" value="Create Group" onclick="enterNewGroupName()" action="#{groupManager.createGroup()}" update=":select_group:global_groups" />
+                <p:commandButton id="createGroup-btn" value="Create Group" onclick="enterNewGroupName()" action="#{groupManager.createGroup()}" update=":select_group:global_groups :select_group:error" />
             </h:form>
             <h:form id="add-user-form">
                 <h:inputHidden id="addusername" value="#{groupManager.usernameToAdd}"></h:inputHidden>
-                <p:commandButton id="addUser-btn" value="Add User" onclick="enterUsernameToAdd()" action="#{groupManager.addUser()}" />
+                <p:commandButton id="addUser-btn" value="Add User" onclick="enterUsernameToAdd()" action="#{groupManager.addUser()}" update=":select_group:error"/>
             </h:form>
             <h:form id="remove-user-form">
                 <h:inputHidden id="removeusername" value="#{groupManager.usernameToDelete}"></h:inputHidden>
-                <p:commandButton id="removeUser-btn" value="Remove User" action="#{groupManager.removeUser()}" type="button" />
+                <p:commandButton id="removeUser-btn" value="Remove User" onclick="enterUsernameToRemove()" action="#{groupManager.removeUser()}" update=":select_group:global_groups :select_group:error" />
             </h:form>
-        </p:overlayPanel>
-        <h:form id="select_group">
-            <h:selectOneMenu id="global_groups" value="#{groupManager.currentGroup}">
-                <f:selectItem noSelectionOption="true" itemLabel="Select One" itemValue="#{null}"/>
-                <f:selectItems value="#{groupManager.allGroups}" />
-                <p:ajax update=":chat-form:currentGroupLabel :file-form:filedatapanel"/>
-            </h:selectOneMenu>
-            <p:outputLabel id="error" value="#{groupManager.statusMessage}"  />
-        </h:form>
-        <h:form id="create-groups-form">
-            <h:inputHidden id="newgroupname" value="#{groupManager.groupNameToCreate}"></h:inputHidden>
-            <p:commandButton id="createGroup-btn" value="Create Group" onclick="enterNewGroupName()" action="#{groupManager.createGroup()}" update=":select_group:global_groups :select_group:error" />
-        </h:form>
-        <h:form id="add-user-form">
-            <h:inputHidden id="addusername" value="#{groupManager.usernameToAdd}"></h:inputHidden>
-            <p:commandButton id="addUser-btn" value="Add User" onclick="enterUsernameToAdd()" action="#{groupManager.addUser()}" update=":select_group:error"/>
-        </h:form>
-        <h:form id="remove-user-form">
-            <h:inputHidden id="removeusername" value="#{groupManager.usernameToDelete}"></h:inputHidden>
-            <p:commandButton id="removeUser-btn" value="Remove User" onclick="enterUsernameToRemove()" action="#{groupManager.removeUser()}" update=":select_group:global_groups :select_group:error"/>
-        </h:form>
-        <!--
-        <div>
-            Groups
-        </div>
-        <p>Groups you are in:</p>
+        <!--/p:overlayPanel-->
         
     </h:body>
 </html>
