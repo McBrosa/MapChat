@@ -13,11 +13,17 @@ import com.mapchat.managers.GroupManager;
 import com.mapchat.sessionbeanpackage.File1Facade;
 import com.mapchat.sessionbeanpackage.UserFacade;
 import com.mapchat.sessionbeanpackage.UserGroupFacade;
+import java.io.IOException;
+import java.io.InputStream;
 import java.io.Serializable;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
@@ -25,6 +31,10 @@ import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
+import javax.json.Json;
+import javax.json.JsonArray;
+import javax.json.JsonObject;
+import javax.json.JsonReader;
 import org.primefaces.event.map.OverlaySelectEvent;
  
 import org.primefaces.model.map.DefaultMapModel;
@@ -40,6 +50,8 @@ public class MarkersView implements Serializable {
     private Map<String, Integer> markerMap;
     private Marker marker;
     private String markerInfo;
+    private final static String API_KEY = "a9a8c0d15d89a97605ba38615fdd436d";
+    private String weatherInfo;
 
     @EJB
     private UserFacade userFacade;
@@ -107,10 +119,19 @@ public class MarkersView implements Serializable {
     {
         String userInfo = user.getUsername() + "<br />"
                 + "email: " + user.getEmail() + "<br/>"
-                + "phone: " + user.getPhone() + "<br />";
+                + "phone: " + user.getPhone() + "<br />" +
+                getWeather(user);
         markerInfo = userInfo;
     }
 
+    public String getWeatherInfo() {
+        return weatherInfo;
+    }
+
+    public void setWeatherInfo(String weatherInfo) {
+        this.weatherInfo = weatherInfo;
+    }
+    
     public String getMarkerInfo() {
         return markerInfo;
     }
@@ -147,4 +168,27 @@ public class MarkersView implements Serializable {
         this.groupManager = groupManager;
     }
     
+    private String getWeather(User user)
+    {
+        String requestUrl = (String) "http://api.openweathermap.org/data/2.5/weather?lat="+ Double.toString(user.getLocationX()) +"&lon="+ Double.toString(user.getLocationY()) +"&appid="+ API_KEY;
+        URL url = null;
+        String weatherStr = "";
+        try {
+            url = new URL(requestUrl);
+        } catch (MalformedURLException ex) {
+            Logger.getLogger(MarkersView.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        try (InputStream is = url.openStream();
+            JsonReader rdr = Json.createReader(is)) {
+
+            JsonObject obj = rdr.readObject();
+            JsonArray weather = obj.getJsonArray("weather");
+            weatherStr += "City: " + obj.getJsonString("name") + "<br />";
+            //weatherStr += "Cond: " + weather.getString(2) + "<br />";
+            //weatherStr += "Temp: " + obj.getString("temp") + "<br />";
+       } catch (IOException ex) {
+            Logger.getLogger(MarkersView.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return weatherStr;
+    }
 }
