@@ -14,13 +14,14 @@ Copyright © 2016 Alan Cai. All rights reserved.
 
     <h:body>
         <h:form id="select_group">
+            
             <p:remoteCommand name="refreshMap" action="#{markersView.refreshMap()}" update=":gmap" />
             <!--Putting the style for this following tag does not work in the css file-->
-            <p:selectOneListbox style="width: 100% !important; height: 100% !important" id="global_groups" value="#{groupManager.currentGroup}">
+            <p:selectOneListbox style="width: 100% !important; height: 100% !important" id="global_groups" 
+                                value="#{groupManager.currentGroup}" >
                 <!--f:selectItems value="Select a group"/-->
                 <f:selectItems value="#{groupManager.allGroups}"/>
-                <p:ajax update=":chat-form:currentGroupLabel"/>
-                <p:ajax event="change" onstart="refreshMap()" />
+                <p:ajax event="change" onstart="refreshMap()" update=":chat-form:currentGroupLabel"/>
             </p:selectOneListbox>
         </h:form>
         <!--h:form id="buttons-form"-->
