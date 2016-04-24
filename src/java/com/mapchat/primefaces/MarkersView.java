@@ -45,7 +45,7 @@ import org.primefaces.model.map.MapModel;
 import org.primefaces.model.map.Marker;
  
 @ManagedBean
-@ViewScoped
+@SessionScoped
 public class MarkersView implements Serializable {
     
     private MapModel simpleModel;
@@ -54,6 +54,7 @@ public class MarkersView implements Serializable {
     private String markerInfo;
     private final static String API_KEY = "a9a8c0d15d89a97605ba38615fdd436d";
     private String weatherInfo;
+    private User markerUser;
 
     @EJB
     private UserFacade userFacade;
@@ -111,19 +112,27 @@ public class MarkersView implements Serializable {
     public void onMarkerSelect(OverlaySelectEvent event) {
         marker = (Marker) event.getOverlay();
         Integer userId = markerMap.get(marker.getData().toString());
-        User selectedUser = userFacade.getUser(userId);
-        marker.setTitle(selectedUser.getUsername());
-        marker.setData(selectedUser);
-        markerInfo(selectedUser);
+        setMarkerUser(userFacade.getUser(userId));
+        markerInfo(getMarkerUser());
     }
     
     private void markerInfo(User user)
     {
-        String userInfo = firstLetterToUpperCase(user.getFirstName() + " " + user.getLastName()) 
-                + "<br />" + getWeather(user);
+        String userInfo = getWeather(user);
         markerInfo = userInfo;
     }
 
+    public User getMarkerUser() {
+        if (markerUser == null) {
+            markerUser = userFacade.getUser(markerMap.get(marker.getData().toString()));
+        }
+        return markerUser;
+    }
+
+    public void setMarkerUser(User markerUser) {
+        this.markerUser = markerUser;
+    }
+    
     public String getWeatherInfo() {
         return weatherInfo;
     }
@@ -211,7 +220,15 @@ public class MarkersView implements Serializable {
         while (m.find()) {
            m.appendReplacement(stringbf, 
            m.group(1).toUpperCase() + m.group(2).toLowerCase());
-      }
+        }
         return (m.appendTail(stringbf).toString());
+    }
+    
+    public String userPhoto() {
+        List<File1> fileList = fileFacade.findFilesByUserID(getMarkerUser().getId());
+        if (fileList.isEmpty()) {
+            return "defaultUserPhoto.png";
+        }
+        return fileList.get(0).getThumbnailName();
     }
 }

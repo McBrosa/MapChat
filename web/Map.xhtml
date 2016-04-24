@@ -9,8 +9,8 @@
         <meta name="viewport" content="initial-scale=1.0, user-scalable=no"></meta>
         <meta charset="utf-8"></meta>
         <style>
-            html, body {height: 100%;margin: 0;padding: 0;}
-            #map {height: 100%;}
+            html, body {height: 75%; margin: 0;padding: 0;}
+            #map {height: 75%;}
         </style>
     </h:head>
     <h:body>
@@ -26,8 +26,9 @@
             <p:ajax event="overlaySelect" listener="#{markersView.onMarkerSelect}" />
             <p:gmapInfoWindow id="infoWindow">
                 <p:outputPanel style="text-align: center; display: block; margin: auto; text-decoration: #000000;">
-                    <h:outputText value="#{markersView.markerInfo}" escape="false"/>
+                    <p:link id="viewProfile" value="#{markersView.markerUser.firstName} #{markersView.markerUser.lastName}"  outcome="ViewOthersProfile" style="color: goldenrod;"  />
                     <br />
+                    <h:outputText value="#{markersView.markerInfo}" escape="false"/>
                 </p:outputPanel>
             </p:gmapInfoWindow>    
         </p:gmap>
