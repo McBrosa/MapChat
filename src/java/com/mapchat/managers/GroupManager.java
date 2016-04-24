@@ -86,6 +86,14 @@ public class GroupManager implements Serializable {
     public void setProfileViewManager(ProfileViewManager profileViewManager) {
         this.profileViewManager = profileViewManager;
     }   
+
+    public ArrayList<String> getGlobalgrps() {
+        return globalgrps;
+    }
+
+    public void setGlobalgrps(ArrayList<String> globalgrps) {
+        this.globalgrps = globalgrps;
+    }
     
     public Groups getCurrentGroup() {
         if (currentGroup == null) return null;

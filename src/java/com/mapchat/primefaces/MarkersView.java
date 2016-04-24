@@ -24,6 +24,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
@@ -82,7 +84,7 @@ public class MarkersView implements Serializable {
         markerMap.put(currentMarker.getData().toString(), user.getId());
         simpleModel.addOverlay(currentMarker);
         
-        if(groupManager.getCurrentGroup() != null)
+        if(groupManager.getCurrentGroup() != null && !groupManager.getGlobalgrps().contains(groupManager.getCurrentGroup().getGroupName()))
         {
             List<UserGroup> usergroups = userGroupFacade.findByGroupId(groupManager.getCurrentGroup().getId()); 
             // Get all the users in the group and display them on the map
@@ -117,7 +119,8 @@ public class MarkersView implements Serializable {
     
     private void markerInfo(User user)
     {
-        String userInfo = user.getUsername() + "<br />" + getWeather(user);
+        String userInfo = firstLetterToUpperCase(user.getFirstName() + " " + user.getLastName()) 
+                + "<br />" + getWeather(user);
         markerInfo = userInfo;
     }
 
@@ -181,14 +184,14 @@ public class MarkersView implements Serializable {
 
             JsonObject obj = rdr.readObject();
             JsonArray weather = obj.getJsonArray("weather");
-            weatherStr += "City: " + obj.getJsonString("name").getString().replaceAll("\"", "") + "<br />";
+            weatherStr += "<b>" + obj.getJsonString("name").getString().replaceAll("\"", "") + "</b><br />";
             String iconType = weather.getJsonObject(0).get("icon").toString().replaceAll("\"", "") + ".png";
             String condition = weather.getJsonObject(0).get("description").toString().replaceAll("\"", "");
             String icon = "<img src=\""+ iconUrl + iconType +"\"><br />";
             weatherStr += icon;
             double fTemp = kToF(Double.parseDouble(obj.getJsonObject("main").get("temp").toString()));
-            weatherStr += "Temp: " + Double.toString(fTemp) + "&#8457;<br />";
-            weatherStr += "Condition: " + condition;
+            weatherStr += "" + Double.toString(fTemp) + "&#8457;<br />";
+            weatherStr += "" + firstLetterToUpperCase(condition);
        } catch (IOException ex) {
             Logger.getLogger(MarkersView.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -198,5 +201,17 @@ public class MarkersView implements Serializable {
     private double kToF(double kelvin)
     {
         return Math.round((kelvin * 1.8 - 459.67) * 100)/100;
+    }
+    
+    private String firstLetterToUpperCase(String str)
+    {
+        StringBuffer stringbf = new StringBuffer();
+        Matcher m = Pattern.compile("([a-z])([a-z]*)",
+        Pattern.CASE_INSENSITIVE).matcher(str);
+        while (m.find()) {
+           m.appendReplacement(stringbf, 
+           m.group(1).toUpperCase() + m.group(2).toLowerCase());
+      }
+        return (m.appendTail(stringbf).toString());
     }
 }
