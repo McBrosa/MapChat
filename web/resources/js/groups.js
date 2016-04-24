@@ -3,6 +3,10 @@
  * Copyright © 2016 Alan Cai. All rights reserved. * 
  */
 
+function alertPlease() {
+    alert('hi');
+}
+
 function enterNewGroupName() {
     var groupName = "";
     while(groupName.trim() === "")
