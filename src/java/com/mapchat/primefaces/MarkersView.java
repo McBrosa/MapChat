@@ -117,10 +117,7 @@ public class MarkersView implements Serializable {
     
     private void markerInfo(User user)
     {
-        String userInfo = user.getUsername() + "<br />"
-                + "email: " + user.getEmail() + "<br/>"
-                + "phone: " + user.getPhone() + "<br />" +
-                getWeather(user);
+        String userInfo = user.getUsername() + "<br />" + getWeather(user);
         markerInfo = userInfo;
     }
 
@@ -173,6 +170,7 @@ public class MarkersView implements Serializable {
         String requestUrl = (String) "http://api.openweathermap.org/data/2.5/weather?lat="+ Double.toString(user.getLocationX()) +"&lon="+ Double.toString(user.getLocationY()) +"&appid="+ API_KEY;
         URL url = null;
         String weatherStr = "";
+        String iconUrl = "http://openweathermap.org/img/w/";
         try {
             url = new URL(requestUrl);
         } catch (MalformedURLException ex) {
@@ -183,10 +181,14 @@ public class MarkersView implements Serializable {
 
             JsonObject obj = rdr.readObject();
             JsonArray weather = obj.getJsonArray("weather");
-            weatherStr += "City: " + obj.getJsonString("name") + "<br />";
-            //weatherStr += "Cond: " + weather.getString(2) + "<br />";
+            weatherStr += "City: " + obj.getJsonString("name").getString().replaceAll("\"", "") + "<br />";
+            String iconType = weather.getJsonObject(0).get("icon").toString().replaceAll("\"", "") + ".png";
+            String condition = weather.getJsonObject(0).get("description").toString().replaceAll("\"", "");
+            String icon = "<img src=\""+ iconUrl + iconType +"\"><br />";
+            weatherStr += icon;
             double fTemp = kToF(Double.parseDouble(obj.getJsonObject("main").get("temp").toString()));
             weatherStr += "Temp: " + Double.toString(fTemp) + "&#8457;<br />";
+            weatherStr += "Condition: " + condition;
        } catch (IOException ex) {
             Logger.getLogger(MarkersView.class.getName()).log(Level.SEVERE, null, ex);
         }
