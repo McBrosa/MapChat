@@ -4,6 +4,8 @@ package com.mapchat.managers;
  * Created by Sean Arcayan on 2016.04.12  * 
  * Copyright © 2016 Sean Arcayan. All rights reserved. * 
  */
+import com.mapchat.chat.MessageManager;
+import com.mapchat.chat.MessageManagerLocal;
 import com.mapchat.entitypackage.File1;
 import com.mapchat.entitypackage.Groups;
 import com.mapchat.entitypackage.Message;
@@ -21,6 +23,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.event.ActionEvent;
 import javax.faces.bean.ManagedProperty;
+import org.primefaces.context.RequestContext;
 import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.UploadedFile;
  
@@ -32,6 +35,17 @@ import org.primefaces.model.UploadedFile;
 @ViewScoped
 public class MessageBean implements Serializable {
  
+    @ManagedProperty(value="#{messageManager}")
+    private MessageManager mm;
+
+    public MessageManager getMm() {
+        return mm;
+    }
+
+    public void setMm(MessageManager mm) {
+        this.mm = mm;
+    }
+    
     @EJB
     private MessageFacade msgFacade;
     
@@ -41,6 +55,8 @@ public class MessageBean implements Serializable {
     private Date lastUpdate;
     private String messageUser;
     private String messageInput;
+    //private Set<Groups> availableChatrooms;
+    //private List<Message> activeMessages;
     private String[] availableChatrooms;
     private String[] activeMessages;
 
@@ -102,9 +118,16 @@ public class MessageBean implements Serializable {
    
     
     public String[] getActiveMessages() {
-
+        /*
         if (groupManager.getCurrentGroup() != null) {
             Message[] msgs = groupManager.getMessagesByChatroom(groupManager.getCurrentGroup()).toArray(new Message[0]);
+            String[] ret = Arrays.stream(msgs).map(Object::toString).toArray(String[]::new);
+            return ret;
+        }
+        return null;
+        */
+        if (groupManager.getCurrentGroup() != null) {
+            Message[] msgs = mm.getMessagesInCurrentGroup().toArray(new Message[0]);
             String[] ret = Arrays.stream(msgs).map(Object::toString).toArray(String[]::new);
             return ret;
         }
@@ -116,8 +139,11 @@ public class MessageBean implements Serializable {
     }
 
     public String[] getAvailableChatrooms() {
+        /*
         availableChatrooms = groupManager.getAllGroups().toArray(new String[0]);
         return availableChatrooms;
+        */
+        return mm.getAvailableChatrooms().toArray(new String[0]);
     }
 
     public void setAvailableChatrooms(String[] availableChatrooms) {
@@ -142,18 +168,9 @@ public class MessageBean implements Serializable {
         {
             return;
         }
-                
-        List<Message> cfq = groupManager.getMessagesByChatroom(groupManager.getCurrentGroup());
-        
-        // if we reach capacity in the list, the oldest message will be removed
-        // from the list and the database
-        if (cfq.size() > Constants.MAX_MESSAGES) {
-            msgFacade.remove(cfq.remove(cfq.size()-1));
-        }
-        
         // send the message to the current chatroom
         // add to the front of the list, remove from the end
-        cfq.add(0, msg);
+        mm.sendMessageToCurrentGroup(msg);
         
         // send the current message to the database 
         msgFacade.create(msg);
@@ -187,7 +204,7 @@ public class MessageBean implements Serializable {
         }
         
         // send the message to the current chatroom
-        List<Message> cfq = groupManager.getMessagesByChatroom(groupManager.getCurrentGroup());
+        List<Message> cfq = mm.getMessagesByChatroom(groupManager.getCurrentGroup());
         
         // if we reach capacity in the list, the oldest message will be removed
         // from the list and the database
@@ -236,4 +253,28 @@ public class MessageBean implements Serializable {
         }
         return listOfFilesRelative;
     }
+    
+     // ---
+        /**
+     * Send the message to a chat room
+     * @param evt 
+     
+    public void sendMessage(ActionEvent evt) {
+        if (groupManager.getCurrentGroup() == null) {
+            return;
+        }
+        
+        // create messages and set properties
+        Message msg = new Message();
+        msg.setMessage(messageInput);
+        msg.setUserId(profileViewManager.getLoggedInUser()); // TODO replace with actual ID
+        
+        // send the message to the current chatroom
+        mm.sendMessageToCurrentGroup(msg);
+        
+        // reset the input box
+        messageInput = "";
+
+    }
+    */
 }

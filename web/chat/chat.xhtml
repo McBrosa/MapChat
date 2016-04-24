@@ -43,9 +43,6 @@
          
             
             <p:remoteCommand name="nextMessage" update="chat-messages1"/>
-
-            <p:remoteCommand name="retrieveMessagesFromDB" actionListener="#{messageBean.getChatroomMessages}"
-                             update="chat-messages1"/>
            
             <p:dataTable id="chat-messages1" value="#{messageBean.activeMessages}" var="msg" 
                          scrollRows="15" scrollHeight="50%" lazy="true" scrollable="true"
@@ -54,9 +51,7 @@
                     <h:outputText value="#{msg}"/>
                 </p:column>
             </p:dataTable>
-            
         </h:form>
-       
             
     </h:body>
 </html>
