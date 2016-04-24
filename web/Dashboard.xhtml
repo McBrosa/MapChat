@@ -17,9 +17,9 @@
                 <div id="group">
                     <h:form id="groups-buttons-form-1">
                         <h:panelGrid id="modal-button-panel" columns="1" cellpadding="0">
-                            <p:commandButton class="show-button" value="Create Group" type="button" onclick="PF('dlg1').show();"/>
-                            <p:commandButton class="show-button" value="Add User" type="button" onclick="PF('dlg2').show();"/>
-                            <p:commandButton class="show-button" value="Remove User" type="button" onclick="PF('dlg3').show();"/>
+                            <p:commandButton class="show-button" value="Create Group" type="button" onclick="PF('createGroupDlg').show();"/>
+                            <p:commandButton class="show-button" value="Add User" type="button" onclick="PF('addUserDlg').show();"/>
+                            <p:commandButton class="show-button" value="Remove User" type="button" onclick="PF('removeUserDlg').show();"/>
                         </h:panelGrid>
                     </h:form>
                     <ui:include src="groups.xhtml" />
@@ -33,7 +33,7 @@
                 <h:form id="groups-buttons-form-2">
                 <p:remoteCommand name="refreshMap" action="#{markersView.refreshMap()}" update=":gmap" />
                     
-                    <p:dialog position="top" header="Create Group" widgetVar="dlg1" height="150">
+                    <p:dialog position="top" header="Create Group" widgetVar="createGroupDlg" height="150">
                         <h:outputLabel styleClass="outputLabel" for="newgroupname" value="Enter group name: " />
                         <h:inputText class="form-control"  id="newgroupname" value="#{groupManager.groupNameToCreate}"/>
                         <br />
@@ -46,7 +46,7 @@
                         <h:outputLabel id="error1" value="#{groupManager.statusMessage}"  style="color:red"/>
                     </p:dialog>
                     
-                    <p:dialog position="top" header="Add User" widgetVar="dlg2" height="150">
+                    <p:dialog position="top" header="Add User" widgetVar="addUserDlg" height="150">
                         <h:outputLabel styleClass="outputLabel" for="addusername" value="Enter username: " />
                         <h:inputText class="form-control"  id="addusername" value="#{groupManager.usernameToAdd}"/>
                         <br />
@@ -59,7 +59,7 @@
                         <h:outputLabel id="error2" value="#{groupManager.statusMessage}"  style="color:red"/>
                     </p:dialog>
                     
-                    <p:dialog position="top" header="Remove User" widgetVar="dlg3" height="150">
+                    <p:dialog position="top" header="Remove User" widgetVar="removeUserDlg" height="150">
                         <h:outputLabel styleClass="outputLabel" for="removeusername" value="Enter username: " />
                         <h:inputText class="form-control"  id="removeusername" value="#{groupManager.usernameToDelete}"/>
                         <br />

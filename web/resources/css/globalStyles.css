@@ -169,7 +169,7 @@ style the text within the div content of the siteTemplate. */
 style the editableContent component of the siteTemplate */
 #editableContent {
     height: calc(100% - 160px); /* Subtract height of the footer + padding */
-    margin: 0 auto 70px; /* 0 Margin on top, auto on sides, Footer Height for Bottom */
+    margin-bottom: 70px; /* Footer Height for Bottom Margin */
 }
 
 /* The header id is used in siteTemplate.xhtml as <div id="header"> to 
@@ -188,11 +188,11 @@ style the header component of the siteTemplate */
 style the footer component of the siteTemplate */
 #footer {
     background-color: silver;
+    position: fixed;
     padding-top: 10px;
     height: 70px;
     width: 100%;
     bottom: 0;
-    left: 0;
 }
 
 /**
@@ -259,7 +259,6 @@ style the footer component of the siteTemplate */
 
 #group {
     background-color: black;
-    overflow-y: scroll;
     position: fixed;
     height: 100%;
     float: left;
