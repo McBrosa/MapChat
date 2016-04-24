@@ -185,10 +185,16 @@ public class MarkersView implements Serializable {
             JsonArray weather = obj.getJsonArray("weather");
             weatherStr += "City: " + obj.getJsonString("name") + "<br />";
             //weatherStr += "Cond: " + weather.getString(2) + "<br />";
-            //weatherStr += "Temp: " + obj.getString("temp") + "<br />";
+            double fTemp = kToF(Double.parseDouble(obj.getJsonObject("main").get("temp").toString()));
+            weatherStr += "Temp: " + Double.toString(fTemp) + "&#8457;<br />";
        } catch (IOException ex) {
             Logger.getLogger(MarkersView.class.getName()).log(Level.SEVERE, null, ex);
         }
         return weatherStr;
+    }
+    
+    private double kToF(double kelvin)
+    {
+        return Math.round((kelvin * 1.8 - 459.67) * 100)/100;
     }
 }
