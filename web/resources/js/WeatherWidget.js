@@ -74,56 +74,56 @@ function displayError(error) {
 
 function Parse(obj) {
 	// current Location
-	document.getElementById("location").innerHTML = "Country: "
-			+ obj.sys.country + "<br>" + "City: " + obj.name + "<br>"
-			+ "Latitude: " + obj.coord.lat + "<br>" + "Longitude: "
+	document.getElementById("location").innerHTML = "Country: ".bold()
+			+ obj.sys.country + "<br>" + "City: ".bold() + obj.name + "<br>"
+			+ "Latitude: ".bold() + obj.coord.lat + "<br>" + "Longitude: ".bold()
 			+ obj.coord.lon + "<br>";
 
 	// current weather
 	document.getElementById("weatherNow").innerHTML = "<img src='" + IMG_URL
-			+ obj.weather[0].icon + ".png'> " + "<br> Condition: "
-			+ obj.weather[0].description + "<br>" + "Temp: " + obj.main.temp
-			+ " F<br>" + "Humidity: " + obj.main.humidity + " hPa <br>"
-			+ "Cloudiness: " + obj.clouds.all + "% <br>" + "Wind: "
+			+ obj.weather[0].icon + ".png'> " + "<br> Condition: ".bold()
+			+ obj.weather[0].description + "<br>" + "Temp: ".bold() + obj.main.temp
+			+ " F<br>" + "Humidity: ".bold() + obj.main.humidity + " hPa <br>"
+			+ "Cloudiness: ".bold() + obj.clouds.all + "% <br>" + "Wind: ".bold()
 			+ obj.wind.speed + " mps <br>";
 
 }
 // display forecasts for next 5 Days
 function Forecast(obj) {
 	document.getElementById("day1div").innerHTML = "<img src='" + IMG_URL
-			+ obj.list[0].weather[0].icon + ".png'> " + "<br>Min Temp: "
-			+ obj.list[0].temp.min + " F<br>" + "Max Temp: "
-			+ obj.list[0].temp.max + " F<br>" + "Weather: "
-			+ obj.list[0].weather[0].description + "<br>" + "Cloudiness: "
-			+ obj.list[0].clouds + " %<br>" + "Wind: " + obj.list[0].speed
+			+ obj.list[0].weather[0].icon + ".png'> " + "<br>Min Temp: ".bold()
+			+ obj.list[0].temp.min + " F<br>" + "Max Temp: ".bold()
+			+ obj.list[0].temp.max + " F<br>" + "Weather: ".bold()
+			+ obj.list[0].weather[0].description + "<br>" + "Cloudiness: ".bold()
+			+ obj.list[0].clouds + " %<br>" + "Wind: ".bold() + obj.list[0].speed
 			+ " mps <br>";
 
 	document.getElementById("day2div").innerHTML = "<img src='" + IMG_URL
-			+ obj.list[1].weather[0].icon + ".png'> " + "<br> Min Temp: "
-			+ obj.list[1].temp.min + " F<br>" + "Max Temp: "
-			+ obj.list[1].temp.max + " F<br>" + "Weather: "
-			+ obj.list[1].weather[0].description + "<br>" + "Cloudiness: "
-			+ obj.list[1].clouds + " %<br>" + "Wind: " + obj.list[1].speed
+			+ obj.list[1].weather[0].icon + ".png'> " + "<br> Min Temp: ".bold()
+			+ obj.list[1].temp.min + " F<br>" + "Max Temp: ".bold()
+			+ obj.list[1].temp.max + " F<br>" + "Weather: ".bold()
+			+ obj.list[1].weather[0].description + "<br>" + "Cloudiness: ".bold()
+			+ obj.list[1].clouds + " %<br>" + "Wind: ".bold() + obj.list[1].speed
 			+ " mps <br>";
 	document.getElementById("day3div").innerHTML = "<img src='" + IMG_URL
-			+ obj.list[2].weather[0].icon + ".png'> " + "<br>Min Temp: "
-			+ obj.list[2].temp.min + " F<br>" + "Max Temp: "
-			+ obj.list[2].temp.max + " F<br>" + "Weather: "
-			+ obj.list[2].weather[0].description + "<br>" + "Cloudiness: "
-			+ obj.list[2].clouds + " %<br>" + "Wind: " + obj.list[2].speed
+			+ obj.list[2].weather[0].icon + ".png'> " + "<br>Min Temp: ".bold()
+			+ obj.list[2].temp.min + " F<br>" + "Max Temp: ".bold()
+			+ obj.list[2].temp.max + " F<br>" + "Weather: ".bold()
+			+ obj.list[2].weather[0].description + "<br>" + "Cloudiness: ".bold()
+			+ obj.list[2].clouds + " %<br>" + "Wind: ".bold() + obj.list[2].speed
 			+ " mps <br>";
 	document.getElementById("day4div").innerHTML = "<img src='" + IMG_URL
-			+ obj.list[3].weather[0].icon + ".png'> " + "<br>Min Temp: "
-			+ obj.list[3].temp.min + " F<br>" + "Max Temp: "
-			+ obj.list[3].temp.max + " F<br>" + "Weather: "
-			+ obj.list[3].weather[0].description + "<br>" + "Cloudiness: "
-			+ obj.list[3].clouds + " %<br>" + "Wind: " + obj.list[3].speed
+			+ obj.list[3].weather[0].icon + ".png'> " + "<br>Min Temp: ".bold()
+			+ obj.list[3].temp.min + " F<br>" + "Max Temp: ".bold()
+			+ obj.list[3].temp.max + " F<br>" + "Weather: ".bold()
+			+ obj.list[3].weather[0].description + "<br>" + "Cloudiness: ".bold()
+			+ obj.list[3].clouds + " %<br>" + "Wind: ".bold() + obj.list[3].speed
 			+ " mps <br>";
 	document.getElementById("day5div").innerHTML = "<img src='" + IMG_URL
-			+ obj.list[4].weather[0].icon + ".png'> " + "<br> Min Temp: "
-			+ obj.list[4].temp.min + " F<br>" + "Max Temp: "
-			+ obj.list[4].temp.max + " F<br>" + "Weather: "
-			+ obj.list[4].weather[0].description + "<br>" + "Cloudiness: "
-			+ obj.list[4].clouds + " %<br>" + "Wind: " + obj.list[4].speed
+			+ obj.list[4].weather[0].icon + ".png'> " + "<br> Min Temp: ".bold()
+			+ obj.list[4].temp.min + " F<br>" + "Max Temp: ".bold()
+			+ obj.list[4].temp.max + " F<br>" + "Weather: ".bold()
+			+ obj.list[4].weather[0].description + "<br>" + "Cloudiness: ".bold()
+			+ obj.list[4].clouds + " %<br>" + "Wind: ".bold() + obj.list[4].speed
 			+ " mps <br>";
 }

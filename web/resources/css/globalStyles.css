@@ -301,7 +301,7 @@ style the footer component of the siteTemplate */
 
  /* Weather table style */ 
 .myTable {
-	width: 400px;
+	width: 200px;
 	background-color: #eee;
 	border-collapse: collapse;
 }
@@ -317,7 +317,7 @@ style the footer component of the siteTemplate */
 	border: 1px solid #000;
 }	
 .ForeCastTable {
-	width: 800px;
+	width: 450px;
 	background-color: #eee;
 	border-collapse: collapse;
 }
