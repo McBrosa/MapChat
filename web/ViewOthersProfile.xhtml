@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+Created by Osman Balci on 2016.02.14 
+Copyright © 2016 Osman Balci. All rights reserved.
+-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+          
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    
+
+    <h:body> 
+        <ui:composition template="/template/siteTemplate.xhtml">
+            <title><ui:define name="title">#{markersView.markerUser.username}'s Profile</ui:define></title>
+            <!-- A user must be logged in to access a profile, therefore the header must be changed to reflect this -->
+            <ui:define name="header">
+                <ui:include src="/template/userHeaderTemplate.xhtml" />
+            </ui:define>
+            <ui:define name="editableContent">
+                <h:form class="form-signin">
+                    <h:panelGrid columns="2" >
+                        <p:panel id="user-photo" class="mc-panel">
+                            <h:graphicImage value="FileStorageLocation/#{markersView.userPhoto()}" />
+                            <h2>#{markersView.markerUser.firstName} #{markersView.markerUser.lastName}</h2>
+                        </p:panel>
+                        <p:panel id="info-panel" class="mc-panel">
+                            <p:tabView  id="user-info" style="background-color: slategray;">
+                                <p:tab title="Basic Info">
+                                    <!-- Basic Info goes here -->
+                                    <h:panelGrid columns="2" cellpadding="10">
+                                        <h:outputText value="First Name: " style="color: gold;"/>
+                                        <h:outputText value="#{markersView.markerUser.firstName}" style="color: gold;" />
+
+                                        <h:outputText value="Middle Name or Initial: " style="color: gold;" />
+                                        <h:outputText value="#{markersView.markerUser.middleName}" style="color: gold;" />                      
+
+                                        <h:outputText value="Last Name: " style="color: gold;" />
+                                        <h:outputText value="#{markersView.markerUser.lastName}" style="color: gold;" />
+
+                                        <h:outputText value="Phone Number: " style="color: gold;" />
+                                        <h:outputText value="#{markersView.markerUser.phone}" style="color: gold;" />     
+
+                                        <h:outputText value="Email " style="color: gold;" />
+                                        <h:outputText value="#{markersView.markerUser.email}" style="color: gold;" />
+                                    </h:panelGrid>
+                                </p:tab>
+                            </p:tabView>
+                            <br/>
+                           <p:commandButton value="Dashboard" style="background-color: gold;"
+                                             action="Dashboard?faces-redirect=true" />
+                        </p:panel>
+                    </h:panelGrid>
+                </h:form>
+            </ui:define>
+        </ui:composition>
+    </h:body>
+</html>

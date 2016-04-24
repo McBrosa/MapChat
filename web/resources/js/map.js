@@ -5,7 +5,7 @@ if (navigator.geolocation) {
     checkGeolocationByLoaderAPI(); // HTML5 not supported! Fall back to Loader API.
 }
 
-function checkGeolocationByHTML5() {
+window.onload = function checkGeolocationByHTML5() {
     navigator.geolocation.getCurrentPosition(function(position) {
         setMapCenter(position.coords.latitude, position.coords.longitude);
     }, function() {

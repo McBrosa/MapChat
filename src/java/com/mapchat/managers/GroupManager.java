@@ -196,7 +196,7 @@ public class GroupManager implements Serializable {
             Groups created = groupsFacade.findByGroupname(groupNameToCreate);
             
             // add to the map
-            mm.getGroupMessageMap().put(g, collection);
+            mm.getGroupMessageMap().put(created.getId(), collection);
             
             // create the user group to link the user to the group
             UserGroup userGroup = new UserGroup();
@@ -241,7 +241,7 @@ public class GroupManager implements Serializable {
                 userGroupFacade.remove(userGroup);
                 
                 currentGroup = null;
-                mm.getGroupMessageMap().remove(check);
+                mm.getGroupMessageMap().remove(check.getId());
                 allGroups.remove(foundGroup);
             }
         } catch(EJBException e)
@@ -466,14 +466,14 @@ public class GroupManager implements Serializable {
                 groupsFacade.create(g);
                 
                 // add to the map
-                mm.getGroupMessageMap().put(g, collection);
                 Groups created = groupsFacade.findByGroupname(grpName);
+                mm.getGroupMessageMap().put(created.getId(), collection);
                 allGroups.add(created);
                 
             }
             // if the group exists
             else {
-                mm.getGroupMessageMap().put(grp, grp.getMessageCollection());
+                mm.getGroupMessageMap().put(grp.getId(), grp.getMessageCollection());
                 allGroups.add(grp);
             }
         }    
@@ -497,7 +497,7 @@ public class GroupManager implements Serializable {
             //Get each group's name
             Groups found = groupsFacade.findById(usergroup.getGroupId());
             if (found != null) {
-                mm.getGroupMessageMap().put(found, found.getMessageCollection());
+                mm.getGroupMessageMap().put(found.getId(), found.getMessageCollection());
                 allGroups.add(found);
             }
         }
