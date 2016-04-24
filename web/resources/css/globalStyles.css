@@ -189,7 +189,7 @@ style the footer component of the siteTemplate */
     background-color: silver;
     padding-top: 10px;
     position: absolute;
-    height: 70px;
+    height: 10%;
     width: 100%;
     bottom: 0;
     left: 0;
@@ -274,6 +274,7 @@ style the footer component of the siteTemplate */
     height: 100%;
     float: left;
     width: 20%;
+    height: 80%;
 }
 
 #map {
@@ -282,6 +283,7 @@ style the footer component of the siteTemplate */
     float: left;
     width: 50%;
     left: 20%;
+    height: 80%;
 }
 
 #chat {
@@ -291,6 +293,7 @@ style the footer component of the siteTemplate */
     float: left;
     width: 30%;
     left: 70%;
+    height: 80%;
 }
 
 .vertical-btn-view {
