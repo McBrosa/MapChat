@@ -168,7 +168,7 @@ style the text within the div content of the siteTemplate. */
 /* The editableContent id is used in siteTemplate.xhtml as <div id="editableContent"> to 
 style the editableContent component of the siteTemplate */
 #editableContent {
-    height: calc(100% - 90px); /* Subtract height of the footer */
+    height: calc(100% - 170px); /* Subtract height of the footer + padding */
 }
 
 /* The header id is used in siteTemplate.xhtml as <div id="header"> to 
@@ -187,22 +187,12 @@ style the header component of the siteTemplate */
 style the footer component of the siteTemplate */
 #footer {
     background-color: silver;
-    padding-top: 10px;
     position: absolute;
-    height: 10%;
+    padding-top: 10px;
+    height: 70px;
     width: 100%;
     bottom: 0;
     left: 0;
-}
-
-/* Set panel grid width to %80 percent of the screen width */
-#footerPanelGrid {
-   width: 80%;
-}
-
-/* Right align panel group */
-#rightAlignPanelGroup {
-    float: right;
 }
 
 /**
@@ -274,7 +264,7 @@ style the footer component of the siteTemplate */
     height: 100%;
     float: left;
     width: 20%;
-    height: 80%;
+    height: 75%;
 }
 
 #map {
@@ -283,7 +273,7 @@ style the footer component of the siteTemplate */
     float: left;
     width: 50%;
     left: 20%;
-    height: 80%;
+    height: 75%;
 }
 
 #chat {
@@ -293,7 +283,7 @@ style the footer component of the siteTemplate */
     float: left;
     width: 30%;
     left: 70%;
-    height: 80%;
+    height: 75%;
 }
 
 .vertical-btn-view {
@@ -311,20 +301,6 @@ style the footer component of the siteTemplate */
 /* Users' profile picture */
 .user-pic {
     margin: 10px;
-}
-
-
-/*** Create CSS ***/
-
-/* Form Styling for Create Panel content*/
-.create-content {
-    display: block;
-    width: 355px;
-    
-    -webkit-box-sizing: border-box;
-    -moz-box-sizing: border-box;
-    -ms-box-sizing: border-box;
-    box-sizing: border-box;
 }
 
 .myTable {
@@ -359,4 +335,18 @@ style the footer component of the siteTemplate */
 .ForeCastTable td,.ForeCastTable th {
 	padding: 5px;
 	border: 1px solid #000;
+}
+
+
+/*** Create CSS ***/
+
+/* Form Styling for Create Panel content*/
+.create-content {
+    display: block;
+    width: 355px;
+    
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -ms-box-sizing: border-box;
+    box-sizing: border-box;
 }
