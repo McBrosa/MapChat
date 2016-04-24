@@ -325,6 +325,9 @@ public class GroupManager implements Serializable {
                 currentUser = usersFacade.find(FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("user_id"));
                 userGroup.setUserId(currentUser.getId());
                 userGroupFacade.remove(userGroup);
+                
+                currentGroup = null;
+                mm.getGroupMessageMap().remove(check);
             }
         } catch(EJBException e)
         {
