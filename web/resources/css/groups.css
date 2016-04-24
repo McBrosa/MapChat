@@ -7,10 +7,24 @@ Copyright © 2016 Alan Cai. All rights reserved.
     Author     : Alan
 */
 
+table {
+    width:100% !important;
+}
+
+tr {
+    padding: 0%;
+    margin: 0%;
+}
+
+td {
+    padding: 0%;
+    margin: 0%;
+}
+
 #buttons-form {
     width: 100%;
 }
-#groups-buttons-form {
+#groups-buttons-form-1 {
     text-align: center;
     width: 100%;
     padding-top: 5%;
@@ -19,7 +33,20 @@ Copyright © 2016 Alan Cai. All rights reserved.
 .groups-button {
     float: left;
     clear: both;
+}
+
+.show-button {
+    float: left;
+    clear: both;
     width: 100%;
+    padding: 0%;
+    margin: 0%;
+}
+
+#modal-button-panel {
+    width: 100%;
+    padding: 0%;
+    margin: 0%;
 }
 
 #group-modify-panel {
