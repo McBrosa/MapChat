@@ -29,9 +29,7 @@
                             <p:fileUpload id="upload" value="#{fileManager.file}" mode="simple" update="crop"/>
                             <br/>
                             <br/>
-                            <p:imageCropper id="crop" image="#{fileManager.filePath()}" rendered="true" />
-                            <br/>
-                            <h:outputText value="#{fileManager.message}" style="color: gold;"/>
+                            <h:outputText value="#{fileManager.message}" style="color: red;"/>
                             <br/>
                             <br/>
                             <p:commandButton id="button" class="btn btn-success" value="Upload" 
