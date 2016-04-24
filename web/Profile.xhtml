@@ -7,7 +7,11 @@ Copyright © 2016 Osman Balci. All rights reserved.
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:ui="http://java.sun.com/jsf/facelets"
-      xmlns:p="http://primefaces.org/ui">
+      xmlns:p="http://primefaces.org/ui"
+      >
+    
+    <script type="text/javascript" src="resources/js/WeatherWidget.js"></script>
+
     <h:body> 
         <ui:composition template="/template/siteTemplate.xhtml">
             <title><ui:define name="title">#{profileViewManager.loggedInUser.username}'s Profile</ui:define></title>
@@ -15,47 +19,77 @@ Copyright © 2016 Osman Balci. All rights reserved.
             <ui:define name="header">
                 <ui:include src="/template/userHeaderTemplate.xhtml" />
             </ui:define>
-            
             <ui:define name="editableContent">
                 <h:form class="form-signin">
-                <h:panelGrid columns="2" >
+                    <h:panelGrid columns="2" >
                         <p:panel id="user-photo" class="mc-panel">
                             <p:commandLink id="photo-link" action="EditPhoto" styleClass="user-pic" ajax="false">
                                 <h:graphicImage value="FileStorageLocation/#{accountManager.userPhoto()}" />
                             </p:commandLink>
                             <p:tooltip id="toolTipFade" for="photo-link" value="Change Photo" trackMouse="true" />
-                            
+
                             <h2>#{profileViewManager.loggedInUser.firstName} #{profileViewManager.loggedInUser.lastName}</h2>
                             <p:link value="Edit Profile"  outcome="EditAccount" style="color: goldenrod;" />
                         </p:panel>
                         <p:panel id="info-panel" class="mc-panel">
                             <p:tabView  id="user-info" style="background-color: slategray;">
-                              <p:tab title="Basic Info">
-                                <!-- Basic Info goes here -->
-                                <h:panelGrid columns="2" cellpadding="10">
-                                  <h:outputText value="First Name: " style="color: gold;"/>
-                                  <h:outputText value="#{profileViewManager.loggedInUser.firstName}" style="color: gold;" />
+                                <p:tab title="Basic Info">
+                                    <!-- Basic Info goes here -->
+                                    <h:panelGrid columns="2" cellpadding="10">
+                                        <h:outputText value="First Name: " style="color: gold;"/>
+                                        <h:outputText value="#{profileViewManager.loggedInUser.firstName}" style="color: gold;" />
 
-                                  <h:outputText value="Middle Name or Initial: " style="color: gold;" />
-                                  <h:outputText value="#{profileViewManager.loggedInUser.middleName}" style="color: gold;" />                      
+                                        <h:outputText value="Middle Name or Initial: " style="color: gold;" />
+                                        <h:outputText value="#{profileViewManager.loggedInUser.middleName}" style="color: gold;" />                      
 
-                                  <h:outputText value="Last Name: " style="color: gold;" />
-                                  <h:outputText value="#{profileViewManager.loggedInUser.lastName}" style="color: gold;" />
+                                        <h:outputText value="Last Name: " style="color: gold;" />
+                                        <h:outputText value="#{profileViewManager.loggedInUser.lastName}" style="color: gold;" />
 
-                                  <h:outputText value="Phone Number: " style="color: gold;" />
-                                  <h:outputText value="#{profileViewManager.loggedInUser.phone}" style="color: gold;" />     
+                                        <h:outputText value="Phone Number: " style="color: gold;" />
+                                        <h:outputText value="#{profileViewManager.loggedInUser.phone}" style="color: gold;" />     
 
-                                  <h:outputText value="Email " style="color: gold;" />
-                                  <h:outputText value="#{profileViewManager.loggedInUser.email}" style="color: gold;" />
-                                </h:panelGrid>
-                              </p:tab>           
+                                        <h:outputText value="Email " style="color: gold;" />
+                                        <h:outputText value="#{profileViewManager.loggedInUser.email}" style="color: gold;" />
+                                    </h:panelGrid>
+                                </p:tab>
+                                <p:tab title="Weather">
+                                    <h:panelGroup id="WeatherView">
+                                        <div align="center">  <table class="myTable">
+                                            <tr>
+                                                <th>Location</th>
+                                                <th>Current Weather</th>
+                                            </tr>
+                                            <tr>
+                                                <td><div id="location"></div></td>
+                                                <td><div id="weatherNow"></div></td>
+                                            </tr>
+                                        </table>
+                                        <table class="ForeCastTable">
+                                            <tr>
+                                                <th id="day1">Day 1 Forecast</th>
+                                                <th id="day2">Day 2 Forecast</th>
+                                                <th id="day3">Day 3 Forecast</th>
+                                                <th id="day4">Day 4 Forecast</th>
+                                                <th id="day5">Day 5 Forecast</th>
+                                            </tr>
+                                            <tr>
+                                                <td><div id="day1div"></div></td>
+                                                <td><div id="day2div"></div></td>
+                                                <td><div id="day3div"></div></td>
+                                                <td><div id="day4div"></div></td>
+                                                <td><div id="day5div"></div></td>
+                                            </tr>
+                                            </table></div>
+                                        
+                                    </h:panelGroup>
+                                </p:tab>
                             </p:tabView>
                             <br/>
-                            <p:commandButton value="Dashboard" style="background-color: gold;"
+                           <p:commandButton value="Dashboard" style="background-color: gold;"
                                              action="Dashboard?faces-redirect=true" />
                         </p:panel>
-                </h:panelGrid>
-               </h:form>
+                    </h:panelGrid>
+                </h:form>
             </ui:define>
         </ui:composition>
     </h:body>
