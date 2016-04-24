@@ -168,7 +168,8 @@ style the text within the div content of the siteTemplate. */
 /* The editableContent id is used in siteTemplate.xhtml as <div id="editableContent"> to 
 style the editableContent component of the siteTemplate */
 #editableContent {
-    height: calc(100% - 170px); /* Subtract height of the footer + padding */
+    height: calc(100% - 160px); /* Subtract height of the footer + padding */
+    margin: 0 auto 70px; /* 0 Margin on top, auto on sides, Footer Height for Bottom */
 }
 
 /* The header id is used in siteTemplate.xhtml as <div id="header"> to 
@@ -187,7 +188,6 @@ style the header component of the siteTemplate */
 style the footer component of the siteTemplate */
 #footer {
     background-color: silver;
-    position: absolute;
     padding-top: 10px;
     height: 70px;
     width: 100%;
@@ -264,7 +264,6 @@ style the footer component of the siteTemplate */
     height: 100%;
     float: left;
     width: 20%;
-    height: 75%;
 }
 
 #map {
@@ -273,7 +272,6 @@ style the footer component of the siteTemplate */
     float: left;
     width: 50%;
     left: 20%;
-    height: 75%;
 }
 
 #chat {
@@ -283,7 +281,6 @@ style the footer component of the siteTemplate */
     float: left;
     width: 30%;
     left: 70%;
-    height: 75%;
 }
 
 .vertical-btn-view {
@@ -303,6 +300,7 @@ style the footer component of the siteTemplate */
     margin: 10px;
 }
 
+ /* Weather table style */ 
 .myTable {
 	width: 400px;
 	background-color: #eee;
