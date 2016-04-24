@@ -42,13 +42,13 @@ public class MessageManager implements MessageManagerLocal {
     @EJB
     private MessageFacade msgFacade;
     
-    private Map<Groups, Collection> groupMessageMap; // Chatroom data structure of <group, list of messages>
+    private Map<Integer, Collection> groupMessageMap; // Chatroom data structure of <group id, list of messages>
 
-    public Map<Groups, Collection> getGroupMessageMap() {
+    public Map<Integer, Collection> getGroupMessageMap() {
         return groupMessageMap;
     }
 
-    public void setGroupMessageMap(Map<Groups, Collection> groupMessageMap) {
+    public void setGroupMessageMap(Map<Integer, Collection> groupMessageMap) {
         this.groupMessageMap = groupMessageMap;
     }
     
@@ -56,12 +56,12 @@ public class MessageManager implements MessageManagerLocal {
     public void init() {
         
         groupMessageMap = 
-            Collections.synchronizedMap(new HashMap<Groups, Collection>());
+            Collections.synchronizedMap(new HashMap<Integer, Collection>());
         
     }
     
-    public List<Message> getMessagesByChatroom(Groups chatroomName) {
-        return (List<Message>)groupMessageMap.get(chatroomName);
+    public List<Message> getMessagesByChatroom(Groups group) {
+        return (List<Message>)groupMessageMap.get(group.getId());
     } 
     
     @Override
@@ -71,7 +71,7 @@ public class MessageManager implements MessageManagerLocal {
             = (GroupManager) FacesContext.getCurrentInstance().getApplication()
             .getELResolver().getValue(elContext, null, "groupManager");
         
-        List<Message> cfq = (List<Message>)groupMessageMap.get(groupManager.getCurrentGroup());
+        List<Message> cfq = (List<Message>)groupMessageMap.get(groupManager.getCurrentGroup().getId());
         
         // if we reach capacity in the list, the oldest message will be removed
         // from the list and the database
@@ -104,7 +104,7 @@ public class MessageManager implements MessageManagerLocal {
         GroupManager groupManager 
             = (GroupManager) FacesContext.getCurrentInstance().getApplication()
             .getELResolver().getValue(elContext, null, "groupManager");
-        return (List<Message>)groupMessageMap.get(groupManager.getCurrentGroup());
+        return (List<Message>)groupMessageMap.get(groupManager.getCurrentGroup().getId());
         
     }
 }

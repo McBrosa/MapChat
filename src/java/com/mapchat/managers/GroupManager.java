@@ -134,18 +134,16 @@ public class GroupManager implements Serializable {
         this.nonGlobalGroups = nonGlobalGroups;
     }    
     
-    
-    public Set<Groups> getGlobalGroups() {
-        globalGroups = mm.getGroupMessageMap().keySet();
-        return globalGroups;
-    }
-
-    public void setGlobalGroups(Set<Groups> globalGroups) {
-        this.globalGroups = globalGroups;
-    }
-    
     public Set<Groups> getAllGroups() {
-         allGroups = mm.getGroupMessageMap().keySet();
+        if (allGroups == null) {
+            allGroups = new HashSet<>();
+        }
+        
+        Set<Integer> grpIds = mm.getGroupMessageMap().keySet();
+        // this seems very inefficient
+        for (Integer i : grpIds) {
+            allGroups.add(groupsFacade.findById(i));
+        }
         return allGroups;
     }
 
@@ -236,7 +234,7 @@ public class GroupManager implements Serializable {
             groupsFacade.create(g);
             
             // add to the map
-            mm.getGroupMessageMap().put(g, collection);
+            mm.getGroupMessageMap().put(g.getId(), collection);
             
             // create the user group to link the user to the group
             UserGroup userGroup = new UserGroup();
@@ -549,12 +547,12 @@ public class GroupManager implements Serializable {
                 groupsFacade.create(g);
                 
                 // add to the map
-                mm.getGroupMessageMap().put(g, collection);
+                mm.getGroupMessageMap().put(g.getId(), collection);
                 
             }
             // if the group exists
             else {
-                mm.getGroupMessageMap().put(grp, grp.getMessageCollection());
+                mm.getGroupMessageMap().put(grp.getId(), grp.getMessageCollection());
             }
         }    
     }
@@ -599,7 +597,7 @@ public class GroupManager implements Serializable {
                 groupsFacade.create(g);
                 
                 // add to the map
-                mm.getGroupMessageMap().put(g, collection);
+                mm.getGroupMessageMap().put(g.getId(), collection);
                 
                 // create the user group to link the user to the group
                 UserGroup userGroup = new UserGroup();
@@ -611,7 +609,7 @@ public class GroupManager implements Serializable {
             }
             // if the group exists
             else {
-                mm.getGroupMessageMap().put(grp, grp.getMessageCollection());
+                mm.getGroupMessageMap().put(grp.getId(), grp.getMessageCollection());
             }
         }
     }
