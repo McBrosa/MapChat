@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="GroupsEditDlg" widgetVar="GroupsEditDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.EditGroupsTitle}">
+            <h:form id="GroupsEditForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{groupsController.selected != null}">
+                        <p:outputLabel value="#{bundle.EditGroupsLabel_id}" for="id" />
+                        <p:inputText id="id" value="#{groupsController.selected.id}" title="#{bundle.EditGroupsTitle_id}" required="true" requiredMessage="#{bundle.EditGroupsRequiredMessage_id}"/>
+                        <p:outputLabel value="#{bundle.EditGroupsLabel_groupName}" for="groupName" />
+                        <p:inputText id="groupName" value="#{groupsController.selected.groupName}" title="#{bundle.EditGroupsTitle_groupName}" required="true" requiredMessage="#{bundle.EditGroupsRequiredMessage_groupName}"/>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{groupsController.update}" value="#{bundle.Save}" update="display,:GroupsListForm:datalist,:growl" oncomplete="handleSubmit(args, 'GroupsEditDialog');"/>
+                    <p:commandButton value="#{bundle.Cancel}" onclick="GroupsEditDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>
