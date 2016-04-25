@@ -27,6 +27,6 @@ function setMapCenter(latitude, longitude) {
     var location = latitude+','+longitude;
 //    map = PF('gmap').getMap();
 //    map.setPosition(location);
-    console.log(location);
     update();
+    refresh();
 }

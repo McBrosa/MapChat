@@ -20,7 +20,8 @@
             <h:inputHidden id="latitude" value="#{accountManager.selected.locationX}"/>
             <h:inputHidden id="longitude" value="#{accountManager.selected.locationY}"/>
             <p:remoteCommand name="update" action="#{accountManager.updateLocation()}" />
-            <p:poll interval="10" update=":gmap" listener="#{markersView.refreshMap()}" />
+            <p:remoteCommand name="refresh" action="#{markersView.refreshMap()}" update=":gmap"/>
+<!--            <p:poll interval="10" update=":gmap" listener="#{markersView.refreshMap()}" />-->
         </h:form>
         <p:gmap id="gmap" widgetVar="map" center="#{accountManager.selected.locationX},#{accountManager.selected.locationY}" zoom="18" fitBounds="true" type="HYBRID" style="width:100%; height:100%;"
                 model="#{markersView.simpleModel}">
