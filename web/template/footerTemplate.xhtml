@@ -18,71 +18,54 @@
         <!-- Do not enter tags before the composition line since they are ignored by JSF -->
         <ui:composition>
             <h:form>
-                <h:panelGroup style="align">
+                <h:panelGroup>
                     <a href="https://www.facebook.com" target="_blank"><img src="./resources/images/socialMediaIcons/facebook.png" style="max-height: 28px; max-width: 28px; margin: 0 10px;" /></a>
                     <a href="https://twitter.com/"  target="_blank"><img src="./resources/images/socialMediaIcons/twitter.png" style="max-height: 28px; max-width: 28px;"/></a>
                 </h:panelGroup>
-                <h:panelGrid columns="1" cellpadding="5" class="rightAlign">
-                    <p:commandLink value="Contact Us" onclick="PF('contactUs').show();" />
-                </h:panelGrid>
+                
+                <p:commandLink value="Contact Us" onclick="PF('contactUs').show();" styleClass="rightAlign"/>
                 <div>
                     <p:growl id="message" showDetail="true" />
 
-                    <p:dialog header="Contact Us" widgetVar="contactUs" minHeight="40">
-                        <h:form>
-                            <p:panel class="mc-panel">
-                                <h2>Please inform us if you have any ideas, questions, comments, or issues with the MapChat application.</h2>
-                                <div align="center">
-                                    <h:panelGrid columns="2" cellspacing="10px" >
+                    <p:dialog header="Contact Us" widgetVar="contactUs" minHeight="40" >
+                        <p:panel class="mc-panel">
+                            <h2>Please inform us if you have any ideas, questions, comments, or issues with the MapChat application.</h2>
+                            <div align="center">
+                                <h:panelGrid columns="2" cellspacing="10px" >
 
-                                        <h2> Subject:</h2>
-                                        <h:panelGroup>
-                                            <br />
-                                            <h:inputText size="30" id="subject"
-                                                         value="#{emailClientBean.subject}"
+                                    <h2> Subject:</h2>
+                                    <h:panelGroup>
+                                        <br />
+                                        <h:inputText size="30" id="subject"
+                                                     value="#{emailClientBean.subject}"
+                                                     required="true"
+                                                     requiredMessage="Required Subject"/>
+
+                                    </h:panelGroup>
+
+                                    <h2>Message:</h2>
+                                    <h:panelGroup>
+                                        <h:inputTextarea cols="45" rows="15" id="body-text"
+                                                         value="#{emailClientBean.body}"
                                                          required="true"
-                                                         requiredMessage="Required Subject"/>
-                                            
-                                        </h:panelGroup>
-
-                                        <h2>Message:</h2>
-                                        <h:panelGroup>
-                                            <h:inputTextarea cols="45" rows="15" id="message"
-                                                             value="#{emailClientBean.body}"
-                                                             required="true"
-                                                             requiredMessage="Required Body Text"/>
-                                            
-                                        </h:panelGroup>
-                                    </h:panelGrid>
-                                </div>
-                                <div align="center">
-                                    <h:panelGrid columns="2" style="align-content: center" >
-                                        <h:commandButton value="Send" action="#{emailClientBean.send()}"/>
-                                        <h:commandButton value="Cancel" onclick="PF('contactUs').hide();"/>
-                                    </h:panelGrid>
-                                </div>
-                                <br />
-                            </p:panel>
-                        </h:form>
+                                                         requiredMessage="Required Body Text"/>
+                                    </h:panelGroup>
+                                </h:panelGrid>
+                            </div>
+                            <div align="center">
+                                <h:panelGrid columns="2" style="float: bottom;" >
+                                    <h:commandButton value="Send" action="#{emailClientBean.send()}"/>
+                                    <h:commandButton value="Cancel" onclick="PF('contactUs').hide();"/>
+                                </h:panelGrid>
+                            </div>
+                            <br />
+                        </p:panel>
                     </p:dialog>
                 </div>
-
-                <!--                <p:commandLink value="Contact Us" onclick="PF('dlg2').show();" class="rightAlign" style="font-size: 12px;"/>-->
-
-                <!--                <p:dialog header="Contact Us" widgetVar="dlg2" modal="true" height="500">
-                                    
-                                        <h:panelGrid columns="2" style="align-content: center" >
-                                            <h:commandButton value="Send" action="#{emailClientBean.send()}"/>
-                                            <h:commandButton value="Cancel" onclick="PF('dlg2').hide();"/>
-                                        </h:panelGrid>
-                
-                
-                                   
-                                </p:dialog> -->
                 <p:separator />
-                <h:outputLabel value="MapChat ver. 0.75" class="leftAlign" style="font-size: 12px;"/>
+                <h:outputLabel value="MapChat ver. 0.85" class="leftAlign" style="font-size: 12px;"/>
                 <h:outputLabel value="Copyright © 2016. Virginia Polytechnic Institute and State University" class="rightAlign" style="font-size: 12px;"/>
-
+                <br/>
             </h:form>
         </ui:composition>
         <!-- Do not enter tags after the composition line since they are ignored by JSF -->

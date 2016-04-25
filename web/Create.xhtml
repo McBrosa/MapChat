@@ -8,6 +8,8 @@
 
     <h:body>
         <ui:composition template="/template/siteTemplate.xhtml">
+            <title><ui:define name="title">Sign Up for MapChat!</ui:define></title>
+            
             <ui:define name="editableContent">
                 <h:form class="form-signin">
                     <div align="center">
@@ -16,7 +18,7 @@
                             <p:panel id="signup-panel" class="mc-panel">
 
                                 <h2>Don't have an account? Sign up now!</h2>
-
+                                
                                 <p:inputText id="firstName" value="#{accountManager.firstName}" 
                                              required="true" label="First Name" class="create-content">
                                     <f:validateLength minimum="2" />
@@ -72,16 +74,16 @@
 
                                 <br/>
                                 <br/>
-                                <p:commandButton class="btn btn-lg btn-success btn-block" id="signUp" update="signup-panel" 
+                                <p:commandButton class="btn btn-lg btn-success btn-block" id="signUp" update="signup-panel error" 
                                              action="#{accountManager.createAccount()}" value="Sign Up" />
                                 
                                 <p:button value="Cancel" outcome="index" />
                             </p:panel>
                             
-                            <p:panel id="error-panel" style="background: transparent; border: 0px black;">
+                            <p:panel id="error-panel" style="background: transparent; border: 0px;">
                                 <div align="left">
-                                    <p:messages id="msgs" autoUpdate="true" closable="true"/>
-                                    <h:outputText id="error" value="#{accountManager.statusMessage}" />
+                                    <p:messages id="create-errors" autoUpdate="true" closable="true"/>
+                                    <p:outputLabel id="error" value="#{accountManager.statusMessage}" />
                                 </div>
                             </p:panel>
                         </h:panelGrid>

@@ -1,6 +1,7 @@
 /** 
  * MapChat Cloud Application Cascading Style Sheets (CSS) Style Definitions
  * Modeled after UIDesign tutorial by Osman Balci for CS 4984
+ * Made by Anthony Barbee
  */
 
 html, body {
@@ -169,7 +170,7 @@ style the text within the div content of the siteTemplate. */
 style the editableContent component of the siteTemplate */
 #editableContent {
     height: calc(100% - 160px); /* Subtract height of the footer + padding */
-    margin-bottom: 70px; /* Footer Height for Bottom Margin */
+    padding-bottom: 70px; /* Footer Height for Bottom Margin */
 }
 
 /* The header id is used in siteTemplate.xhtml as <div id="header"> to 

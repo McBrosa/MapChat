@@ -4,7 +4,7 @@
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:ui="http://java.sun.com/jsf/facelets"
       xmlns:p="http://primefaces.org/ui">
-
+    <!-- Main Page/ Index -->
     <h:body>
         <!-- This page is constructed based on the siteTemplate -->
         <ui:composition template="/template/siteTemplate.xhtml">
@@ -13,19 +13,16 @@
                     <div id="welcome" class="infoPage" align="center">
                         <h3>Welcome to MapChat</h3>
                         <br/>
-                        <h:panelGrid columns="2" columnClasses="leftAlign, rightAlign" >
-                            <p:imageSwitch effect="fade" speed="500" style="border: 4px gold solid;">
-                                <ui:repeat value="#{imagesView.images}" var="image">
-                                    <p:graphicImage name="images/switcher/#{image}" id="image" />
-                                </ui:repeat>
-                            </p:imageSwitch>
-                            <p:panel id="introPanel" class="mc-panel">
-                                <h2 style="text-decoration: underline;">A Messenger with Location</h2>
-                                <br/>
-                                <p:commandButton id="createBtn" action="Create" value="Create an Account" 
-                                                 style="background-color: gold; float: bottom;"/>
-                            </p:panel>
-                        </h:panelGrid>
+                        <p:panel id="introPanel" class="mc-panel">
+                            <h2 style="text-decoration: underline;">Message your friends near or far!</h2>
+                            <p style="color: gold;">
+                                MapChat is a Messenger Web Application<br/>
+                                developed by Virginia Tech students.
+                            </p>
+                            <br/>
+                            <p:commandButton id="createBtn" action="Create" value="Create an Account" 
+                                             style="background-color: gold; float: bottom;"/>
+                        </p:panel>
                     </div>
                 </h:form>
             </ui:define>
