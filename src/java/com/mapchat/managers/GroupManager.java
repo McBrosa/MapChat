@@ -23,6 +23,7 @@ import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
+import java.util.Vector;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJBException;
 import javax.faces.bean.ManagedProperty;
@@ -380,10 +381,9 @@ public class GroupManager implements Serializable {
                 usernameToDelete = "";
                 return "";
             }
-            statusMessage = "UserGroup " + foundUserGroup.getId() + " deleted";
             userGroupFacade.deleteUserGroup(foundUserGroup);
             
-            ArrayList<UserGroup> emptyCheck = (ArrayList<UserGroup>)userGroupFacade.findByGroupId(groupId);
+            Vector<UserGroup> emptyCheck = (Vector<UserGroup>)userGroupFacade.findByGroupId(groupId);
             if(emptyCheck == null) {
                 deleteGroup(groupId);
             }
@@ -408,7 +408,7 @@ public class GroupManager implements Serializable {
     
     public ArrayList<Integer> getUsers(Integer groupId) {
         ArrayList<Integer> userIds = new ArrayList<Integer>();
-        ArrayList<UserGroup> searchResult = new ArrayList<UserGroup>(userGroupFacade.findByGroupId(groupId));
+        Vector<UserGroup> searchResult = new Vector<UserGroup>(userGroupFacade.findByGroupId(groupId));
         for(int i = 0; i < searchResult.size(); i++)
         {
             userIds.add(searchResult.get(i).getUserId());
