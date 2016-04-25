@@ -57,7 +57,7 @@
                         </p:commandButton>
                         <br />
                         <br />
-                        <p:commandButton value="Close" onclick="PF('addUserDlg').hide();" update="error2 addusername"/>
+                        <p:commandButton value="Close" onclick="PF('addUserDlg').hide();" actionListener="#{groupManager.closeDialog()}" update="error2 addusername"/>
                         <h:outputLabel id="error2" value="#{groupManager.statusMessage}"  style="color:red"/>
                     </p:dialog>
                     
@@ -71,7 +71,7 @@
                         </p:commandButton>
                         <br />
                         <br />
-                        <p:commandButton value="Close" onclick="PF('removeUserDlg').hide();" update="error3 removeusername"/>
+                        <p:commandButton value="Close" onclick="PF('removeUserDlg').hide();" actionListener="#{groupManager.closeDialog()}" update="error3 removeusername"/>
                         <h:outputLabel id="error3" value="#{groupManager.statusMessage}"  style="color:red"/>
                     </p:dialog>
                 </h:form>
