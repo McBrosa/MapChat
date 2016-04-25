@@ -10,6 +10,7 @@ import com.mapchat.entitypackage.Groups;
 import com.mapchat.entitypackage.User;
 import com.mapchat.entitypackage.UserGroup;
 import com.mapchat.managers.GroupManager;
+import com.mapchat.managers.MessageBean;
 import com.mapchat.sessionbeanpackage.File1Facade;
 import com.mapchat.sessionbeanpackage.UserFacade;
 import com.mapchat.sessionbeanpackage.UserGroupFacade;
@@ -68,6 +69,17 @@ public class MarkersView implements Serializable {
     @ManagedProperty(value="#{groupManager}")
     private GroupManager groupManager;
     
+    @ManagedProperty(value="#{messageBean}")
+    private MessageBean messageBean;
+
+    public MessageBean getMessageBean() {
+        return messageBean;
+    }
+
+    public void setMessageBean(MessageBean messageBean) {
+        this.messageBean = messageBean;
+    }
+    
     @PostConstruct
     public void init() {
         simpleModel = new DefaultMapModel();
@@ -85,9 +97,9 @@ public class MarkersView implements Serializable {
         markerMap.put(currentMarker.getData().toString(), user.getId());
         simpleModel.addOverlay(currentMarker);
         
-        if(groupManager.getCurrentGroup() != null && !groupManager.getGlobalgrps().contains(groupManager.getCurrentGroup().getGroupName()))
+        if(messageBean.getCurrentGroup() != null && !groupManager.getGlobalgrps().contains(messageBean.getCurrentGroup().getGroupName()))
         {
-            List<UserGroup> usergroups = userGroupFacade.findByGroupId(groupManager.getCurrentGroup().getId()); 
+            List<UserGroup> usergroups = userGroupFacade.findByGroupId(messageBean.getCurrentGroup().getId()); 
             // Get all the users in the group and display them on the map
             usergroups.stream().forEach((ug) -> {
                 User current = userFacade.getUser(ug.getUserId());

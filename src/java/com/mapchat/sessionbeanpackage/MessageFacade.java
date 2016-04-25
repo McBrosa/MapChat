@@ -4,6 +4,7 @@
  */
 package com.mapchat.sessionbeanpackage;
 
+import com.mapchat.entitypackage.Groups;
 import com.mapchat.entitypackage.Message;
 import java.util.List;
 import javax.ejb.Stateless;
@@ -33,16 +34,16 @@ public class MessageFacade extends AbstractFacade<Message> {
         return em.find(Message.class, id);
     }
     
-    public List<Message> getMessagesByGroupId(Integer gid) {
+    public List<Message> getMessagesByGroup(Groups grp) {
         if (em.createNamedQuery("Message.findByGroupId")
-            .setParameter("gid", gid)
+            .setParameter("gid", grp)
             .getResultList().isEmpty()) {
             return null;
         }
         else {
             return (List<Message>) (em.createNamedQuery("Message.findByGroupId")
-                .setParameter("gid", gid)
-                .getSingleResult());        
+                .setParameter("gid", grp)
+                .getResultList());        
         }
     }
     

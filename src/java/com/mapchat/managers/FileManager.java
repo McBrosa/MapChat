@@ -46,7 +46,6 @@ import org.primefaces.model.DefaultStreamedContent;
 import org.primefaces.model.StreamedContent;
 import org.primefaces.model.UploadedFile;
 
-@Named(value = "fileManager")
 @ManagedBean
 @SessionScoped
 public class FileManager implements Serializable{

@@ -20,7 +20,7 @@ import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ViewScoped;
+import javax.faces.bean.SessionScoped;
 import javax.faces.event.ActionEvent;
 import javax.faces.bean.ManagedProperty;
 import org.primefaces.context.RequestContext;
@@ -32,7 +32,7 @@ import org.primefaces.model.UploadedFile;
  * @author Sean Arcayan
  */
 @ManagedBean
-@ViewScoped
+@SessionScoped // was view
 public class MessageBean implements Serializable {
  
     @ManagedProperty(value="#{messageManager}")
@@ -59,6 +59,17 @@ public class MessageBean implements Serializable {
     //private List<Message> activeMessages;
     private String[] availableChatrooms;
     private String[] activeMessages;
+    private Groups currentGroup;
+            
+                public Groups getCurrentGroup() {
+        if (currentGroup == null) return null;
+        
+        return currentGroup;
+    }
+
+    public void setCurrentGroup(Groups currentGroup) {
+        this.currentGroup = currentGroup;
+    }
 
     @ManagedProperty(value="#{profileViewManager}")
     private ProfileViewManager profileViewManager;
@@ -126,7 +137,7 @@ public class MessageBean implements Serializable {
         }
         return null;
         */
-        if (groupManager.getCurrentGroup() != null) {
+        if (currentGroup != null) {
             Message[] msgs = mm.getMessagesInCurrentGroup().toArray(new Message[0]);
             String[] ret = Arrays.stream(msgs).map(Object::toString).toArray(String[]::new);
             return ret;
@@ -172,9 +183,6 @@ public class MessageBean implements Serializable {
         // add to the front of the list, remove from the end
         mm.sendMessageToCurrentGroup(msg);
         
-        // send the current message to the database 
-        msgFacade.create(msg);
-        
         // reset the input box
         messageInput = "";
     }
@@ -185,7 +193,7 @@ public class MessageBean implements Serializable {
      * @param evt
      */
     public void uploadFile(FileUploadEvent evt) {
-        if (groupManager.getCurrentGroup() == null )
+        if (currentGroup == null )
         {
             return;
         }
@@ -193,7 +201,7 @@ public class MessageBean implements Serializable {
         /*
          * upload the file
          */
-        fileManager.uploadFileToGroup(evt.getFile(), groupManager.getCurrentGroup());
+        fileManager.uploadFileToGroup(evt.getFile(), currentGroup);
         
         /*
          * send a message to notify that a file was uploaded
@@ -204,7 +212,7 @@ public class MessageBean implements Serializable {
         }
         
         // send the message to the current chatroom
-        List<Message> cfq = mm.getMessagesByChatroom(groupManager.getCurrentGroup());
+        List<Message> cfq = mm.getMessagesByChatroom(currentGroup);
         
         // if we reach capacity in the list, the oldest message will be removed
         // from the list and the database
@@ -220,7 +228,7 @@ public class MessageBean implements Serializable {
     }
     
     private Message generateMessage(String msgContent) {
-        Groups curgrp = groupManager.getCurrentGroup();
+        Groups curgrp = currentGroup;
         if (curgrp == null) {
             return null;
         }
@@ -241,13 +249,14 @@ public class MessageBean implements Serializable {
      */
     public String[] getFileNamesInGroup() {
         
-        String directory = Constants.ROOT_DIRECTORY + groupManager.getCurrentGroup().getId();
-        
+        String directory = Constants.ROOT_DIRECTORY + currentGroup.getId();
+        System.out.println("dir: " + directory);
         new File(directory).mkdirs();
         
         File folder = new File(directory);
         File[] listOfFiles = folder.listFiles();
         String[] listOfFilesRelative = new String[listOfFiles.length];
+        System.out.println("numfiles: " + listOfFiles.length);
         for (int i = 0; i < listOfFiles.length; i++) {
             listOfFilesRelative[i] = listOfFiles[i].getName();
         }

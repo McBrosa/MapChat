@@ -15,7 +15,7 @@ import com.mapchat.sessionbeanpackage.UserGroupFacade;
 import java.io.Serializable;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.SessionScoped;
+import javax.faces.bean.ApplicationScoped;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -26,14 +26,17 @@ import java.util.Set;
 import java.util.Vector;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJBException;
+import javax.el.ELContext;
 import javax.faces.bean.ManagedProperty;
+import javax.faces.context.FacesContext;
+import org.primefaces.context.RequestContext;
 
 /**
  *
  * @author Alan
  */
 @ManagedBean(name = "groupManager")
-@SessionScoped
+@ApplicationScoped
 public class GroupManager implements Serializable {
     
     //private HashMap<String, ArrayList<String>> currentGroups;
@@ -41,17 +44,16 @@ public class GroupManager implements Serializable {
     private String groupNameToDelete;
     private String usernameToAdd;
     private String usernameToDelete;
-    private User currentUser;
     private String message;
     private String statusMessage;
-    private Groups currentGroup;
     private Set<Groups> allGroups;
+    private ArrayList<Groups> globalGroupList;
     // Groups all users have access to
-    private ArrayList<String> globalgrps = new ArrayList();
-        
+    private ArrayList<String> globalgrps = new ArrayList(); // this list of global groups will be in Constants.java
+     /*   
     @ManagedProperty(value="#{profileViewManager}")
     private ProfileViewManager profileViewManager;
-    
+    */
     @ManagedProperty(value="#{messageManager}")
     private MessageManager mm;
 
@@ -82,7 +84,7 @@ public class GroupManager implements Serializable {
         initializeGlobalGroups();
         initializeNonGlobalGroups();
     }
-
+/*
     public ProfileViewManager getProfileViewManager() {
         return profileViewManager;
     }
@@ -90,23 +92,13 @@ public class GroupManager implements Serializable {
     public void setProfileViewManager(ProfileViewManager profileViewManager) {
         this.profileViewManager = profileViewManager;
     }   
-
+*/
     public ArrayList<String> getGlobalgrps() {
         return globalgrps;
     }
 
     public void setGlobalgrps(ArrayList<String> globalgrps) {
         this.globalgrps = globalgrps;
-    }
-    
-    public Groups getCurrentGroup() {
-        if (currentGroup == null) return null;
-        
-        return currentGroup;
-    }
-
-    public void setCurrentGroup(Groups currentGroup) {
-        this.currentGroup = currentGroup;
     }
 
     public Set<Groups> getAllGroups() {
@@ -159,14 +151,6 @@ public class GroupManager implements Serializable {
         statusMessage = message;
     }
     
-    public User getCurrentUser() {
-        return currentUser;
-    }
-    
-    public void setCurrentUser(User user) {
-        currentUser = user;
-    }
-    
     public String getMessage() {
         return message;
     }
@@ -203,7 +187,11 @@ public class GroupManager implements Serializable {
             // create the user group to link the user to the group
             UserGroup userGroup = new UserGroup();
             userGroup.setGroupId(g.getId());
-            currentUser = profileViewManager.getLoggedInUser();
+            ELContext elContext = FacesContext.getCurrentInstance().getELContext();
+            ProfileViewManager profileViewManager = 
+                (ProfileViewManager) FacesContext.getCurrentInstance().getApplication()
+                .getELResolver().getValue(elContext, null, "profileViewManager");
+            User currentUser = profileViewManager.getLoggedInUser();
             userGroup.setUserId(currentUser.getId());
             userGroupFacade.create(userGroup);
         }
@@ -237,11 +225,18 @@ public class GroupManager implements Serializable {
                 
                 UserGroup userGroup = new UserGroup();
                 userGroup.setGroupId(groupId);
-                currentUser = profileViewManager.getLoggedInUser();
+                ELContext elContext = FacesContext.getCurrentInstance().getELContext();
+                ProfileViewManager profileViewManager = 
+                    (ProfileViewManager) FacesContext.getCurrentInstance().getApplication()
+                    .getELResolver().getValue(elContext, null, "profileViewManager");
+                User currentUser = profileViewManager.getLoggedInUser();
                 userGroup.setUserId(currentUser.getId());
                 userGroupFacade.remove(userGroup);
-                
-                currentGroup = null;
+                elContext = FacesContext.getCurrentInstance().getELContext();
+                MessageBean messageBean = 
+                    (MessageBean) FacesContext.getCurrentInstance().getApplication()
+                    .getELResolver().getValue(elContext, null, "messageBean");
+                messageBean.setCurrentGroup(null);
                 mm.getGroupMessageMap().remove(check.getId());
                 allGroups.remove(foundGroup);
             }
@@ -261,21 +256,26 @@ public class GroupManager implements Serializable {
             usernameToAdd = "";
             return "";
         }
+        ELContext elContext = FacesContext.getCurrentInstance().getELContext();
+                MessageBean messageBean = 
+                    (MessageBean) FacesContext.getCurrentInstance().getApplication()
+                    .getELResolver().getValue(elContext, null, "messageBean");
+        
         //Check the current group, if there is one
-        if(currentGroup == null)
+        if(messageBean.getCurrentGroup() == null)
         {
             statusMessage += "No group is selected";
             usernameToAdd = "";
             return "";
         }
-        else if(currentGroup.getId() == null || currentGroup.getGroupName() == null)
+        else if(messageBean.getCurrentGroup().getId() == null || messageBean.getCurrentGroup().getGroupName() == null)
         {
             statusMessage += "There is something wrong with the current group selected";
             usernameToAdd = "";
             return "";   
         }
         
-        Integer groupId = currentGroup.getId();
+        Integer groupId = messageBean.getCurrentGroup().getId();
         Groups publicGroup = groupsFacade.findById(groupId);
         if(publicGroup == null)
         {
@@ -330,20 +330,26 @@ public class GroupManager implements Serializable {
             usernameToDelete = "";
             return "";
         }
+        ELContext elContext = FacesContext.getCurrentInstance().getELContext();
+                MessageBean messageBean = 
+                    (MessageBean) FacesContext.getCurrentInstance().getApplication()
+                    .getELResolver().getValue(elContext, null, "messageBean");
+        
+        
         //Check the current group, if there is one
-        if(currentGroup == null)
+        if(messageBean.getCurrentGroup() == null)
         {
             statusMessage += "No group is selected";
             usernameToDelete = "";
             return "";
         }
-        else if(currentGroup.getId() == null || currentGroup.getGroupName() == null)
+        else if(messageBean.getCurrentGroup().getId() == null || messageBean.getCurrentGroup().getGroupName() == null)
         {
             statusMessage += "There is something wrong with the current group selected";
             usernameToDelete = "";
             return "";   
         }
-        Integer groupId = currentGroup.getId();
+        Integer groupId = messageBean.getCurrentGroup().getId();
         Groups publicGroup = groupsFacade.findById(groupId);
         if(publicGroup == null)
         {
@@ -360,6 +366,11 @@ public class GroupManager implements Serializable {
         Groups group = publicGroup;
         try
         {
+            elContext = FacesContext.getCurrentInstance().getELContext();
+            ProfileViewManager profileViewManager = 
+                (ProfileViewManager) FacesContext.getCurrentInstance().getApplication()
+                .getELResolver().getValue(elContext, null, "profileViewManager");
+            
             //Check to see if you are deleting yourself
             boolean same = usernameToDelete.equals(profileViewManager.getLoggedInUser().getUsername());
             //statusMessage += same;
@@ -389,8 +400,8 @@ public class GroupManager implements Serializable {
             }
             if(same)
             {
-                currentGroup = null;
-                boolean removed = allGroups.remove(group);
+                messageBean.setCurrentGroup(null);
+                allGroups.remove(group);
             }
                 
             
@@ -420,7 +431,12 @@ public class GroupManager implements Serializable {
     {
         String groupsString = "";
         
-            currentUser = profileViewManager.getLoggedInUser();
+        ELContext elContext = FacesContext.getCurrentInstance().getELContext();
+            ProfileViewManager profileViewManager = 
+                (ProfileViewManager) FacesContext.getCurrentInstance().getApplication()
+                .getELResolver().getValue(elContext, null, "profileViewManager");
+        
+            User currentUser = profileViewManager.getLoggedInUser();
             ArrayList<UserGroup> searchResult = new ArrayList<UserGroup>(userGroupFacade.findAll());
 
             for(int i = 0; i < searchResult.size(); i++)
@@ -440,6 +456,7 @@ public class GroupManager implements Serializable {
      * Initialize global groups
      */
     private void initializeGlobalGroups() {
+        globalGroupList = new ArrayList<>();
         if(globalgrps == null || globalgrps.isEmpty())
         {
             globalgrps.add("#Music");
@@ -466,14 +483,19 @@ public class GroupManager implements Serializable {
                 
                 // add to the map
                 Groups created = groupsFacade.findByGroupname(grpName);
+                created.setMessageCollection(collection);
                 mm.getGroupMessageMap().put(created.getId(), collection);
                 allGroups.add(created);
+                globalGroupList.add(created);
                 
             }
             // if the group exists
             else {
+                // reverse it from the database since we want the most recent message upt op.
+                Collections.reverse((List<Message>)grp.getMessageCollection());
                 mm.getGroupMessageMap().put(grp.getId(), grp.getMessageCollection());
                 allGroups.add(grp);
+                globalGroupList.add(grp);
             }
         }    
     }
@@ -482,6 +504,11 @@ public class GroupManager implements Serializable {
      * Initialize nonglobal groups
      */
     private void initializeNonGlobalGroups() {
+        ELContext elContext = FacesContext.getCurrentInstance().getELContext();
+            ProfileViewManager profileViewManager = 
+                (ProfileViewManager) FacesContext.getCurrentInstance().getApplication()
+                .getELResolver().getValue(elContext, null, "profileViewManager");
+        
         //Get the current user
         User user = usersFacade.find(profileViewManager.getLoggedInUser().getId());
         
@@ -510,4 +537,25 @@ public class GroupManager implements Serializable {
         usernameToDelete = "";
     }
         
+    
+    
+    public List<Groups> retrieveAllCurrentUserGroups() {
+        List<Groups> grps = new LinkedList<>();
+        grps.addAll(globalGroupList);
+        
+        ELContext elContext = FacesContext.getCurrentInstance().getELContext();
+        ProfileViewManager profileViewManager = 
+            (ProfileViewManager) FacesContext.getCurrentInstance().getApplication()
+            .getELResolver().getValue(elContext, null, "profileViewManager");
+        
+        //Get the current user
+        User user = usersFacade.find(profileViewManager.getLoggedInUser().getId());
+        List<UserGroup> ugList = userGroupFacade.findByUserId(user.getId());
+        if (ugList != null) {
+            for (UserGroup ug : ugList) {
+                grps.add(groupsFacade.findById(ug.getGroupId()));
+            }
+        }
+        return grps;
+    }
 }

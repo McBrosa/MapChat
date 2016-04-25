@@ -23,15 +23,15 @@ public class FileDownloadManager {
     
     private StreamedContent file;
     
-    @ManagedProperty(value="#{groupManager}")
-    private GroupManager groupManager;
+    @ManagedProperty(value="#{messageBean}")
+    private MessageBean messageBean;
 
-    public GroupManager getGroupManager() {
-        return groupManager;
+    public MessageBean getMessageBean() {
+        return messageBean;
     }
 
-    public void setGroupManager(GroupManager groupManager) {
-        this.groupManager = groupManager;
+    public void setMessageBean(MessageBean messageBean) {
+        this.messageBean = messageBean;
     }
     
      
@@ -44,7 +44,7 @@ public class FileDownloadManager {
     }
     
     public void prepareDownload(String fileName) throws FileNotFoundException {
-        String path = Constants.ROOT_DIRECTORY + groupManager.getCurrentGroup().getId() + "/" + fileName;
+        String path = Constants.ROOT_DIRECTORY + messageBean.getCurrentGroup().getId() + "/" + fileName;
         InputStream stream = new FileInputStream(path);
         this.file = new DefaultStreamedContent(stream, getExtension(fileName), fileName);
     }

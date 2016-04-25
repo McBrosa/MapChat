@@ -17,10 +17,10 @@ Copyright © 2016 Alan Cai. All rights reserved.
             <p:remoteCommand name="refreshMap" action="#{markersView.refreshMap()}" update=":gmap" />
             <!--Putting the style for this following tag does not work in the css file-->
             <p:selectOneListbox scrollHeight="50" style="width: 100%; height: 50%;" id="global_groups" 
-                                value="#{groupManager.currentGroup}" >
+                                value="#{messageBean.currentGroup}" >
                 <!--f:selectItems value="Select a group"/-->
-                <f:selectItems value="#{groupManager.allGroups}"/>
-                <p:ajax event="change" onstart="refreshMap()" update=":chat-form:currentGroupLabel"/>
+                <f:selectItems value="#{groupManager.retrieveAllCurrentUserGroups()}"/>
+                <p:ajax event="change" onstart="refreshMap()" update=":chat-form:currentGroupLabel :file-form:filedatapanel"/>
             </p:selectOneListbox>
         </h:form>
         <!--h:form id="buttons-form"-->

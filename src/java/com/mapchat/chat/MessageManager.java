@@ -15,6 +15,7 @@ import javax.ejb.Startup;
 import com.mapchat.entitypackage.Message;
 import com.mapchat.managers.Constants;
 import com.mapchat.managers.GroupManager;
+import com.mapchat.managers.MessageBean;
 import com.mapchat.sessionbeanpackage.MessageFacade;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -67,17 +68,21 @@ public class MessageManager implements MessageManagerLocal {
     @Override
     public void sendMessageToCurrentGroup(Message msg) {
         ELContext elContext = FacesContext.getCurrentInstance().getELContext();
-        GroupManager groupManager 
-            = (GroupManager) FacesContext.getCurrentInstance().getApplication()
-            .getELResolver().getValue(elContext, null, "groupManager");
+        MessageBean messageBean 
+            = (MessageBean) FacesContext.getCurrentInstance().getApplication()
+            .getELResolver().getValue(elContext, null, "messageBean");
         
-        List<Message> cfq = (List<Message>)groupMessageMap.get(groupManager.getCurrentGroup().getId());
+        List<Message> cfq = (List<Message>)groupMessageMap.get(messageBean.getCurrentGroup().getId());
         
         // if we reach capacity in the list, the oldest message will be removed
         // from the list and the database
         if (cfq.size() > Constants.MAX_MESSAGES) {
             msgFacade.remove(cfq.remove(cfq.size() - 1));
         }
+        
+        // send the current message to the database 
+        msgFacade.create(msg);
+        
         
         // send the message to the current chatroom
         // add to the front of the list, remove from the end
@@ -101,10 +106,10 @@ public class MessageManager implements MessageManagerLocal {
     @Override
     public List<Message> getMessagesInCurrentGroup() { 
         ELContext elContext = FacesContext.getCurrentInstance().getELContext();
-        GroupManager groupManager 
-            = (GroupManager) FacesContext.getCurrentInstance().getApplication()
-            .getELResolver().getValue(elContext, null, "groupManager");
-        return (List<Message>)groupMessageMap.get(groupManager.getCurrentGroup().getId());
+        MessageBean messageBean 
+            = (MessageBean) FacesContext.getCurrentInstance().getApplication()
+            .getELResolver().getValue(elContext, null, "messageBean");
+        return (List<Message>)groupMessageMap.get(messageBean.getCurrentGroup().getId());
         
     }
 }
