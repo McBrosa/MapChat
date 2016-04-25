@@ -41,8 +41,6 @@
                         <p:commandButton class="groups-button" id="createGroup-btn"  value="Create Group" action="#{groupManager.createGroup()}" update=":select_group:global_groups error1 newgroupname">
                             <p:ajax event="click" onsuccess="refreshMap()" />
                         </p:commandButton>
-                        <br />
-                        <br />
                         <p:commandButton value="Close" onclick="PF('createGroupDlg').hide();" actionListener="#{groupManager.closeDialog()}" update="error1 newgroupname"/>
                         <h:outputLabel id="error1" value="#{groupManager.statusMessage}"  style="color:red"/>
                     </p:dialog>
@@ -55,8 +53,6 @@
                         <p:commandButton class="groups-button" id="addUser-btn" value="Add User" action="#{groupManager.addUser()}" update="error2 addusername">
                             <p:ajax event="click" onsuccess="refreshMap()" />
                         </p:commandButton>
-                        <br />
-                        <br />
                         <p:commandButton value="Close" onclick="PF('addUserDlg').hide();" actionListener="#{groupManager.closeDialog()}" update="error2 addusername"/>
                         <h:outputLabel id="error2" value="#{groupManager.statusMessage}"  style="color:red"/>
                     </p:dialog>
@@ -69,8 +65,6 @@
                         <p:commandButton class="groups-button" id="removeUser-btn" value="Remove User" action="#{groupManager.removeUser()}" update=":select_group:global_groups error3 removeusername">
                             <p:ajax event="click" onsuccess="refreshMap()" />
                         </p:commandButton>
-                        <br />
-                        <br />
                         <p:commandButton value="Close" onclick="PF('removeUserDlg').hide();" actionListener="#{groupManager.closeDialog()}" update="error3 removeusername"/>
                         <h:outputLabel id="error3" value="#{groupManager.statusMessage}"  style="color:red"/>
                     </p:dialog>
