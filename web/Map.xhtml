@@ -15,12 +15,13 @@
     </h:head>
     <h:body>
         <p:growl id="messages" showDetail="true" />
+        <h:outputScript library="js" name="map.js" />
         <h:form id="map-form">
             <h:inputHidden id="latitude" value="#{accountManager.selected.locationX}"/>
             <h:inputHidden id="longitude" value="#{accountManager.selected.locationY}"/>
-            <p:remoteCommand name="update" actionListener="#{accountManager.updateLocation()}" />
+            <p:remoteCommand name="update" action="#{accountManager.updateLocation()}" />
+            <p:poll interval="10" update=":gmap" listener="#{markersView.refreshMap()}" />
         </h:form>
-        <h:outputScript library="js" name="map.js" />
         <p:gmap id="gmap" widgetVar="map" center="#{accountManager.selected.locationX},#{accountManager.selected.locationY}" zoom="18" fitBounds="true" type="HYBRID" style="width:100%; height:100%;"
                 model="#{markersView.simpleModel}">
             <p:ajax event="overlaySelect" listener="#{markersView.onMarkerSelect}" />

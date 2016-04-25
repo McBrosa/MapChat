@@ -5,7 +5,7 @@ if (navigator.geolocation) {
     checkGeolocationByLoaderAPI(); // HTML5 not supported! Fall back to Loader API.
 }
 
-window.onload = function checkGeolocationByHTML5() {
+function checkGeolocationByHTML5() {
     navigator.geolocation.getCurrentPosition(function(position) {
         setMapCenter(position.coords.latitude, position.coords.longitude);
     }, function() {
@@ -24,5 +24,9 @@ function checkGeolocationByLoaderAPI() {
 function setMapCenter(latitude, longitude) {
     document.getElementById('map-form:latitude').value = latitude;
     document.getElementById('map-form:longitude').value = longitude;
+    var location = latitude+','+longitude;
+//    map = PF('gmap').getMap();
+//    map.setPosition(location);
+    console.log(location);
     update();
 }
