@@ -27,6 +27,7 @@ import java.util.Vector;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJBException;
 import javax.el.ELContext;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.context.FacesContext;
 import org.primefaces.context.RequestContext;
@@ -165,6 +166,8 @@ public class GroupManager implements Serializable {
         if(groupNameToCreate == null || groupNameToCreate.equals(""))
         {
             statusMessage += "Group name entered is empty";
+            FacesContext context = FacesContext.getCurrentInstance();
+            context.addMessage(null, new FacesMessage(statusMessage));
             groupNameToCreate = "";
             return "";
         }
@@ -200,6 +203,11 @@ public class GroupManager implements Serializable {
             statusMessage += "Group already exists!";
         }
         groupNameToCreate = "";
+        if(!statusMessage.equals(""))
+        {
+            FacesContext context = FacesContext.getCurrentInstance();
+            context.addMessage(null, new FacesMessage(statusMessage));
+        }
         return "";
     }
     
@@ -213,10 +221,14 @@ public class GroupManager implements Serializable {
             if(check == null)
             {
                 statusMessage += "The doesn't exists";
+                FacesContext context = FacesContext.getCurrentInstance();
+                context.addMessage(null, new FacesMessage(statusMessage));
                 return "";
             }
             else if(check2 != null) {
                 statusMessage += "The chat is not empty!";
+                FacesContext context = FacesContext.getCurrentInstance();
+                context.addMessage(null, new FacesMessage(statusMessage));
                 return "";
             } else
             {
@@ -243,7 +255,14 @@ public class GroupManager implements Serializable {
         } catch(EJBException e)
         {
             statusMessage += "Something went wrong deleting the group";
+            FacesContext context = FacesContext.getCurrentInstance();
+            context.addMessage(null, new FacesMessage(statusMessage));
             return "";
+        }
+        if(!statusMessage.equals(""))
+        {
+            FacesContext context = FacesContext.getCurrentInstance();
+            context.addMessage(null, new FacesMessage(statusMessage));
         }
         return "";
     }
@@ -254,6 +273,8 @@ public class GroupManager implements Serializable {
         {
             statusMessage += "No username entered";
             usernameToAdd = "";
+            FacesContext context = FacesContext.getCurrentInstance();
+            context.addMessage(null, new FacesMessage(statusMessage));
             return "";
         }
         ELContext elContext = FacesContext.getCurrentInstance().getELContext();
@@ -266,12 +287,16 @@ public class GroupManager implements Serializable {
         {
             statusMessage += "No group is selected";
             usernameToAdd = "";
+            FacesContext context = FacesContext.getCurrentInstance();
+            context.addMessage(null, new FacesMessage(statusMessage));
             return "";
         }
         else if(messageBean.getCurrentGroup().getId() == null || messageBean.getCurrentGroup().getGroupName() == null)
         {
             statusMessage += "There is something wrong with the current group selected";
             usernameToAdd = "";
+            FacesContext context = FacesContext.getCurrentInstance();
+            context.addMessage(null, new FacesMessage(statusMessage));
             return "";   
         }
         
@@ -281,12 +306,16 @@ public class GroupManager implements Serializable {
         {
             statusMessage += "The current group does not exist";
             usernameToAdd = "";
+            FacesContext context = FacesContext.getCurrentInstance();
+            context.addMessage(null, new FacesMessage(statusMessage));
             return "";
         }
         else if(globalgrps.contains(publicGroup.getGroupName()))
         {
             statusMessage += "Everyone is already a part of a global group";
             usernameToAdd = "";
+            FacesContext context = FacesContext.getCurrentInstance();
+            context.addMessage(null, new FacesMessage(statusMessage));
             return "";
         }
         try
@@ -297,6 +326,8 @@ public class GroupManager implements Serializable {
             {
                 statusMessage += usernameToAdd + " does not exist";
                 usernameToAdd = "";
+                FacesContext context = FacesContext.getCurrentInstance();
+                context.addMessage(null, new FacesMessage(statusMessage));
                 return "";
             }
             
@@ -305,6 +336,8 @@ public class GroupManager implements Serializable {
             {
                 statusMessage += usernameToAdd + " is already in the group";
                 usernameToAdd = "";
+                FacesContext context = FacesContext.getCurrentInstance();
+                context.addMessage(null, new FacesMessage(statusMessage));
                 return "";
             }
             User user = usersFacade.findByUsername(usernameToAdd);
@@ -317,7 +350,14 @@ public class GroupManager implements Serializable {
         {
             usernameToAdd = "";
             statusMessage += "Something went wrong adding the user to the group";
+            FacesContext context = FacesContext.getCurrentInstance();
+            context.addMessage(null, new FacesMessage(statusMessage));
             return "";
+        }
+        if(!statusMessage.equals(""))
+        {
+            FacesContext context = FacesContext.getCurrentInstance();
+            context.addMessage(null, new FacesMessage(statusMessage));
         }
         return "";
     }
@@ -328,6 +368,8 @@ public class GroupManager implements Serializable {
         {
             statusMessage += "No username entered";
             usernameToDelete = "";
+            FacesContext context = FacesContext.getCurrentInstance();
+            context.addMessage(null, new FacesMessage(statusMessage));
             return "";
         }
         ELContext elContext = FacesContext.getCurrentInstance().getELContext();
@@ -341,12 +383,16 @@ public class GroupManager implements Serializable {
         {
             statusMessage += "No group is selected";
             usernameToDelete = "";
+            FacesContext context = FacesContext.getCurrentInstance();
+            context.addMessage(null, new FacesMessage(statusMessage));
             return "";
         }
         else if(messageBean.getCurrentGroup().getId() == null || messageBean.getCurrentGroup().getGroupName() == null)
         {
             statusMessage += "There is something wrong with the current group selected";
             usernameToDelete = "";
+            FacesContext context = FacesContext.getCurrentInstance();
+            context.addMessage(null, new FacesMessage(statusMessage));
             return "";   
         }
         Integer groupId = messageBean.getCurrentGroup().getId();
@@ -355,12 +401,16 @@ public class GroupManager implements Serializable {
         {
             statusMessage += "The current group does not exist";
             usernameToDelete = "";
+            FacesContext context = FacesContext.getCurrentInstance();
+            context.addMessage(null, new FacesMessage(statusMessage));
             return "";
         }
         else if(globalgrps.contains(publicGroup.getGroupName()))
         {
             statusMessage += "Cannot remove someone from a global group";
             usernameToDelete = "";
+            FacesContext context = FacesContext.getCurrentInstance();
+            context.addMessage(null, new FacesMessage(statusMessage));
             return "";
         }
         Groups group = publicGroup;
@@ -380,6 +430,8 @@ public class GroupManager implements Serializable {
             {
                 statusMessage += usernameToDelete + " does not exist";
                 usernameToDelete = "";
+                FacesContext context = FacesContext.getCurrentInstance();
+                context.addMessage(null, new FacesMessage(statusMessage));
                 return "";
             }
             
@@ -390,6 +442,8 @@ public class GroupManager implements Serializable {
             {
                 statusMessage += usernameToDelete + " is not in the group";
                 usernameToDelete = "";
+                FacesContext context = FacesContext.getCurrentInstance();
+                context.addMessage(null, new FacesMessage(statusMessage));
                 return "";
             }
             userGroupFacade.deleteUserGroup(foundUserGroup);
@@ -412,7 +466,14 @@ public class GroupManager implements Serializable {
         {
             usernameToDelete = "";
             statusMessage += "Something went wrong removing the user to the group";
+            FacesContext context = FacesContext.getCurrentInstance();
+            context.addMessage(null, new FacesMessage(statusMessage));
             return "";
+        }
+        if(!statusMessage.equals(""))
+        {
+            FacesContext context = FacesContext.getCurrentInstance();
+            context.addMessage(null, new FacesMessage(statusMessage));
         }
         return "";
     }

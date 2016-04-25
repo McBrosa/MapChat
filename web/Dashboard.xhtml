@@ -32,19 +32,21 @@
                 </div>
                 <h:form id="groups-buttons-form-2">
                 <p:remoteCommand name="refreshMap" action="#{markersView.refreshMap()}" update=":gmap" />
+                
+                <p:growl id="statusMessageGrowl" showDetail="true" sticky="true" />
+                <!--h:outputLabel id="error" value="#{groupManager.statusMessage}"  style="color:red"/-->
                     
                     <p:dialog closable="false" position="top" header="Create Group" widgetVar="createGroupDlg" height="150">
                         <h:outputLabel styleClass="outputLabel" for="newgroupname" value="Enter group name: " />
                         <h:inputText class="form-control"  id="newgroupname" value="#{groupManager.groupNameToCreate}"/>
                         <br />
                         <br />
-                        <p:commandButton class="groups-button" id="createGroup-btn"  value="Create Group" action="#{groupManager.createGroup()}" update=":select_group:global_groups error1 newgroupname">
+                        <p:commandButton class="groups-button" onclick="PF('createGroupDlg').hide();" id="createGroup-btn"  value="Create Group" action="#{groupManager.createGroup()}" update=":select_group:global_groups newgroupname statusMessageGrowl">
                             <p:ajax event="click" onsuccess="refreshMap()" />
                         </p:commandButton>
                         <br />
                         <br />
-                        <p:commandButton value="Close" onclick="PF('createGroupDlg').hide();" actionListener="#{groupManager.closeDialog()}" update="error1 newgroupname"/>
-                        <h:outputLabel id="error1" value="#{groupManager.statusMessage}"  style="color:red"/>
+                        <p:commandButton value="Close" onclick="PF('createGroupDlg').hide();" actionListener="#{groupManager.closeDialog()}" update="newgroupname statusMessageGrowl"/>
                     </p:dialog>
                     
                     <p:dialog closable="false" position="top" header="Add User" widgetVar="addUserDlg" height="150">
@@ -52,13 +54,12 @@
                         <h:inputText class="form-control"  id="addusername" value="#{groupManager.usernameToAdd}"/>
                         <br />
                         <br />
-                        <p:commandButton class="groups-button" id="addUser-btn" value="Add User" action="#{groupManager.addUser()}" update="error2 addusername">
+                        <p:commandButton class="groups-button" onclick="PF('addUserDlg').hide();" id="addUser-btn" value="Add User" action="#{groupManager.addUser()}" update="addusername statusMessageGrowl">
                             <p:ajax event="click" onsuccess="refreshMap()" />
                         </p:commandButton>
                         <br />
                         <br />
-                        <p:commandButton value="Close" onclick="PF('addUserDlg').hide();" actionListener="#{groupManager.closeDialog()}" update="error2 addusername"/>
-                        <h:outputLabel id="error2" value="#{groupManager.statusMessage}"  style="color:red"/>
+                        <p:commandButton value="Close" onclick="PF('addUserDlg').hide();" actionListener="#{groupManager.closeDialog()}" update="addusername statusMessageGrowl"/>
                     </p:dialog>
                     
                     <p:dialog closable="false" position="top" header="Remove User" widgetVar="removeUserDlg" height="150">
@@ -66,13 +67,12 @@
                         <h:inputText class="form-control"  id="removeusername" value="#{groupManager.usernameToDelete}"/>
                         <br />
                         <br />
-                        <p:commandButton class="groups-button" id="removeUser-btn" value="Remove User" action="#{groupManager.removeUser()}" update=":select_group:global_groups error3 removeusername">
+                        <p:commandButton class="groups-button" onclick="PF('removeUserDlg').hide();" id="removeUser-btn" value="Remove User" action="#{groupManager.removeUser()}" update=":select_group:global_groups removeusername statusMessageGrowl">
                             <p:ajax event="click" onsuccess="refreshMap()" />
                         </p:commandButton>
                         <br />
                         <br />
-                        <p:commandButton value="Close" onclick="PF('removeUserDlg').hide();" actionListener="#{groupManager.closeDialog()}" update="error3 removeusername"/>
-                        <h:outputLabel id="error3" value="#{groupManager.statusMessage}"  style="color:red"/>
+                        <p:commandButton value="Close" onclick="PF('removeUserDlg').hide();" actionListener="#{groupManager.closeDialog()}" update="removeusername statusMessageGrowl"/>
                     </p:dialog>
                 </h:form>
             </ui:define>
