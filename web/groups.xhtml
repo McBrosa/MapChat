@@ -20,7 +20,7 @@ Copyright © 2016 Alan Cai. All rights reserved.
                                 value="#{messageBean.currentGroup}" >
                 <!--f:selectItems value="Select a group"/-->
                 <f:selectItems value="#{groupManager.retrieveAllCurrentUserGroups()}"/>
-                <p:ajax event="change" onstart="refreshMap()" update=":chat-form:currentGroupLabel :file-form:filedatapanel"/>
+                <p:ajax event="change" onstart="refreshMap()" update=":file-form:filedatapanel :chat-form:chat-messages1"/>
             </p:selectOneListbox>
         </h:form>
         <!--h:form id="buttons-form"-->

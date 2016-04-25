@@ -8,7 +8,7 @@
     <script type="text/javascript" src="chat/chat.js"/>
         
     <h:body>
-        <h:form enctype="multipart/form-data" style="display: inline-block;">
+        <h:form enctype="multipart/form-data" style="display: inline-block;" styleClass="rightAlign" >
             <p:commandButton id="attachment-btn" value="+" type="button" />
             <p:overlayPanel id="attachment-panel" widgetVar="attachment-panel" for="attachment-btn" hideEffect="fade">
                     <h:outputLabel value="Upload a File:" />
@@ -16,7 +16,7 @@
                                   sizeLimit="1000000" allowTypes="/(\.|\/)(gif|jpe?g|png)$/" value="#{fileManager.file}" update=":file-form:filedatapanel"/>
             </p:overlayPanel>
         </h:form>
-        <h:form id="file-form" style="display: inline-block;">
+        <h:form id="file-form" style="display: inline-block; margin-bottom: 10px;"  styleClass="rightAlign" >
             <p:commandButton id="fileBtn" value="Files" type="button" />
             <p:overlayPanel id="filePanel" for="fileBtn" hideEffect="fade" dynamic="true" style="width: 600px;">
                 <p:dataTable id="filedatapanel" value="#{messageBean.fileNamesInGroup}" var="filename">                
@@ -28,26 +28,18 @@
                 </p:dataTable>
             </p:overlayPanel>
         </h:form>
-        <br/>
-        <br/>
         <h:form prependId="false" id="chat-form" enctype="multipart/form-data">
-            <div align="center">
-                <p:outputLabel id="currentGroupLabel" value="#{messageBean.currentGroup.groupName}"/>
-            </div>
-            
             <p:inputText value="#{messageBean.messageInput}" id="chat-input" style="display: inline-block; width: 75%;" >
                 <p:watermark value="Insert Text..." for="chat-input"/>
             </p:inputText>                
-            <p:commandButton value="Send!" id="send-message" style="display: inline-block; width: 15%;"
+            <p:commandButton value="Send" id="send-message" style="display: inline-block; padding: 0; width: 20%;"
                              actionListener="#{messageBean.sendMessage}" update="chat-input chat-messages1"/>
-         
-            
             <p:remoteCommand name="nextMessage" update="chat-messages1"/>
            
             <p:dataTable id="chat-messages1" value="#{messageBean.activeMessages}" var="msg" 
                          scrollRows="15" lazy="true" scrollable="true" scrollHeight="80%"
-                            style="padding-bottom: 70px;">
-                <p:column headerText="Chat Messages">
+                            style="padding-bottom: 80px;">
+                <p:column headerText="#{messageBean.currentGroup.groupName}">
                     <h:outputText value="#{msg}"/>
                 </p:column>
             </p:dataTable>
