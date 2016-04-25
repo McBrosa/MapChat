@@ -504,5 +504,13 @@ public class GroupManager implements Serializable {
             }
         }
     }
+    
+    public void closeDialog() {
+        statusMessage = "";
+        groupNameToCreate = "";
+        groupNameToDelete = "";
+        usernameToAdd = "";
+        usernameToDelete = "";
+    }
         
 }
