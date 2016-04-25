@@ -364,8 +364,7 @@ public class GroupManager implements Serializable {
         {
             //Check to see if you are deleting yourself
             boolean same = usernameToDelete.equals(profileViewManager.getLoggedInUser().getUsername());
-            
-            
+            //statusMessage += same;
             //Check to see if the user exists
             User check = usersFacade.findByUsername(usernameToDelete);
             if(check == null)
@@ -391,10 +390,10 @@ public class GroupManager implements Serializable {
             if(emptyCheck == null) {
                 deleteGroup(groupId);
             }
-            else if(same)
+            if(same)
             {
                 currentGroup = null;
-                allGroups.remove(group);
+                boolean removed = allGroups.remove(group);
             }
                 
             

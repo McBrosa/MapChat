@@ -17,9 +17,9 @@
                 <div id="group">
                     <h:form id="groups-buttons-form-1">
                         <h:panelGrid id="modal-button-panel" columns="1" cellpadding="0">
-                            <p:commandButton class="show-button" value="Create Group" type="button" onclick="PF('createGroupDlg').show();"/>
-                            <p:commandButton class="show-button" value="Add User" type="button" onclick="PF('addUserDlg').show();"/>
-                            <p:commandButton class="show-button" value="Remove User" type="button" onclick="PF('removeUserDlg').show();"/>
+                            <p:commandButton class="show-button" value="Create Group" type="button" onclick="PF('createGroupDlg').show();PF('addUserDlg').hide();PF('removeUserDlg').hide();"/>
+                            <p:commandButton class="show-button" value="Add User" type="button" onclick="PF('createGroupDlg').hide();PF('addUserDlg').show();PF('removeUserDlg').hide();"/>
+                            <p:commandButton class="show-button" value="Remove User" type="button" onclick="PF('createGroupDlg').hide();PF('addUserDlg').hide();PF('removeUserDlg').show();"/>
                         </h:panelGrid>
                     </h:form>
                     <ui:include src="groups.xhtml" />
@@ -44,6 +44,7 @@
                         <br />
                         <br />
                         <h:outputLabel id="error1" value="#{groupManager.statusMessage}"  style="color:red"/>
+                        <p:commandButton value="Close" onclick="PF('createGroupDlg').hide();"/>
                     </p:dialog>
                     
                     <p:dialog position="top" header="Add User" widgetVar="addUserDlg" height="150">
@@ -57,6 +58,7 @@
                         <br />
                         <br />
                         <h:outputLabel id="error2" value="#{groupManager.statusMessage}"  style="color:red"/>
+                        <p:commandButton value="Close" onclick="PF('addUserDlg').hide();"/>
                     </p:dialog>
                     
                     <p:dialog position="top" header="Remove User" widgetVar="removeUserDlg" height="150">
@@ -70,6 +72,7 @@
                         <br />
                         <br />
                         <h:outputLabel id="error3" value="#{groupManager.statusMessage}"  style="color:red"/>
+                        <p:commandButton value="Close" onclick="PF('removeUserDlg').hide();"/>
                     </p:dialog>
                 </h:form>
             </ui:define>
