@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="FileEditDlg" widgetVar="FileEditDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.EditFileTitle}">
+            <h:form id="FileEditForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{fileController.selected != null}">
+                        <p:outputLabel value="#{bundle.EditFileLabel_id}" for="id" />
+                        <p:inputText id="id" value="#{fileController.selected.id}" title="#{bundle.EditFileTitle_id}" required="true" requiredMessage="#{bundle.EditFileRequiredMessage_id}"/>
+                        <p:outputLabel value="#{bundle.EditFileLabel_size}" for="size" />
+                        <p:inputText id="size" value="#{fileController.selected.size}" title="#{bundle.EditFileTitle_size}" required="true" requiredMessage="#{bundle.EditFileRequiredMessage_size}"/>
+                        <p:outputLabel value="#{bundle.EditFileLabel_fileLocation}" for="fileLocation" />
+                        <p:inputText id="fileLocation" value="#{fileController.selected.fileLocation}" title="#{bundle.EditFileTitle_fileLocation}" required="true" requiredMessage="#{bundle.EditFileRequiredMessage_fileLocation}"/>
+                        <p:outputLabel value="#{bundle.EditFileLabel_extension}" for="extension" />
+                        <p:inputText id="extension" value="#{fileController.selected.extension}" title="#{bundle.EditFileTitle_extension}" required="true" requiredMessage="#{bundle.EditFileRequiredMessage_extension}"/>
+                        <p:outputLabel value="#{bundle.EditFileLabel_time}" for="time" />
+                        <p:calendar id="time" pattern="MM/dd/yyyy HH:mm:ss" value="#{fileController.selected.time}" title="#{bundle.EditFileTitle_time}" required="true" requiredMessage="#{bundle.EditFileRequiredMessage_time}" showOn="button"/>
+                        <p:outputLabel value="#{bundle.EditFileLabel_groupId}" for="groupId" />
+                        <p:selectOneMenu id="groupId" value="#{fileController.selected.groupId}" required="true" requiredMessage="#{bundle.EditFileRequiredMessage_groupId}">
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{groupsController.itemsAvailableSelectOne}"
+                                           var="groupIdItem"
+                                           itemValue="#{groupIdItem}"/>
+                        </p:selectOneMenu>
+                        <p:outputLabel value="#{bundle.EditFileLabel_userId}" for="userId" />
+                        <p:selectOneMenu id="userId" value="#{fileController.selected.userId}" required="true" requiredMessage="#{bundle.EditFileRequiredMessage_userId}">
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{userController.itemsAvailableSelectOne}"
+                                           var="userIdItem"
+                                           itemValue="#{userIdItem}"/>
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{fileController.update}" value="#{bundle.Save}" update="display,:FileListForm:datalist,:growl" oncomplete="handleSubmit(args, 'FileEditDialog');"/>
+                    <p:commandButton value="#{bundle.Cancel}" onclick="FileEditDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

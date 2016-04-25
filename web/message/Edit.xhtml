@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="MessageEditDlg" widgetVar="MessageEditDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.EditMessageTitle}">
+            <h:form id="MessageEditForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{messageController.selected != null}">
+                        <p:outputLabel value="#{bundle.EditMessageLabel_id}" for="id" />
+                        <p:inputText id="id" value="#{messageController.selected.id}" title="#{bundle.EditMessageTitle_id}" required="true" requiredMessage="#{bundle.EditMessageRequiredMessage_id}"/>
+                        <p:outputLabel value="#{bundle.EditMessageLabel_message}" for="message" />
+                        <p:inputTextarea rows="4" cols="30" id="message" value="#{messageController.selected.message}" title="#{bundle.EditMessageTitle_message}" required="true" requiredMessage="#{bundle.EditMessageRequiredMessage_message}"/>
+                        <p:outputLabel value="#{bundle.EditMessageLabel_time}" for="time" />
+                        <p:calendar id="time" pattern="MM/dd/yyyy HH:mm:ss" value="#{messageController.selected.time}" title="#{bundle.EditMessageTitle_time}" required="true" requiredMessage="#{bundle.EditMessageRequiredMessage_time}" showOn="button"/>
+                        <p:outputLabel value="#{bundle.EditMessageLabel_groupId}" for="groupId" />
+                        <p:selectOneMenu id="groupId" value="#{messageController.selected.groupId}" required="true" requiredMessage="#{bundle.EditMessageRequiredMessage_groupId}">
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{groupsController.itemsAvailableSelectOne}"
+                                           var="groupIdItem"
+                                           itemValue="#{groupIdItem}"/>
+                        </p:selectOneMenu>
+                        <p:outputLabel value="#{bundle.EditMessageLabel_userId}" for="userId" />
+                        <p:selectOneMenu id="userId" value="#{messageController.selected.userId}" required="true" requiredMessage="#{bundle.EditMessageRequiredMessage_userId}">
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{userController.itemsAvailableSelectOne}"
+                                           var="userIdItem"
+                                           itemValue="#{userIdItem}"/>
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{messageController.update}" value="#{bundle.Save}" update="display,:MessageListForm:datalist,:growl" oncomplete="handleSubmit(args, 'MessageEditDialog');"/>
+                    <p:commandButton value="#{bundle.Cancel}" onclick="MessageEditDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>
