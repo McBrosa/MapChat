@@ -32,7 +32,7 @@
         <br/>
         <h:form prependId="false" id="chat-form" enctype="multipart/form-data">
             <div align="center">
-                <p:outputLabel id="currentGroupLabel" value="#{groupManager.currentGroup.groupName}"/>
+                <p:outputLabel id="currentGroupLabel" value="#{messageBean.currentGroup.groupName}"/>
             </div>
             
             <p:inputText value="#{messageBean.messageInput}" id="chat-input" style="display: inline-block; width: 75%;" >
