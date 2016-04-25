@@ -26,6 +26,7 @@ import java.util.Set;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJBException;
 import javax.faces.bean.ManagedProperty;
+import org.primefaces.context.RequestContext;
 
 /**
  *
@@ -197,6 +198,7 @@ public class GroupManager implements Serializable {
             
             // add to the map
             mm.getGroupMessageMap().put(created.getId(), collection);
+            allGroups.add(created);
             
             // create the user group to link the user to the group
             UserGroup userGroup = new UserGroup();
@@ -204,7 +206,8 @@ public class GroupManager implements Serializable {
             currentUser = profileViewManager.getLoggedInUser();
             userGroup.setUserId(currentUser.getId());
             userGroupFacade.create(userGroup);
-            allGroups.add(created);
+            
+            RequestContext.getCurrentInstance().closeDialog("User Added");
         }
         else {
             // its already created!
