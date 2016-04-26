@@ -185,7 +185,7 @@ public class FileManager implements Serializable{
      * @param grp
      */
     public void uploadFileToGroup(UploadedFile file, Groups grp) {
-        if (file != null) {
+        if ((file != null) && (grp != null)) {
             copyFileGroup(file, grp);
         }
     }    
@@ -372,5 +372,19 @@ public class FileManager implements Serializable{
      */
     public void setMessage(String message) {
         this.message = message;
+    }
+    
+    /**
+     * Get the regex for allowed file types
+     */
+    public String getFileRegex() {
+        return Constants.FILE_REGEX;
+    }
+    
+    /**
+     * Get the max file size in bytes
+     */
+    public String getMaxFileSize() {
+        return Constants.MAX_FILE_SIZE_BYTES;
     }
  }
