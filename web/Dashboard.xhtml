@@ -14,7 +14,10 @@
             </ui:define>
             
             <ui:define name="editableContent">
+                <!--This div manages which group the user is currently in along with functions
+                related with groups-->
                 <div id="group">
+                    <!--This form handles the overlay boxes that do the actual functionality listed-->
                     <h:form id="groups-buttons-form-1">
                         <h:panelGrid id="modal-button-panel" columns="1" cellpadding="0">
                             <p:commandButton class="show-button" value="Create Group" type="button" onclick="PF('createGroupDlg').show();PF('addUserDlg').hide();PF('removeUserDlg').hide();"/>
@@ -24,39 +27,56 @@
                     </h:form>
                     <ui:include src="groups.xhtml" />
                </div>
+                
+                <!--This div handles the map on the dashboard-->
                 <h:panelGroup id="map">
                     <ui:include src="Map.xhtml"/>
                 </h:panelGroup>
+                
+                <!--This div handles the chat, messages displayed, and files in the dashboard-->
                 <div id="chat">
                     <ui:include src="chat/chat.xhtml"/>
                 </div>
-                <h:form id="groups-buttons-form-2">
-                <p:remoteCommand name="refreshMap" action="#{markersView.refreshMap()}" update=":gmap" />
                 
-                <p:growl id="statusMessageGrowl" showDetail="true" sticky="true" />
-                <!--h:outputLabel id="error" value="#{groupManager.statusMessage}"  style="color:red"/-->
+                <!--This form contains overlay information shown when the one of the chat buttons is clicked.
+                The placement is over here so the overlay does not appear behind the map of chat div-->
+                <h:form id="groups-buttons-form-2">
+                    <!--Refreshes the map based on actions the user takes-->
+                    <p:remoteCommand name="refreshMap" action="#{markersView.refreshMap()}" update=":gmap" />
+                
+                    <!--Displays the error message-->
+                    <p:growl id="statusMessageGrowl" showDetail="true" sticky="true" />
                     
+                    <!--Create a group overlay-->
                     <p:dialog closable="false" position="top" header="Create Group" widgetVar="createGroupDlg" height="150">
                         <h:outputLabel styleClass="outputLabel" for="newgroupname" value="Enter group name: " />
                         <h:inputText class="form-control"  id="newgroupname" value="#{groupManager.groupNameToCreate}"/>
+                        
+                        <!--Both buttons closes the overlay on click-->
                         <p:commandButton class="groups-button" onclick="PF('createGroupDlg').hide();" id="createGroup-btn"  value="Create Group" action="#{groupManager.createGroup()}" update=":select_group:global_groups newgroupname statusMessageGrowl">
                             <p:ajax event="click" onsuccess="refreshMap()" />
                         </p:commandButton>
                         <p:commandButton value="Close" onclick="PF('createGroupDlg').hide();" actionListener="#{groupManager.closeDialog()}" update="newgroupname statusMessageGrowl"/>
                     </p:dialog>
                     
+                    <!--Add a user overlay-->
                     <p:dialog closable="false" position="top" header="Add User" widgetVar="addUserDlg" height="150">
                         <h:outputLabel styleClass="outputLabel" for="addusername" value="Enter username: " />
                         <h:inputText class="form-control"  id="addusername" value="#{groupManager.usernameToAdd}"/>
+                        
+                        <!--Both buttons closes the overlay on click-->
                         <p:commandButton class="groups-button" onclick="PF('addUserDlg').hide();" id="addUser-btn" value="Add User" action="#{groupManager.addUser()}" update="addusername statusMessageGrowl">
                             <p:ajax event="click" onsuccess="refreshMap()" />
                         </p:commandButton>
                         <p:commandButton value="Close" onclick="PF('addUserDlg').hide();" actionListener="#{groupManager.closeDialog()}" update="addusername statusMessageGrowl"/>
                     </p:dialog>
                     
+                    <!--Remove a user overlay-->
                     <p:dialog closable="false" position="top" header="Remove User" widgetVar="removeUserDlg" height="150">
                         <h:outputLabel styleClass="outputLabel" for="removeusername" value="Enter username: " />
                         <h:inputText class="form-control"  id="removeusername" value="#{groupManager.usernameToDelete}"/>
+                        
+                        <!--Both buttons closes the overlay on click-->
                         <p:commandButton class="groups-button" onclick="PF('removeUserDlg').hide();" id="removeUser-btn" value="Remove User" action="#{groupManager.removeUser()}" update=":select_group:global_groups removeusername statusMessageGrowl">
                             <p:ajax event="click" onsuccess="refreshMap()" />
                         </p:commandButton>
