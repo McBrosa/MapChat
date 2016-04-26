@@ -39,7 +39,6 @@ public class AccountManager implements Serializable {
     private int security_question;
     private String security_answer;
         
-    private final String[] listOfStates = Constants.STATES;
     private Map<String, Object> security_questions;
     
     private User selected;
@@ -59,10 +58,6 @@ public class AccountManager implements Serializable {
      */
     @EJB
     private File1Facade fileFacade;
-
-    public String[] getListOfStates() {
-        return listOfStates;
-    }
 
     /**
      * Creates a new instance of AccountManager
@@ -294,7 +289,7 @@ public class AccountManager implements Serializable {
                 return "";
             }
             initializeSessionMap();
-            return "Profile";
+            return "Dashboard?faces-redirect=true";
         }
         return "";
     }
