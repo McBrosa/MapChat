@@ -488,31 +488,6 @@ public class GroupManager implements Serializable {
         return userIds;
     }
     
-    public String showAllGroups()
-    {
-        String groupsString = "";
-        
-        ELContext elContext = FacesContext.getCurrentInstance().getELContext();
-            ProfileViewManager profileViewManager = 
-                (ProfileViewManager) FacesContext.getCurrentInstance().getApplication()
-                .getELResolver().getValue(elContext, null, "profileViewManager");
-        
-            User currentUser = profileViewManager.getLoggedInUser();
-            ArrayList<UserGroup> searchResult = new ArrayList<UserGroup>(userGroupFacade.findAll());
-
-            for(int i = 0; i < searchResult.size(); i++)
-            {
-                //groupsString += searchResult.size() + "<<>>";
-                groupsString += "Group ID: " + (searchResult.get(i).getGroupId()) + " User ID: " + searchResult.get(i).getUserId() + " Id: " + searchResult.get(i).getId() + "/";
-            }
-            
-            UserGroup test = userGroupFacade.test();
-            if(test != null)
-            groupsString += ">>" + test.getId() + "<<";
-        
-        return groupsString;
-    }
-    
     /**
      * Initialize global groups
      */
