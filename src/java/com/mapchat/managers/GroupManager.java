@@ -669,7 +669,7 @@ public class GroupManager implements Serializable {
             globalgrps.add("#Entertainment");
         }
         // create a message stream for each group
-        for (String grpName : globalgrps) {
+        for (String grpName : Constants.GLOBAL_GROUPS) {
             
             Groups grp = groupsFacade.findByGroupname(grpName);
             
