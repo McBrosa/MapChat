@@ -1,31 +1,28 @@
+/**
+ * Created by MapChat Development Team
+ * Edited by Sean Arcayan
+ * Last Modified: 2016.04.12
+ * Copyright © 2016 MapChat Development Team. All rights reserved.
+ */
+
 package com.mapchat.managers;
 
-/*
- * Created by Sean Arcayan on 2016.04.12  * 
- * Copyright © 2016 Sean Arcayan. All rights reserved. * 
- */
 import com.mapchat.chat.MessageManager;
-import com.mapchat.chat.MessageManagerLocal;
-import com.mapchat.entitypackage.File1;
 import com.mapchat.entitypackage.Groups;
 import com.mapchat.entitypackage.Message;
 import com.mapchat.sessionbeanpackage.File1Facade;
 import com.mapchat.sessionbeanpackage.MessageFacade;
-import com.mapchat.sessionbeanpackage.UserFacade;
 import java.io.File;
 import java.io.Serializable;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
-import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.event.ActionEvent;
 import javax.faces.bean.ManagedProperty;
-import org.primefaces.context.RequestContext;
 import org.primefaces.event.FileUploadEvent;
-import org.primefaces.model.UploadedFile;
  
 /**
  * This is the session scoped Message class that handles sending messages and the

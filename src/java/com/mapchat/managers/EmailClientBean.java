@@ -1,6 +1,8 @@
-/*
- * Created by Corey McQuay on 2016.04.21  * 
- * Copyright © 2016 Corey McQuay. All rights reserved. * 
+/**
+ * Created by MapChat Development Team
+ * Edited by Corey McQuay
+ * Last Modified: 2016.04.21
+ * Copyright © 2016 MapChat Development Team. All rights reserved.
  */
 package com.mapchat.managers;
 

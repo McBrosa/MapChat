@@ -1,6 +1,8 @@
-/*
- * Created by Alan Cai on 2016.03.23  * 
- * Copyright © 2016 Alan Cai. All rights reserved. * 
+/**
+ * Created by MapChat Development Team
+ * Edited by Alan Cai
+ * Last Modified: 2016.03.23
+ * Copyright © 2016 MapChat Development Team. All rights reserved.
  */
 package com.mapchat.managers;
 
@@ -30,7 +32,6 @@ import javax.el.ELContext;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.context.FacesContext;
-import org.primefaces.context.RequestContext;   //TODO remove
 
 /**
  * The Manager for the Groups object. This class handles all the groups

@@ -1,3 +1,9 @@
+/**
+ * Created by MapChat Development Team
+ * Edited by Nathan Rosa
+ * Last Modified: 2016.03.22
+ * Copyright © 2016 MapChat Development Team. All rights reserved.
+ */
 package com.mapchat.jsfclassespackage;
 
 import com.mapchat.entitypackage.User;
@@ -28,33 +34,61 @@ public class UserController implements Serializable {
     private List<User> items = null;
     private User selected;
 
+    /**
+     * UserController constructor
+     */
     public UserController() {
     }
 
+    /**
+     * 
+     * @return seleted user
+     */
     public User getSelected() {
         return selected;
     }
 
+    /**
+     * Set the selected user to new user
+     * @param selected 
+     */
     public void setSelected(User selected) {
         this.selected = selected;
     }
 
+    /**
+     * Interface implemented method
+     */
     protected void setEmbeddableKeys() {
     }
 
+    /**
+     * Interface implemented method
+     */
     protected void initializeEmbeddableKey() {
     }
 
+    /**
+     * Get userFacade
+     * @return userFacade
+     */
     private UserFacade getFacade() {
         return ejbFacade;
     }
 
+    /**
+     * Prepare the user to be created
+     * @return the new user
+     */
     public User prepareCreate() {
         selected = new User();
         initializeEmbeddableKey();
         return selected;
     }
 
+    /**
+     * Create the PersistAction
+     */
     public void create() {
         persist(PersistAction.CREATE, ResourceBundle.getBundle("/Bundle").getString("UserCreated"));
         if (!JsfUtil.isValidationFailed()) {
@@ -62,10 +96,16 @@ public class UserController implements Serializable {
         }
     }
 
+    /**
+     * Update the PersistAction
+     */
     public void update() {
         persist(PersistAction.UPDATE, ResourceBundle.getBundle("/Bundle").getString("UserUpdated"));
     }
 
+    /**
+     * Destroy the PersistAction
+     */
     public void destroy() {
         persist(PersistAction.DELETE, ResourceBundle.getBundle("/Bundle").getString("UserDeleted"));
         if (!JsfUtil.isValidationFailed()) {
@@ -74,6 +114,10 @@ public class UserController implements Serializable {
         }
     }
 
+    /**
+     * Get list of users
+     * @return list of users
+     */
     public List<User> getItems() {
         if (items == null) {
             items = getFacade().findAll();
@@ -81,6 +125,11 @@ public class UserController implements Serializable {
         return items;
     }
 
+    /**
+     * Serializable persist operation that does CRUD interactions
+     * @param persistAction
+     * @param successMessage 
+     */
     private void persist(PersistAction persistAction, String successMessage) {
         if (selected != null) {
             setEmbeddableKeys();
@@ -109,18 +158,34 @@ public class UserController implements Serializable {
         }
     }
 
+    /**
+     * Get user by user id
+     * @param id of the user
+     * @return User object
+     */
     public User getUser(java.lang.Integer id) {
         return getFacade().find(id);
     }
 
+    /**
+     * Get the list all users from facade
+     * @return list of users
+     */
     public List<User> getItemsAvailableSelectMany() {
         return getFacade().findAll();
     }
 
+    /**
+     * return the list of users by select one
+     * @return list of users
+     */
     public List<User> getItemsAvailableSelectOne() {
         return getFacade().findAll();
     }
 
+    /**
+     * Convert faces context to userController object
+     */
     @FacesConverter(forClass = User.class)
     public static class UserControllerConverter implements Converter {
 
