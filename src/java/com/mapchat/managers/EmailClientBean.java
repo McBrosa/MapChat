@@ -9,7 +9,6 @@ import javax.inject.Named;
 import javax.mail.MessagingException;
 import com.mapchat.mail.MailService;
 import javax.faces.application.FacesMessage;
-import javax.faces.bean.ManagedBean;
 import javax.faces.context.FacesContext;
 
 /**
@@ -19,8 +18,7 @@ import javax.faces.context.FacesContext;
  */
 //Attributes of the bean
 @Named
-@RequestScoped
-
+@RequestScoped //At the time when a request to the mail server is needed
 public class EmailClientBean {
 
     //Global Variables that will be received from the xhtml 
@@ -82,6 +80,23 @@ public class EmailClientBean {
      */
     public void send() {
         statusMessage = "Message Sent"; //Successful body
+
+        //Checks to see if the fields in the form from the front end are empty and gives user meaningful mailMessage
+        //Both are empty
+        if (subject.equals("") && body.equals("")) {
+            addMessage("Subject and Body Field Required", "The message did not send because the subject and body field was not filled out.");
+            return;
+        }
+        //Subject Empty
+        if (subject.equals("")) {
+            addMessage("Subject Line Required", "The message did not send because the subject field was not filled out.");
+            return;
+        }
+        //Body Empty
+        if (body.equals("")) {
+            addMessage("Body of Email Required", "The message did not send because the body field was not filled out.");
+            return;
+        }
         try {
             MailService.sendMessage(RECIPIENT, subject, body);
         } catch (MessagingException ex) {
@@ -96,9 +111,26 @@ public class EmailClientBean {
         addMessage("Message Sent!", "The Message has beeen sent to our team.");
     }
 
+    /**
+     * This method works with the growl tag in the footer template that notifies the user 
+     * that their email sent or not. 
+     * 
+     * 
+     * @param summary Notification Header 
+     * @param detail  Notification Detail
+     */
     public void addMessage(String summary, String detail) {
-        FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, summary, detail);
-        FacesContext.getCurrentInstance().addMessage(null, message);
+        //id of the tag from xhtml file
+        FacesMessage mailMessage = new FacesMessage(FacesMessage.SEVERITY_INFO, summary, detail);
+        FacesContext.getCurrentInstance().addMessage(null, mailMessage); //Sends the message to the front end.
     }
-
+    
+    /**
+     * Resests the text boxes of the field to empty so that the form is empty when the user clicks on the link again.
+     */
+    public void clearFields()
+    {
+        subject = "";
+        body = "";
+    }
 }

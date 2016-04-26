@@ -3,9 +3,9 @@
  * @author Corey McQuay
  * @4/24/2015
  */
-// Note: This example requires that you consent to location sharing when
-// prompted by your browser. If you see a blank space instead of the map, this
-// is probably because you have denied permission for location sharing.
+
+//Gets the user's geolocation and then uses the latitude and longitude to make 
+//and API request to the OpenWeather API 
 
 //define the global variables
 //current weather URL
@@ -17,10 +17,10 @@ var ForeCast_Params = "&cnt=5&units=imperial&type=accurate&mode=json";
 // Image base URL
 var IMG_URL = "http://openweathermap.org/img/w/";
 
-/* Initial function call to determine the user location using GeoLocation API */
+/* Initial function call to determine the user location using GeoLocation API Loads it on the webpage*/
 window.onload=function getLocation() {
 	if (navigator.geolocation) {
-		var timeoutVal = 10 * 1000 * 1000;
+		var timeoutVal = 10 * 1000 * 1000; //Timeout error
 		navigator.geolocation.getCurrentPosition(getCurrentWeatherData,
 				displayError, {
 					enableHighAccuracy : true,
@@ -40,6 +40,7 @@ function getCurrentWeatherData(position) {
 			+ "&lon=" + position.coords.longitude + ForeCast_Params + "&appid=8a6cc5f72854b75f1a3c04a8aaef5a0a";
 	// OpenWeather API call for Current Weather
 	var xmlhttp = new XMLHttpRequest();
+        //Checks the state of the request status then it will start parsing if no errors 
 	xmlhttp.onreadystatechange = function() {
 		if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
 			var JSONobj = JSON.parse(xmlhttp.responseText);
@@ -61,7 +62,7 @@ function getCurrentWeatherData(position) {
 	xmlhr.send();
 
 }
-// Error Handler
+// Error Handler will display to user if when of the following happens
 function displayError(error) {
 	var errors = {
 		1 : 'Permission denied',
@@ -72,6 +73,7 @@ function displayError(error) {
 }
 // display the current weather and location
 
+//Parses the json obect and puts the data onto the web page
 function Parse(obj) {
 	// current Location
 	document.getElementById("location").innerHTML = "Country: ".bold()
@@ -88,7 +90,8 @@ function Parse(obj) {
 			+ obj.wind.speed + " mps <br>";
 
 }
-// display forecasts for next 5 Days
+// display forecasts for next 5 Days by parsing through json object and putting 
+// the data onto the web page.
 function Forecast(obj) {
 	document.getElementById("day1div").innerHTML = "<img src='" + IMG_URL
 			+ obj.list[0].weather[0].icon + ".png'> " + "<br>Min Temp: ".bold()

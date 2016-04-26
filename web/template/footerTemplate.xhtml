@@ -6,6 +6,9 @@
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:p="http://primefaces.org/ui">
 
+    <!--    This is the footer that will stay constant throughout the website. It contains
+    The contact us form that us used to send emails to the mapchat team.-->
+
     <!--
     *********************************************
     * Footer Component of Template siteTemplate *
@@ -22,14 +25,14 @@
                     <a href="https://www.facebook.com" target="_blank"><img src="./resources/images/socialMediaIcons/facebook.png" style="max-height: 28px; max-width: 28px; margin: 0 10px;" /></a>
                     <a href="https://twitter.com/"  target="_blank"><img src="./resources/images/socialMediaIcons/twitter.png" style="max-height: 28px; max-width: 28px;"/></a>
                 </h:panelGroup>
-                
+
                 <p:commandLink value="Contact Us" onclick="PF('contactUs').show();" styleClass="rightAlign"/>
                 <div>
-                    <p:growl id="message" showDetail="true" />
+                    <p:growl id="mailMessage" showDetail="true" />
 
                     <p:dialog header="Contact Us" widgetVar="contactUs" minHeight="40" >
                         <p:panel class="mc-panel">
-                            <h2>Please inform us if you have any ideas, questions, comments, or issues with the MapChat application.</h2>
+                            <h2>Please inform us if you have any ideas, questions, comments, or issues with the MapChat application. Also leave your contact email so we can contact you if needed</h2>
                             <div align="center">
                                 <h:panelGrid columns="2" cellspacing="10px" >
 
@@ -38,8 +41,7 @@
                                         <br />
                                         <h:inputText size="30" id="subject"
                                                      value="#{emailClientBean.subject}"
-                                                     required="true"
-                                                     requiredMessage="Required Subject"/>
+                                                     />
 
                                     </h:panelGroup>
 
@@ -47,15 +49,14 @@
                                     <h:panelGroup>
                                         <h:inputTextarea cols="45" rows="15" id="body-text"
                                                          value="#{emailClientBean.body}"
-                                                         required="true"
-                                                         requiredMessage="Required Body Text"/>
+                                                         />
                                     </h:panelGroup>
                                 </h:panelGrid>
                             </div>
                             <div align="center">
                                 <h:panelGrid columns="2" style="float: bottom;" >
-                                    <h:commandButton value="Send" action="#{emailClientBean.send()}"/>
-                                    <h:commandButton value="Cancel" onclick="PF('contactUs').hide();"/>
+                                    <h:commandButton value="Send" action="#{emailClientBean.clearFields()}" actionListener="#{emailClientBean.send()}"/>
+                                    <h:commandButton value="Cancel" onclick="PF('contactUs').hide();"  actionListener="#{emailClientBean.clearFields()}"/>
                                 </h:panelGrid>
                             </div>
                             <br />
