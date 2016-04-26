@@ -1,6 +1,8 @@
-/*
- * Created by Nathan Rosa on 2016.03.22  * 
- * Copyright © 2016 Nathan Rosa. All rights reserved. * 
+/**
+ * Created by MapChat Development Team
+ * Edited by Nate Rosa
+ * Last Modified: 2016.03.25
+ * Copyright © 2016 MapChat Development Team. All rights reserved.
  */
 package com.mapchat.sessionbeanpackage;
 
@@ -9,10 +11,6 @@ import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
-/**
- *
- * @author Nathan
- */
 @Stateless
 public class UserFacade extends AbstractFacade<User> {
 
