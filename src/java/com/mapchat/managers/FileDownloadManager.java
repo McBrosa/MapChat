@@ -16,39 +16,42 @@ import org.primefaces.model.StreamedContent;
 
 @ManagedBean
 /**
- *
+ * The manager class for downloading files
  * @author Sean
  */
 public class FileDownloadManager {
     
+    // The file to download
     private StreamedContent file;
     
     @ManagedProperty(value="#{messageBean}")
     private MessageBean messageBean;
 
-    public MessageBean getMessageBean() {
-        return messageBean;
-    }
-
-    public void setMessageBean(MessageBean messageBean) {
-        this.messageBean = messageBean;
-    }
-    
-     
+    /**
+     * Constructor
+     */
     public FileDownloadManager() {        
         
     }
- 
-    public StreamedContent getFile() {
-        return file;
-    }
     
+    /**
+     * Prepare the file download
+     * @param fileName the name of the file to download
+     * @throws FileNotFoundException 
+     */
     public void prepareDownload(String fileName) throws FileNotFoundException {
         String path = Constants.ROOT_DIRECTORY + messageBean.getCurrentGroup().getId() + "/" + fileName;
         InputStream stream = new FileInputStream(path);
         this.file = new DefaultStreamedContent(stream, getExtension(fileName), fileName);
     }
     
+    /**
+     * Retrieve the file to download
+     * @return file
+     */
+    public StreamedContent getFile() {
+        return file;
+    }
     
     /**
      * Retrieve the filename  from a file path
@@ -70,4 +73,19 @@ public class FileDownloadManager {
         return tokens[1];
     }
     
+    /**
+     * Retrieve the message bean
+     * @return messageBean
+     */
+    public MessageBean getMessageBean() {
+        return messageBean;
+    }
+
+    /**
+     * Set the message bean
+     * @param messageBean 
+     */
+    public void setMessageBean(MessageBean messageBean) {
+        this.messageBean = messageBean;
+    }
 }

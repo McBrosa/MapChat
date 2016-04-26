@@ -1,4 +1,10 @@
 <?xml version='1.0' encoding='UTF-8' ?>
+<!--
+Created by MapChat Development Team
+Edited by Anthony Barbee
+Last Modified: 2016.04.25
+Copyright © 2016 MapChat Development Team. All rights reserved.
+-->
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"   
       xmlns:h="http://java.sun.com/jsf/html"
@@ -18,6 +24,9 @@
                             <p:panel id="signup-panel" class="mc-panel">
 
                                 <h2>Don't have an account? Sign up now!</h2>
+                                <p:outputLabel id="error" value="#{accountManager.statusMessage}" style="color: red;"/>
+                                <br/>
+                                <br/>
                                 
                                 <p:inputText id="firstName" value="#{accountManager.firstName}" 
                                              required="true" label="First Name" class="create-content">
@@ -83,7 +92,6 @@
                             <p:panel id="error-panel" style="background: transparent; border: 0px;">
                                 <div align="left">
                                     <p:messages id="create-errors" autoUpdate="true" closable="true"/>
-                                    <p:outputLabel id="error" value="#{accountManager.statusMessage}" />
                                 </div>
                             </p:panel>
                         </h:panelGrid>

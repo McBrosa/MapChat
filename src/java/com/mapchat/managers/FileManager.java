@@ -48,11 +48,13 @@ import org.primefaces.model.UploadedFile;
 
 @ManagedBean
 @SessionScoped
+/**
+ * The manager for file upload
+ */
 public class FileManager implements Serializable{
 
     // Instance Variables (Properties)
     private UploadedFile file;
-    
     
     private String message = "";
     
@@ -64,50 +66,27 @@ public class FileManager implements Serializable{
     @EJB
     private UserFacade userFacade;
 
+   /**
+     * The instance variable 'groupsFacade' is annotated with the @EJB annotation.
+     * This means that the GlassFish application server, at runtime, will inject in
+     * this instance variable a reference to the @Stateless session bean GroupsFacade.
+     */
     @EJB
     private GroupsFacade groupsFacade;
+    
     /**
      * The instance variable 'fileFacade' is annotated with the @EJB annotation.
      * This means that the GlassFish application server, at runtime, will inject in
- this instance variable a reference to the @Stateless session bean File1Facade.
+     * this instance variable a reference to the @Stateless session bean File1Facade.
      */
     @EJB
     private File1Facade fileFacade;
-
-    public File1Facade getFileFacade() {
-        return fileFacade;
-    }
-
-    public void setFileFacade(File1Facade fileFacade) {
-        this.fileFacade = fileFacade;
-    }
-
-    // Returns the uploaded file
-    public UploadedFile getFile() {
-        return file;
-    }
-
-    // Obtains the uploaded file
-    public void setFile(UploadedFile file) {
-        this.file = file;
-    }
-
-    // Returns the message
-    public String getMessage() {
-        return message;
-    }
-
-    // Obtains the message
-    public void setMessage(String message) {
-        this.message = message;
-    }
 
     /**
      * "Profile?faces-redirect=true" asks the web browser to display the
      * Profile.xhtml page and update the URL corresponding to that page.
      * @return Profile.xhtml or nothing
      */
-
     public String upload() {
         if (file.getSize() != 0) {
             copyFile(file);
@@ -119,11 +98,20 @@ public class FileManager implements Serializable{
         }
     }
     
+    /**
+     * Reset the error message and return to the profile page
+     * @return 
+     */
     public String cancel() {
         message = "";
         return "Profile?faces-redirect=true";
     }
 
+    /**
+     * Copy the file
+     * @param file the file to copy
+     * @return the result message
+     */
     public FacesMessage copyFile(UploadedFile file) {
         try {
             deletePhoto();
@@ -168,6 +156,11 @@ public class FileManager implements Serializable{
             "There was a problem reading the image file. Please try again with a new photo file.");
     }
     
+    /**
+     * Make a rounded corner from an image
+     * @param image the image to edit
+     * @return the edited image
+     */
     private BufferedImage makeRoundedCorner(BufferedImage image) {
         int w = image.getWidth();
         int h = image.getHeight();
@@ -195,18 +188,22 @@ public class FileManager implements Serializable{
     }
 
     /**
-     * upload a file from the chat div in the dashboard
+     * Upload a file from the chat div in the dashboard
      * @param file
      * @param grp
      */
     public void uploadFileToGroup(UploadedFile file, Groups grp) {
         if (file != null) {
-            //File1 uploadedFile = new File1();
             copyFileGroup(file, grp);
-            
         }
     }    
     
+    /**
+     * Take a file and store it in the group directory
+     * @param file 
+     * @param grp
+     * @return the error/success message
+     */
     public FacesMessage copyFileGroup(UploadedFile file, Groups grp) {
         try {
             deletePhoto();
@@ -216,17 +213,20 @@ public class FileManager implements Serializable{
             // create new directory if it doesnt exist
             new File(Constants.ROOT_DIRECTORY + "/" + grp.getId()).mkdirs();
             
+            // create the file
             File tempFile = inputStreamToFile(in, grp.getId() + "/" + file.getFileName());
             in.close();
 
             FacesMessage resultMsg;
 
+            // get the current username
             String user_name = (String) FacesContext.getCurrentInstance()
                     .getExternalContext().getSessionMap().get("username");
 
             User user = userFacade.findByUsername(user_name);
             String extension = file.getContentType();
 
+            // upload the file to the database
             fileFacade.create(new File1(extension, user, grp));
             
             resultMsg = new FacesMessage("Success!", "File Successfully Uploaded!");
@@ -238,6 +238,13 @@ public class FileManager implements Serializable{
             "There was a problem reading the image file. Please try again with a new photo file.");
     }
     
+    /**
+     * Take an input stream and convert it to a file
+     * @param inputStream
+     * @param childName
+     * @return the file created from an input stream
+     * @throws IOException 
+     */
     private File inputStreamToFile(InputStream inputStream, String childName)
             throws IOException {
         // Read in the series of bytes from the input stream
@@ -256,6 +263,11 @@ public class FileManager implements Serializable{
         return targetFile;
     }
 
+    /**
+     * TODO --- Rosa
+     * @param inputFile
+     * @param inputPhoto 
+     */
     private void saveThumbnail(File inputFile, File1 inputPhoto) {
         try {
             BufferedImage original = ImageIO.read(inputFile);
@@ -270,13 +282,20 @@ public class FileManager implements Serializable{
         }
     }
 
+    /**
+     * Delete a photo
+     */
     public void deletePhoto() {
         FacesMessage resultMsg;
+        
+        // retrieve the logged in username
         String user_name = (String) FacesContext.getCurrentInstance()
                 .getExternalContext().getSessionMap().get("username");
-
+        
+        // use the username to find the user object
         User user = userFacade.findByUsername(user_name);
 
+        // find the files owned by the user
         List<File1> fileList = fileFacade.findFilesByUserID(user.getId());
         if (fileList.isEmpty()) {
             resultMsg = new FacesMessage("Error", "You do not have a photo to delete.");
@@ -298,6 +317,10 @@ public class FileManager implements Serializable{
         FacesContext.getCurrentInstance().addMessage(null, resultMsg);
     }
     
+    /***
+     * TODO unused delete
+     * @return 
+     */
     public String filePath()
     {
         String user_name = (String) FacesContext.getCurrentInstance()
@@ -309,5 +332,53 @@ public class FileManager implements Serializable{
             return "FileStorageLocation/defaultUserPhoto.png";
         }
         return "FileStorageLocation/" + fileList.get(0).getThumbnailName();    
+    }
+    
+    /**
+     * Get the file facade
+     * @return fileFacade
+     */
+    public File1Facade getFileFacade() {
+        return fileFacade;
+    }
+
+    /**
+     * Set the file facade
+     * @param fileFacade 
+     */
+    public void setFileFacade(File1Facade fileFacade) {
+        this.fileFacade = fileFacade;
+    }
+
+    /**
+     * Get the file to upload
+     * @return file
+     */
+    public UploadedFile getFile() {
+        return file;
+    }
+
+    /**
+     * Set the file to upload
+     * @param file 
+     */
+    public void setFile(UploadedFile file) {
+        this.file = file;
+    }
+
+    /**
+     * Get the error message
+     * @return message
+     */
+    public String getMessage() {
+        return message;
+    }
+
+    /**
+     * Set the error message
+     * @param message 
+     */
+    public void setMessage(String message) {
+        this.message = message;
     }
  }

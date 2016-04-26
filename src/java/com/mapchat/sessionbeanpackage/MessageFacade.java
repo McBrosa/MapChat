@@ -12,8 +12,8 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 /**
- *
- * @author Nathan
+ * The facade class for the message object
+ * @author Sean Arcayan
  */
 @Stateless
 public class MessageFacade extends AbstractFacade<Message> {
@@ -34,6 +34,11 @@ public class MessageFacade extends AbstractFacade<Message> {
         return em.find(Message.class, id);
     }
     
+    /**
+     * Retrieve the messages given a group
+     * @param grp the group's messages to retrieve
+     * @return 
+     */
     public List<Message> getMessagesByGroup(Groups grp) {
         if (em.createNamedQuery("Message.findByGroupId")
             .setParameter("gid", grp)

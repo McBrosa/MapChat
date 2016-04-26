@@ -1,5 +1,5 @@
 /*
- * Weather widget using GeoLocation API and OpenWeather API
+ * Weather widget using GeoLocation API and OpenWeather API to display on user's profile 
  * @author Corey McQuay
  * @4/24/2015
  */
@@ -7,8 +7,8 @@
 //Gets the user's geolocation and then uses the latitude and longitude to make 
 //and API request to the OpenWeather API 
 
-//define the global variables
-//current weather URL
+//Define the global variables
+//Current weather URL
 var BASE_URL = "http://api.openweathermap.org/data/2.5/weather?";
 var UrlParams = "&units=imperial&type=accurate&mode=json";
 // forecast URL
@@ -28,10 +28,10 @@ window.onload=function getLocation() {
 					maximumAge : 0
 				});
 	} else {
-		alert("Geolocation is not supported by this browser");
+		alert("Geolocation is not supported by this browser"); //Error handling
 	}
 }
-// get the Current Weather for User location
+// Get the Current Weather for User location
 function getCurrentWeatherData(position) {
 	// Build the OpenAPI URL for current Weather
 	var WeatherNowAPIurl = BASE_URL + "lat=" + position.coords.latitude
@@ -52,7 +52,7 @@ function getCurrentWeatherData(position) {
 
 	// OpenWeather API call for Forecast Weather
 	var xmlhr = new XMLHttpRequest();
-	xmlhr.onreadystatechange = function() {
+	xmlhr.onreadystatechange = function() { //Correct status, pulled data correctly
 		if (xmlhr.readyState == 4 && xmlhr.status == 200) {
 			var JSobj = JSON.parse(xmlhr.responseText);
 			Forecast(JSobj);
@@ -71,7 +71,7 @@ function displayError(error) {
 	};
 	alert("Error: " + errors[error.code]);
 }
-// display the current weather and location
+// Display the current weather and location
 
 //Parses the json obect and puts the data onto the web page
 function Parse(obj) {
@@ -90,7 +90,7 @@ function Parse(obj) {
 			+ obj.wind.speed + " mps <br>";
 
 }
-// display forecasts for next 5 Days by parsing through json object and putting 
+// Display forecasts for next 5 Days by parsing through json object and putting 
 // the data onto the web page.
 function Forecast(obj) {
 	document.getElementById("day1div").innerHTML = "<img src='" + IMG_URL

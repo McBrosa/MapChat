@@ -33,39 +33,49 @@ import javax.faces.bean.ApplicationScoped;
 import javax.faces.context.FacesContext;
  
 /**
- * Simple chat logic
- * @author Danon
+ * The Message Manager is application scoped because it serves as a central 
+ * point of communication between all the users of the application. Different
+ * sessions will send their message by using this class 
+ * 
+ * @author Sean Arcayan
  */
 @ManagedBean
 @ApplicationScoped
 public class MessageManager implements MessageManagerLocal {
  
     @EJB
-    private MessageFacade msgFacade;
+    private MessageFacade msgFacade; // The facade class for messages
     
     private Map<Integer, Collection> groupMessageMap; // Chatroom data structure of <group id, list of messages>
-
-    public Map<Integer, Collection> getGroupMessageMap() {
-        return groupMessageMap;
-    }
-
-    public void setGroupMessageMap(Map<Integer, Collection> groupMessageMap) {
-        this.groupMessageMap = groupMessageMap;
-    }
     
     @PostConstruct
+    /**
+     * Call this method on startup
+     */
     public void init() {
         
+        // A synchronized map is used since the same data is shared between different 
+        // users in the same group
         groupMessageMap = 
             Collections.synchronizedMap(new HashMap<Integer, Collection>());
-        
     }
     
+    /**
+     * Retrieve the list of messages in a group
+     * @param group The group whose messages to retrieve
+     * @return the list of messages
+     */
     public List<Message> getMessagesByChatroom(Groups group) {
         return (List<Message>)groupMessageMap.get(group.getId());
     } 
     
     @Override
+    /**
+     * Determine the current group that the user is in and send the message to it.
+     * This method will also save the message in the database.
+     * 
+     * @param msg The message to send
+     */
     public void sendMessageToCurrentGroup(Message msg) {
         ELContext elContext = FacesContext.getCurrentInstance().getELContext();
         MessageBean messageBean 
@@ -83,13 +93,15 @@ public class MessageManager implements MessageManagerLocal {
         // send the current message to the database 
         msgFacade.create(msg);
         
-        
         // send the message to the current chatroom
         // add to the front of the list, remove from the end
         cfq.add(0, msg);
     }
 
     @Override
+    /**
+     * Get the available  ----- probably going to be deleted
+     */
     public List<String> getAvailableChatrooms() {
         ELContext elContext = FacesContext.getCurrentInstance().getELContext();
         GroupManager groupManager 
@@ -104,12 +116,33 @@ public class MessageManager implements MessageManagerLocal {
     }
     
     @Override
+    /**
+     * Get the messages in the current group
+     * 
+     * @return The list of messages in the user's current group
+     */
     public List<Message> getMessagesInCurrentGroup() { 
         ELContext elContext = FacesContext.getCurrentInstance().getELContext();
         MessageBean messageBean 
             = (MessageBean) FacesContext.getCurrentInstance().getApplication()
             .getELResolver().getValue(elContext, null, "messageBean");
         return (List<Message>)groupMessageMap.get(messageBean.getCurrentGroup().getId());
-        
     }
-}
+    
+    /**
+     * Retrieve the map between group id and a collection of messages
+     * @return the map
+     */
+    public Map<Integer, Collection> getGroupMessageMap() {
+        return groupMessageMap;
+    }
+
+    /**
+     * Set the map between group id and a collection of messages
+     * @param groupMessageMap The map
+     */
+    public void setGroupMessageMap(Map<Integer, Collection> groupMessageMap) {
+        this.groupMessageMap = groupMessageMap;
+    }
+    
+} // end class

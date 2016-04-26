@@ -1,4 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!--
+Created by MapChat Development Team
+Edited by Anthony Barbee
+Last Modified: 2016.04.12
+Copyright © 2016 MapChat Development Team. All rights reserved.
+-->
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:ui="http://java.sun.com/jsf/facelets"
@@ -6,7 +12,7 @@
       xmlns:p="http://primefaces.org/ui">
     <h:body>
         <ui:composition template="/template/siteTemplate.xhtml">
-            <title><ui:define name="title">MapChat: Security Question</ui:define></title>
+            <title><ui:define name="title">MapChat: Answer Question</ui:define></title>
             
             <ui:define name="editableContent">
                 <div align="center" style="width:50%; margin:0 auto;">
@@ -21,10 +27,11 @@
                             <h:inputText id="answer" value="#{passwordResetManager.answer}"/>
                         </div>
                         <br/>
+                        <h:outputLabel value ="#{passwordResetManager.message}" style="color: red;" />  
+                        <br/>
+                        <br/>
                         <p:commandButton id="submit" action="#{passwordResetManager.securityquestionSubmit()}" value="Submit" />
                         <p:button class="btn btn-lg btn-danger" id="cancel" outcome="index" value="Cancel" />
-                        <br/>
-                        <h:outputLabel value ="#{passwordResetManager.message}" />  
                     </p:panel>
                     </h:form>
                 </div>

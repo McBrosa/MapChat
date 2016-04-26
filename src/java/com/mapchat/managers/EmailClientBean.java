@@ -11,6 +11,7 @@ import com.mapchat.mail.MailService;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 
+
 /**
  * A bean class that illustrates sending an email body
  *
