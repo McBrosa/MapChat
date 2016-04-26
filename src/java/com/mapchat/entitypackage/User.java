@@ -25,7 +25,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
 /**
- *
+ * This is the class for the User entity
  * @author Nathan
  */
 @Entity
@@ -112,13 +112,34 @@ public class User implements Serializable {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "userId")
     private Collection<Message> messageCollection;
 
+    /**
+     * Constructor
+     */
     public User() {
     }
 
+    /**
+     * Constructor 
+     * @param id 
+     */
     public User(Integer id) {
         this.id = id;
     }
 
+    /**
+     * Constructor
+     * @param id
+     * @param username
+     * @param password
+     * @param firstName
+     * @param lastName
+     * @param securityQuestion
+     * @param securityAnswer
+     * @param locationX
+     * @param locationY
+     * @param phone
+     * @param email 
+     */
     public User(Integer id, String username, String password, String firstName, String lastName, int securityQuestion, String securityAnswer, double locationX, double locationY, String phone, String email) {
         this.id = id;
         this.username = username;
@@ -133,98 +154,194 @@ public class User implements Serializable {
         this.email = email;
     }
 
+    /**
+     * Get the user id
+     * @return id
+     */
     public Integer getId() {
         return id;
     }
 
+    /**
+     * Set the user id
+     * @param id 
+     */
     public void setId(Integer id) {
         this.id = id;
     }
 
+    /**
+     * Get the username of the user
+     * @return 
+     */
     public String getUsername() {
         return username;
     }
 
+    /**
+     * Set the username
+     * @param username 
+     */
     public void setUsername(String username) {
         this.username = username;
     }
 
+    /**
+     * Get the password
+     * @return 
+     */
     public String getPassword() {
         return password;
     }
 
+    /**
+     * Set the password
+     * @param password 
+     */
     public void setPassword(String password) {
         this.password = password;
     }
 
+    /**
+     * Get the firstname
+     * @return firstName
+     */
     public String getFirstName() {
         return firstName;
     }
 
+    /**
+     * Set the first name
+     * @param firstName 
+     */
     public void setFirstName(String firstName) {
         this.firstName = firstName;
     }
 
+    /**
+     * Get the middle name
+     * @return 
+     */
     public String getMiddleName() {
         return middleName;
     }
 
+    /**
+     * Set the middle name
+     * @param middleName 
+     */
     public void setMiddleName(String middleName) {
         this.middleName = middleName;
     }
 
+    /**
+     * Get the last name
+     * @return lastName
+     */
     public String getLastName() {
         return lastName;
     }
 
+    /**
+     * Set the last name
+     * @param lastName 
+     */
     public void setLastName(String lastName) {
         this.lastName = lastName;
     }
 
+    /**
+     * Get the security question
+     * @return securityQuestion
+     */
     public int getSecurityQuestion() {
         return securityQuestion;
     }
 
+    /**
+     * set security question
+     * @param securityQuestion 
+     */
     public void setSecurityQuestion(int securityQuestion) {
         this.securityQuestion = securityQuestion;
     }
 
+    /**
+     * get the security answer
+     * @return 
+     */
     public String getSecurityAnswer() {
         return securityAnswer;
     }
 
+    /**
+     * set the security answer
+     * @param securityAnswer 
+     */
     public void setSecurityAnswer(String securityAnswer) {
         this.securityAnswer = securityAnswer;
     }
 
+    /**
+     * get the locationx
+     * @return 
+     */
     public double getLocationX() {
         return locationX;
     }
 
+    /**
+     * set the location x
+     * @param locationX 
+     */
     public void setLocationX(double locationX) {
         this.locationX = locationX;
     }
 
+    /**
+     * get the location y
+     * @return 
+     */
     public double getLocationY() {
         return locationY;
     }
 
+    /**
+     * set the location y
+     * @param locationY 
+     */
     public void setLocationY(double locationY) {
         this.locationY = locationY;
     }
 
+    /**
+     * get the phone number
+     * @return 
+     */
     public String getPhone() {
         return phone;
     }
 
+    /**
+     * set the phone number
+     * @param phone 
+     */
     public void setPhone(String phone) {
         this.phone = phone;
     }
 
+    /**
+     * get the email
+     * @return 
+     */
     public String getEmail() {
         return email;
     }
 
+    /**
+     * set the email
+     * @param email 
+     */
     public void setEmail(String email) {
         this.email = email;
     }
@@ -243,15 +360,26 @@ public class User implements Serializable {
         return fileCollection;
     }
 
+    /**
+     * set the file collection
+     * @param fileCollection 
+     */
     public void setFileCollection(Collection<File1> fileCollection) {
         this.fileCollection = fileCollection;
     }
 
     @XmlTransient
+    /**
+     * get the message collection
+     */
     public Collection<Message> getMessageCollection() {
         return messageCollection;
     }
 
+    /**
+     * set the message collection
+     * @param messageCollection 
+     */
     public void setMessageCollection(Collection<Message> messageCollection) {
         this.messageCollection = messageCollection;
     }
