@@ -16,13 +16,14 @@ public class ImagesView {
      
     private List<String> images;
      /**
-      * Initializes an array for the photo collage
+      * Initializes an array for the ImageSwitch from Primefaces
       */
     @PostConstruct
     public void init() {
         images = new ArrayList();
         for (int i = 1; i <= 12; i++) {
-            images.add("movie" + i + ".jpg");
+            // image can be changed to whatever, but the files should be added as "image#.jpg"
+            images.add("image" + i + ".jpg");
         }
     }
     
