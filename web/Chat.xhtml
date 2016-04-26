@@ -12,9 +12,9 @@ Copyright © 2016 MapChat Development Team. All rights reserved.
       xmlns:p="http://primefaces.org/ui">
     
     <script type="text/javascript" src="js/chat.js"/>
-        
+    <!-- This file is used for the Chat div in Dashboard.xhtml -->    
     <h:body>
-        <h:form enctype="multipart/form-data" style="display: inline-block;" >
+        <h:form enctype="multipart/form-data" style="display: inline-block;" > <!-- Due to enctype this must be in a separate form -->
             <p:commandButton id="attachment-btn" value="+" type="button" />
             <p:overlayPanel id="attachment-panel" widgetVar="attachment-panel" for="attachment-btn" hideEffect="fade">
                     <h:outputLabel value="Upload a File:" />
