@@ -6,7 +6,7 @@ public class Constants {
     // Change /Users/Balci/FileStorageLocation/ below to /home/cs4984/Balci/FileStorageLocation/
     // for deployment to the server by replacing Balci with your last name.
     //-----------------------------------------------------------
-    public static final String ROOT_DIRECTORY = "C:/Users/Tiger/Desktop/FileStorageLocation/";
+    public static final String ROOT_DIRECTORY = "/Users/Sean/FileStorageLocation/";
 
     public static final String TEMP_FILE = "tmp_file";
     
@@ -17,6 +17,17 @@ public class Constants {
     public static final Integer ICON_SZ = 50;
 
     public static final Integer MAX_CAPTION_SIZE = 140;
+    
+    public static final String FILE_REGEX = "/(\\.|\\/)(gif|jpe?g|png)$/";
+    
+    public static final String MAX_FILE_SIZE_BYTES = "25000000";
+    
+    public static final String[] GLOBAL_GROUPS = {
+        "#Music",
+        "#Technology",
+        "#Religion",
+        "#Entertainment"
+    };
     
     public static final String[] STATES = {"AK","AL","AR","AZ","CA","CO","CT",
         "DC","DE","FL","GA","GU","HI","IA","ID", "IL","IN","KS","KY","LA","MA",
@@ -33,9 +44,4 @@ public class Constants {
         "What is your most favorite pet's name?"
     };
 
-    public static final String[] CHATROOMS = {
-        "Chatroom 1",
-        "Chatroom 2",
-        "Chatroom 3",
-    };
 }
