@@ -156,30 +156,57 @@ public class AccountManager implements Serializable {
         this.email = email;
     }
 
+    /**
+     * 
+     * @return get the phone number
+     */
     public String getPhone() {
         return phone;
     }
 
+    /**
+     * 
+     * @param phone set the phone number
+     */
     public void setPhone(String phone) {
         this.phone = phone;
     }
     
+    /**
+     * 
+     * @return the security question
+     */
     public int getSecurity_question() {
         return security_question;
     }
 
+    /**
+     * Set the security question
+     * @param security_question 
+     */
     public void setSecurity_question(int security_question) {
         this.security_question = security_question;
     }
 
+    /**
+     * Get the security question answer
+     * @return 
+     */
     public String getSecurity_answer() {
         return security_answer;
     }
 
+    /**
+     * Set the security question answer
+     * @param security_answer 
+     */
     public void setSecurity_answer(String security_answer) {
         this.security_answer = security_answer;
     }
 
+    /**
+     * @return Mapping of the security questions
+     */
     public Map<String, Object> getSecurity_questions() {
         if (security_questions == null) {
             security_questions = new LinkedHashMap<>();
@@ -204,6 +231,10 @@ public class AccountManager implements Serializable {
         this.statusMessage = statusMessage;
     }
 
+    /**
+     * 
+     * @return the selected user
+     */
     public User getSelected() {
         if (selected == null) {
             selected = userFacade.find(FacesContext.getCurrentInstance().
@@ -212,10 +243,18 @@ public class AccountManager implements Serializable {
         return selected;
     }
 
+    /**
+     * Set the selected user to a new user
+     * @param selected 
+     */
     public void setSelected(User selected) {
         this.selected = selected;
     }
 
+    /**
+     * Create an account for the new user
+     * @return a status message
+     */
     public String createAccount() {
         
         // Check to see if a user already exists with the username given.
@@ -227,6 +266,7 @@ public class AccountManager implements Serializable {
             return "";
         }
 
+        /* Set all the user basic info */
         if (statusMessage.isEmpty()) {
             try {
                 User user = new User();
@@ -259,6 +299,10 @@ public class AccountManager implements Serializable {
         return "";
     }
 
+    /**
+     * Update the account manager
+     * @return the status message or Profile page
+     */
     public String updateAccount() {
         if (statusMessage.isEmpty()) {
             int user_id = (int) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("user_id");
@@ -280,6 +324,9 @@ public class AccountManager implements Serializable {
         return "";
     }
     
+    /**
+     * Update the the uses location and send to MySQL database
+     */
     public void updateLocation()
     {
         int user_id = (int) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("user_id");
@@ -289,6 +336,10 @@ public class AccountManager implements Serializable {
         userFacade.edit(editUser);
     }
     
+    /**
+     * Delete the user account and return the index page
+     * @return error message or index.xhtml
+     */
     public String deleteAccount() {
         if (statusMessage.isEmpty()) {
             int user_id = (int) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("user_id");
@@ -306,6 +357,10 @@ public class AccountManager implements Serializable {
         return "";
     }
     
+    /**
+     * Make sure the two password are equal when the event is received
+     * @param event the event to listen for
+     */
     public void validateInformation(ComponentSystemEvent event) {
         FacesContext fc = FacesContext.getCurrentInstance();
 
@@ -333,6 +388,9 @@ public class AccountManager implements Serializable {
         }   
     }
 
+    /**
+     * Initialize the session map
+     */
     public void initializeSessionMap() {
         User user = userFacade.findByUsername(getUsername());
         FacesContext.getCurrentInstance().getExternalContext().
@@ -341,6 +399,11 @@ public class AccountManager implements Serializable {
                 getSessionMap().put("user_id", user.getId());
     }
 
+    /**
+     * Make sure the correct password was entered
+     * @param components the component to check
+     * @return true is correct, false otherwise
+     */
     private boolean correctPasswordEntered(UIComponent components) {
         UIInput uiInputVerifyPassword = (UIInput) components.findComponent("verifyPassword");
         String verifyPassword = uiInputVerifyPassword.getLocalValue() == null ? ""
@@ -358,6 +421,10 @@ public class AccountManager implements Serializable {
         }
     }
 
+    /**
+     * Logout the current user and clear all fields. Also redirect to home page.
+     * @return the index.xhtml
+     */
     public String logout() {
         FacesContext.getCurrentInstance().getExternalContext().getSessionMap().clear();
         username = firstName = middleName = lastName = password = email = statusMessage = "";
@@ -368,6 +435,10 @@ public class AccountManager implements Serializable {
         return "/index.xhtml?faces-redirect=true";
     }
    
+    /**
+     * Get the user photo form FIleStorageLocation
+     * @return the location of the use photo
+     */
     public String userPhoto() {
         String user_name = (String) FacesContext.getCurrentInstance()
                 .getExternalContext().getSessionMap().get("username");
