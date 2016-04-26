@@ -1,30 +1,28 @@
 /*
- * Created by Nathan Rosa on 2016.03.22  * 
- * Copyright © 2016 Nathan Rosa. All rights reserved. * 
+ * Created by MapChat Development Team
+ * Edited by Nathan Rosa, Anthony Barbee
+ * Last Modified: 2016.03.28
+ * Copyright © 2016 MapChat Development Team. All rights reserved.
  */
 package com.mapchat.entitypackage;
 
 import java.io.Serializable;
-import java.util.Collection;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
- * @author Nathan
+ * @author Nathan Rosa
+ * @author Anthony Barbee
  */
 @Entity
 @Table(name = "user_group")
@@ -60,53 +58,74 @@ public class UserGroup implements Serializable {
     @ManyToMany(targetEntity=Groups.class)
     private Collection<Groups> groups;*/
 
+    
+    /**
+     * UserGroup Constructor (Empty)
+     */
     public UserGroup() {
     }
 
+    /**
+     * Getter method for id tag of UserGroup
+     * @return id of UserGroup
+     */
     public Integer getId() {
         return id;
     }
 
+    /**
+     * Setter method for id tag of UserGroup
+     * @param id - UserGroup's id
+     */
     public void setId(Integer id) {
         this.id = id;
     }
     
+    /**
+     * Constructor for a UserGroup with an id tag
+     * @param userId - userId tag of UserGroup
+     */
     public UserGroup(Integer userId) {
         this.userId = userId;
     }
 
+    /**
+     * Getter method for the UserGroup's userId
+     * @return UserGroup's userId
+     */
     public Integer getUserId() {
         return userId;
     }
 
+    /**
+     * Setter method for the UserGroup's userId
+     * @param userId - UserGroup's set userId
+     */
     public void setUserId(Integer userId) {
         this.userId = userId;
     }
     
+    
+    /**
+     * Getter method for the UserGroup's groupId
+     * @return UserGroup's userId
+     */
     public Integer getGroupId() {
         return groupId;
     }
 
+    /**
+     * Getter method for the UserGroup's groupId
+     * @param groupsId - the UserGroup's set groudId
+     */
     public void setGroupId(Integer groupsId) {
         this.groupId = groupsId;
     }
 
-   /* public Collection<User> getUser() {
-        return user;
-    }
-
-    public void setUser(Collection<User> user) {
-        this.user = user;
-    }
-
-    public Collection<Groups> getGroups() {
-        return groups;
-    }
-
-    public void setGroups(Collection<Groups> groups) {
-        this.groups = groups;
-    }*/
-
+    /**
+     * HashCode function for indexing UserGroups
+     * @return hashed UserGroup's id
+     */
     @Override
     public int hashCode() {
         int hash = 0;
@@ -114,19 +133,28 @@ public class UserGroup implements Serializable {
         return hash;
     }
 
+    /**
+     * Method for comparing two UserGroups together/ a UserGroup to an Object
+     * @param obj - object being compared to
+     * @return T/F (depending)
+     */
     @Override
-    public boolean equals(Object object) {
+    public boolean equals(Object obj) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof UserGroup)) {
+        if (!(obj instanceof UserGroup)) {
             return false;
         }
-        UserGroup other = (UserGroup) object;
+        UserGroup other = (UserGroup) obj;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
         return true;
     }
 
+    /**
+     * Method for obtaining a String representation of a UserGroup
+     * @return String UserGroup
+     */
     @Override
     public String toString() {
         return "com.mapchat.entitypackage.UserGroup[ id=" + id + " ]";
