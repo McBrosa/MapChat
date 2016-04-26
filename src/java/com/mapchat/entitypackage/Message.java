@@ -25,8 +25,8 @@ import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
- *
- * @author Nathan
+ * This is the entity class for the Message object
+ * @author Sean Arcayan
  */
 @Entity
 @Table(name = "message")
@@ -62,60 +62,116 @@ public class Message implements Serializable {
     @ManyToOne(optional = false)
     private User userId;
 
+    /**
+     * Constructor
+     */
     public Message() {
     }
 
+    /**
+     * Constructor
+     * @param id 
+     */
     public Message(Integer id) {
         this.id = id;
     }
 
+    /**
+     * Constructor
+     * @param id the message id
+     * @param message the message body
+     * @param time the timestamp of the message
+     */
     public Message(Integer id, String message, Date time) {
         this.id = id;
         this.message = message;
         this.time = time;
     }
 
+    /**
+     * Get the message id
+     * @return id
+     */
     public Integer getId() {
         return id;
     }
 
+    /**
+     * Set the message id
+     * @param id 
+     */
     public void setId(Integer id) {
         this.id = id;
     }
 
+    /**
+     * Get the message body
+     * @return message
+     */
     public String getMessage() {
         return message;
     }
 
+    /**
+     * Set the message body
+     * @param message 
+     */
     public void setMessage(String message) {
         this.message = message;
     }
 
+    /**
+     * Get the time the message was sent
+     * @return the time
+     */
     public Date getTime() {
         return time;
     }
 
+    /**
+     * Set the time the message was sent
+     * @param time 
+     */
     public void setTime(Date time) {
         this.time = time;
     }
 
+    /**
+     * Get the group that the message is in
+     * @return groupId the group
+     */
     public Groups getGroupId() {
         return groupId;
     }
 
+    /**
+     * Set the group that the message is in
+     * @param groupId 
+     */
     public void setGroupId(Groups groupId) {
         this.groupId = groupId;
     }
 
+    /**
+     * The user that wrote the message
+     * @return userId
+     */
     public User getUserId() {
         return userId;
     }
 
+    /**
+     * Set the user that wrote the message
+     * @param userId 
+     */
     public void setUserId(User userId) {
         this.userId = userId;
     }
 
     @Override
+    /**
+     * Create a hash code for the message
+     */
     public int hashCode() {
         int hash = 0;
         hash += (id != null ? id.hashCode() : 0);
@@ -123,6 +179,9 @@ public class Message implements Serializable {
     }
 
     @Override
+    /**
+     * Create a hashcode for the message
+     */
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
         if (!(object instanceof Message)) {
@@ -136,13 +195,17 @@ public class Message implements Serializable {
     }
 
     @Override
+    /**
+     * Convert the message to a string. This is used when the message is printed
+     * out on the dashboard (Chat.xhtml)
+     * 
+     * @return the string representation of the message
+     */
     public String toString() {
         StringBuilder sb = new StringBuilder("[ ");
         sb.append(userId.getFirstName());
         sb.append(" ] : ");
         sb.append(message);
         return sb.toString();
-        
-    }
-    
-}
+    }    
+} // end class

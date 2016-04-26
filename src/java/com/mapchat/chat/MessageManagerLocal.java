@@ -17,7 +17,7 @@ import javax.ejb.LocalBean;
 
 /**
  * Local interface for chat logic EJB
- * @author Danon
+ * @author Sean Arcayan
  */
 @LocalBean
 public interface MessageManagerLocal {
@@ -27,7 +27,4 @@ public interface MessageManagerLocal {
     List<String> getAvailableChatrooms();
     
     List<Message> getMessagesInCurrentGroup();
-
-    
- 
 }
