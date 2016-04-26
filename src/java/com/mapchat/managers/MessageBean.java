@@ -47,6 +47,7 @@ public class MessageBean implements Serializable {
     private String[] availableChatrooms;
     private String[] activeMessages;
     private Groups currentGroup;
+    private boolean groupSelected;
 
     @ManagedProperty(value="#{messageManager}")
     private MessageManager mm;
@@ -101,7 +102,18 @@ public class MessageBean implements Serializable {
     public void setCurrentGroup(Groups currentGroup) {
         this.currentGroup = currentGroup;
     }
-    
+
+    public boolean isGroupSelected() {
+        return (this.currentGroup != null);
+    }
+
+    public void setGroupSelected(boolean groupSelected) {
+        this.groupSelected = groupSelected;
+    }
+//    
+//    public void onClick(ClickEvent event) {
+//        disabled = false;
+//    }
     /**
      * Get the 
      * @return 

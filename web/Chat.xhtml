@@ -14,8 +14,8 @@ Copyright © 2016 MapChat Development Team. All rights reserved.
     <script type="text/javascript" src="resources/js/chat.js"/>
     <!-- This file is used for the Chat div in Dashboard.xhtml -->    
     <h:body>
-        <h:form enctype="multipart/form-data" style="display: inline-block;" > <!-- Due to enctype this must be in a separate form -->
-            <p:commandButton id="attachment-btn" value="+" type="button"/>
+        <h:form id="attachment-form" enctype="multipart/form-data" style="display: inline-block;" > <!-- Due to enctype this must be in a separate form -->
+            <p:commandButton id="attachment-btn" value="+" type="button" disabled="#{not messageBean.groupSelected}" />
             <p:overlayPanel id="attachment-panel" widgetVar="attachment-panel" for="attachment-btn" hideEffect="fade">
                     <h:outputLabel value="Upload a File:" />
                     <p:fileUpload fileUploadListener="#{messageBean.uploadFile}" mode="advanced" dragDropSupport="true"
@@ -23,7 +23,7 @@ Copyright © 2016 MapChat Development Team. All rights reserved.
             </p:overlayPanel>
         </h:form>
         <h:form id="file-form" style="display: inline-block; margin-bottom: 10px;"  >
-            <p:commandButton id="fileBtn" value="Files" type="button"/>
+            <p:commandButton id="fileBtn" value="Files" type="button" disabled="#{not messageBean.groupSelected}"/>
             <p:overlayPanel id="filePanel" for="fileBtn" hideEffect="fade" dynamic="true" style="width: 600px;">
                 <p:dataTable id="filedatapanel" value="#{messageBean.fileNamesInGroup}" var="filename">                
                     <p:column>
