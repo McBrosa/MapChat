@@ -1,6 +1,8 @@
-/*
- * Created by Nathan Rosa on 2016.03.22  * 
- * Copyright © 2016 Nathan Rosa. All rights reserved. * 
+/**
+ * Created by MapChat Development Team
+ * Edited by Nate Rosa
+ * Last Modified: 2016.03.22
+ * Copyright © 2016 MapChat Development Team. All rights reserved.
  */
 package com.mapchat.sessionbeanpackage;
 
@@ -14,10 +16,6 @@ import javax.validation.ValidatorFactory;
 import com.mapchat.jsfclassespackage.util.JsfUtil;
 import javax.validation.Validator;
 
-/**
- *
- * @author Nathan
- */
 public abstract class AbstractFacade<T> {
 
     private Class<T> entityClass;
@@ -45,6 +43,7 @@ public abstract class AbstractFacade<T> {
     }
     }
 
+    
     public void edit(T entity) {
         getEntityManager().merge(entity);
     }

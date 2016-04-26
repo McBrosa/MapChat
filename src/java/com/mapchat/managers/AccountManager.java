@@ -1,6 +1,8 @@
-/*
- * Created by Nathan Rosa on 2016.03.22  * 
- * Copyright © 2016 Nathan Rosa. All rights reserved. * 
+/**
+ * Created by MapChat Development Team
+ * Edited by Nate Rosa, Anthony Barbee
+ * Last Modified: 2016.04.20
+ * Copyright © 2016 MapChat Development Team. All rights reserved.
  */
 package com.mapchat.managers;
 
@@ -82,10 +84,18 @@ public class AccountManager implements Serializable {
         this.firstName = firstName;
     }
 
+    /**
+     * Get the middle name 
+     * @return  middle name
+     */
     public String getMiddleName() {
         return middleName;
     }
 
+    /**
+     * Set the middle name
+     * @param middleName  the new middle name
+     */
     public void setMiddleName(String middleName) {
         this.middleName = middleName;
     }
