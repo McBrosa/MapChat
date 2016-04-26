@@ -1,6 +1,8 @@
-/*
- * Created by Nathan Rosa on 2016.03.22  * 
- * Copyright © 2016 Nathan Rosa. All rights reserved. * 
+/**
+ * Created by MapChat Development Team
+ * Edited by Nathan Rosa
+ * Last Modified: 2016.04.21
+ * Copyright © 2016 MapChat Development Team. All rights reserved.
  */
 package com.mapchat.managers;
 
@@ -10,14 +12,8 @@ import com.mapchat.entitypackage.User;
 import com.mapchat.sessionbeanpackage.File1Facade;
 import com.mapchat.sessionbeanpackage.GroupsFacade;
 import com.mapchat.sessionbeanpackage.UserFacade;
-//import java.awt.AlphaComposite;
-//import java.awt.Graphics2D;
-//import java.awt.RenderingHints;
-//import java.awt.geom.Ellipse2D;
 import java.awt.AlphaComposite;
-import java.awt.Color;
 import java.awt.Graphics2D;
-import java.awt.RenderingHints;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Rectangle2D;
 
@@ -30,7 +26,6 @@ import java.io.OutputStream;
 import java.io.Serializable;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.Arrays;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -40,10 +35,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.imageio.ImageIO;
-import javax.inject.Named;
 import org.imgscalr.Scalr;
-import org.primefaces.model.DefaultStreamedContent;
-import org.primefaces.model.StreamedContent;
 import org.primefaces.model.UploadedFile;
 
 @ManagedBean
