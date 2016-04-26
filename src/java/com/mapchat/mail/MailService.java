@@ -12,7 +12,6 @@ import javax.mail.internet.MimeMessage;
  * A class for sending mail messages by using JavaMail API
  * and using gmail's smtp host service, this gets the data from the EmailClientBean
  * and prepares a message for the recipient (mapchatservice@gmail.com).
- * 
  * @author Corey McQuay
  */
 public class MailService {
