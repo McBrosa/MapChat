@@ -13,7 +13,6 @@ Copyright © 2016 Alan Cai. All rights reserved.
 
     <h:body>
         <h:form id="select_group">
-            
             <p:remoteCommand name="refreshMap" action="#{markersView.refreshMap()}" update=":gmap" />
             <!--Putting the style for this following tag does not work in the css file-->
             <p:selectOneListbox scrollHeight="50" style="width: 100%; height: 50%;" id="global_groups" 
@@ -23,12 +22,5 @@ Copyright © 2016 Alan Cai. All rights reserved.
                 <p:ajax event="change" onstart="refreshMap()" update=":file-form:filedatapanel :chat-form:chat-messages1"/>
             </p:selectOneListbox>
         </h:form>
-        <!--h:form id="buttons-form"-->
-            <!--p:commandButton id="group-modify-btn" value="Options" type="button" /-->
-            <!--p:overlayPanel id="group-modify-panel" widgetVar="group-modify-panel" for="group-modify-btn" hideEffect="fade"-->
-
-            <!--/p:overlayPanel-->
-        <!--/h:form-->
-        
     </h:body>
 </html>
