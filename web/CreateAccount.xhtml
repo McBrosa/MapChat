@@ -24,6 +24,9 @@ Copyright © 2016 MapChat Development Team. All rights reserved.
                             <p:panel id="signup-panel" class="mc-panel">
 
                                 <h2>Don't have an account? Sign up now!</h2>
+                                <p:outputLabel id="error" value="#{accountManager.statusMessage}" style="color: red;"/>
+                                <br/>
+                                <br/>
                                 
                                 <p:inputText id="firstName" value="#{accountManager.firstName}" 
                                              required="true" label="First Name" class="create-content">
@@ -89,7 +92,6 @@ Copyright © 2016 MapChat Development Team. All rights reserved.
                             <p:panel id="error-panel" style="background: transparent; border: 0px;">
                                 <div align="left">
                                     <p:messages id="create-errors" autoUpdate="true" closable="true"/>
-                                    <p:outputLabel id="error" value="#{accountManager.statusMessage}" />
                                 </div>
                             </p:panel>
                         </h:panelGrid>

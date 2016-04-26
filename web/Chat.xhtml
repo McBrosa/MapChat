@@ -22,7 +22,7 @@ Copyright © 2016 MapChat Development Team. All rights reserved.
                                   sizeLimit="1000000" allowTypes="/(\.|\/)(gif|jpe?g|png)$/" value="#{fileManager.file}" update=":file-form:filedatapanel"/>
             </p:overlayPanel>
         </h:form>
-        <h:form id="file-form" style="display: inline-block; margin-bottom: 10px;"  styleClass="rightAlign" >
+        <h:form id="file-form" style="display: inline-block; margin-bottom: 10px;" >
             <p:commandButton id="fileBtn" value="Files" type="button" />
             <p:overlayPanel id="filePanel" for="fileBtn" hideEffect="fade" dynamic="true" style="width: 600px;">
                 <p:dataTable id="filedatapanel" value="#{messageBean.fileNamesInGroup}" var="filename">                
