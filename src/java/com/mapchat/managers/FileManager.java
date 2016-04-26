@@ -198,7 +198,6 @@ public class FileManager implements Serializable{
      */
     public FacesMessage copyFileGroup(UploadedFile file, Groups grp) {
         try {
-            deletePhoto();
             
             InputStream in = file.getInputstream();
             
