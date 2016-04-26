@@ -33,8 +33,12 @@ import javax.faces.context.FacesContext;
 import org.primefaces.context.RequestContext;   //TODO remove
 
 /**
- *
- * @author Alan
+ * The Manager for the Groups object. This class handles all the groups
+ * throughout the entire application. The reason that this is application scoped
+ * is because there can only be one instance of each group. If this class was
+ * session scoped then each session will have a different instance of the same
+ * group. 
+ * @author Alan Cai, Sean Arcayan
  */
 @ManagedBean(name = "groupManager")
 @ApplicationScoped
@@ -57,25 +61,6 @@ public class GroupManager implements Serializable {
     */
     @ManagedProperty(value="#{messageManager}")
     private MessageManager mm;
-
-    //TODO move these functions
-    
-    /**
-     * Returns the MessageManager
-     * @return The MessageManager
-     */
-    public MessageManager getMm() {
-        return mm;
-    }
-
-    /**
-     * Sets the MessageManager
-     * @param mm The MessageManager to set the current MessageManager to
-     */
-    public void setMm(MessageManager mm) {
-        this.mm = mm;
-    }
-    
     
     @EJB
     private GroupsFacade groupsFacade;
@@ -116,6 +101,22 @@ public class GroupManager implements Serializable {
      */
     public ArrayList<String> getGlobalgrps() {
         return globalgrps;
+    }
+    
+    /**
+     * Returns the MessageManager
+     * @return The MessageManager
+     */
+    public MessageManager getMm() {
+        return mm;
+    }
+
+    /**
+     * Sets the MessageManager
+     * @param mm The MessageManager to set the current MessageManager to
+     */
+    public void setMm(MessageManager mm) {
+        this.mm = mm;
     }
 
     /**
@@ -272,7 +273,7 @@ public class GroupManager implements Serializable {
             UserGroup userGroup = new UserGroup();
             userGroup.setGroupId(g.getId());
             
-            //TODO comment
+            // Retrieve the profile view manager
             ELContext elContext = FacesContext.getCurrentInstance().getELContext();
             ProfileViewManager profileViewManager = 
                 (ProfileViewManager) FacesContext.getCurrentInstance().getApplication()
@@ -335,22 +336,28 @@ public class GroupManager implements Serializable {
                 Groups foundGroup = groupsFacade.findById(groupId);
                 groupsFacade.deleteGroup(groupId);
                 
-                //TODO comment
+                // create the UserGroup
+                // the usergroup maps a user to a group
                 UserGroup userGroup = new UserGroup();
                 userGroup.setGroupId(groupId);
+                
+                // Retrieve the profile view manager
                 ELContext elContext = FacesContext.getCurrentInstance().getELContext();
                 ProfileViewManager profileViewManager = 
                     (ProfileViewManager) FacesContext.getCurrentInstance().getApplication()
                     .getELResolver().getValue(elContext, null, "profileViewManager");
+                
                 User currentUser = profileViewManager.getLoggedInUser();
                 userGroup.setUserId(currentUser.getId());
-                userGroupFacade.remove(userGroup);  //Shouldn't be here, the group should be empty, so no relationship
+                
+                userGroupFacade.remove(userGroup);  //TODO Shouldn't be here, the group should be empty, so no relationship
+                
+                // Retrieve the message bean
                 elContext = FacesContext.getCurrentInstance().getELContext();
                 MessageBean messageBean = 
                     (MessageBean) FacesContext.getCurrentInstance().getApplication()
                     .getELResolver().getValue(elContext, null, "messageBean");
                 messageBean.setCurrentGroup(null);
-                
                 
                 //Remove the mapping of message to the group from the MessageManager
                 mm.getGroupMessageMap().remove(check.getId());
@@ -394,11 +401,11 @@ public class GroupManager implements Serializable {
             return "";
         }
         
-        //TODO comment
+        // Retrieve the message bean
         ELContext elContext = FacesContext.getCurrentInstance().getELContext();
-                MessageBean messageBean = 
-                    (MessageBean) FacesContext.getCurrentInstance().getApplication()
-                    .getELResolver().getValue(elContext, null, "messageBean");
+        MessageBean messageBean = 
+            (MessageBean) FacesContext.getCurrentInstance().getApplication()
+            .getELResolver().getValue(elContext, null, "messageBean");
         
         //Check the current group to see if it is not null
         if(messageBean.getCurrentGroup() == null)
@@ -512,11 +519,11 @@ public class GroupManager implements Serializable {
             return "";
         }
         
-        //TODO comment
+        // Retrieve the message bean
         ELContext elContext = FacesContext.getCurrentInstance().getELContext();
-                MessageBean messageBean = 
-                    (MessageBean) FacesContext.getCurrentInstance().getApplication()
-                    .getELResolver().getValue(elContext, null, "messageBean");
+        MessageBean messageBean = 
+            (MessageBean) FacesContext.getCurrentInstance().getApplication()
+            .getELResolver().getValue(elContext, null, "messageBean");
         
         
         //Check the current group to see if it exists
@@ -565,7 +572,7 @@ public class GroupManager implements Serializable {
         Groups group = publicGroup;
         try
         {
-            //TODO comment
+            // Retrieve the profile view manager
             elContext = FacesContext.getCurrentInstance().getELContext();
             ProfileViewManager profileViewManager = 
                 (ProfileViewManager) FacesContext.getCurrentInstance().getApplication()
@@ -614,10 +621,7 @@ public class GroupManager implements Serializable {
                 allGroups.remove(group);
             }
                 
-            
             usernameToDelete = "";
-            
-            
         } catch(EJBException e)
         {
             //Echo errors
@@ -705,9 +709,9 @@ public class GroupManager implements Serializable {
      */
     private void initializeNonGlobalGroups() {
         ELContext elContext = FacesContext.getCurrentInstance().getELContext();
-            ProfileViewManager profileViewManager = 
-                (ProfileViewManager) FacesContext.getCurrentInstance().getApplication()
-                .getELResolver().getValue(elContext, null, "profileViewManager");
+        ProfileViewManager profileViewManager = 
+            (ProfileViewManager) FacesContext.getCurrentInstance().getApplication()
+            .getELResolver().getValue(elContext, null, "profileViewManager");
         
         //Get the current user
         User user = usersFacade.find(profileViewManager.getLoggedInUser().getId());
@@ -741,11 +745,17 @@ public class GroupManager implements Serializable {
     }
         
     
-    //TODO comment
+    /**
+     * Retrieve all the current user groups that the current user is in
+     * @return a list of groups that the 
+     * 
+     * // TODO rename to retrieveAllGroupsForCurrentUser()
+     */
     public List<Groups> retrieveAllCurrentUserGroups() {
         List<Groups> grps = new LinkedList<>();
         grps.addAll(globalGroupList);
         
+        // Retrieve the profile view manager
         ELContext elContext = FacesContext.getCurrentInstance().getELContext();
         ProfileViewManager profileViewManager = 
             (ProfileViewManager) FacesContext.getCurrentInstance().getApplication()
