@@ -47,37 +47,65 @@ public class Groups implements Serializable {
     @Size(min = 1, max = 255)
     @Column(name = "group_name")
     private String groupName;
-    /*@ManyToMany(cascade = CascadeType.ALL, mappedBy = "groups")
+    /*@ManyToMany(cascade = CascadeType.ALL, mappedBy = "groups")   TODO remove
     private Collection<UserGroup> userGroupCollection;*/
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "groupId")
     private Collection<File1> fileCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "groupId")
     private Collection<Message> messageCollection;
 
+    /**
+     * Base constructor
+     */
     public Groups() {
     }
 
+    /**
+     * The constructor
+     * @param id The group's id
+     */
     public Groups(Integer id) {
         this.id = id;
     }
 
+    /**
+     * The constructor
+     * @param id The group's id
+     * @param groupName The group's name
+     */
     public Groups(Integer id, String groupName) {
         this.id = id;
         this.groupName = groupName;
     }
 
+    /**
+     * Gets the group's id
+     * @return The group's id
+     */
     public Integer getId() {
         return id;
     }
 
+    /**
+     * Sets the group's id
+     * @param id The group's id
+     */
     public void setId(Integer id) {
         this.id = id;
     }
 
+    /**
+     * Gets the group's name
+     * @return THe group name
+     */
     public String getGroupName() {
         return groupName;
     }
 
+    /**
+     * Sets the group name
+     * @param groupName  The new group name
+     */
     public void setGroupName(String groupName) {
         this.groupName = groupName;
     }
@@ -91,24 +119,44 @@ public class Groups implements Serializable {
         this.userGroupCollection = userGroupCollection;
     }*/
 
+    /**
+     * Gets the fileCollection
+     * @return The fileCollection
+     */
     @XmlTransient
     public Collection<File1> getFileCollection() {
         return fileCollection;
     }
 
+    /**
+     * Sets the fileCollection
+     * @param fileCollection The new fileCollection
+     */
     public void setFileCollection(Collection<File1> fileCollection) {
         this.fileCollection = fileCollection;
     }
 
+    /**
+     * Returns the messageCollection
+     * @return The messageCollection
+     */
     @XmlTransient
     public Collection<Message> getMessageCollection() {
         return messageCollection;
     }
 
+    /**
+     * Sets the messageCollection
+     * @param messageCollection The new messageCollection
+     */
     public void setMessageCollection(Collection<Message> messageCollection) {
         this.messageCollection = messageCollection;
     }
 
+    /**
+     * Returns the hash code of this Object
+     * @return The hash code of this Oject
+     */
     @Override
     public int hashCode() {
         int hash = 0;
@@ -116,6 +164,11 @@ public class Groups implements Serializable {
         return hash;
     }
 
+    /**
+     * Checks to see if two Groups objects are the same
+     * @param object The other Groups object to compare
+     * @return True if the two Groups have the same id value
+     */
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
@@ -129,6 +182,10 @@ public class Groups implements Serializable {
         return true;
     }
 
+    /**
+     * Returns the String version of the group, the group name
+     * @return THe name fo the group
+     */
     @Override
     public String toString() {
         return groupName;
