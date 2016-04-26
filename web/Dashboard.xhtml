@@ -1,4 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!--
+    Created and Edited by Anthony Barbee
+    Copyright © 2016 Anthony Barbee. All rights reserved.
+-->
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"   
       xmlns:h="http://java.sun.com/jsf/html"
@@ -22,13 +26,13 @@
                             <p:commandButton class="show-button" value="Remove User" type="button" onclick="PF('createGroupDlg').hide();PF('addUserDlg').hide();PF('removeUserDlg').show();"/>
                         </h:panelGrid>
                     </h:form>
-                    <ui:include src="groups.xhtml" />
+                    <ui:include src="Groups.xhtml" />
                </div>
                 <h:panelGroup id="map">
                     <ui:include src="Map.xhtml"/>
                 </h:panelGroup>
                 <div id="chat">
-                    <ui:include src="chat/chat.xhtml"/>
+                    <ui:include src="Chat.xhtml"/>
                 </div>
                 <h:form id="groups-buttons-form-2">
                 <p:remoteCommand name="refreshMap" action="#{markersView.refreshMap()}" update=":gmap" />
@@ -39,6 +43,8 @@
                     <p:dialog closable="false" position="top" header="Create Group" widgetVar="createGroupDlg" height="150">
                         <h:outputLabel styleClass="outputLabel" for="newgroupname" value="Enter group name: " />
                         <h:inputText class="form-control"  id="newgroupname" value="#{groupManager.groupNameToCreate}"/>
+                        <br/>
+                        <br/>
                         <p:commandButton class="groups-button" onclick="PF('createGroupDlg').hide();" id="createGroup-btn"  value="Create Group" action="#{groupManager.createGroup()}" update=":select_group:global_groups newgroupname statusMessageGrowl">
                             <p:ajax event="click" onsuccess="refreshMap()" />
                         </p:commandButton>
@@ -48,6 +54,8 @@
                     <p:dialog closable="false" position="top" header="Add User" widgetVar="addUserDlg" height="150">
                         <h:outputLabel styleClass="outputLabel" for="addusername" value="Enter username: " />
                         <h:inputText class="form-control"  id="addusername" value="#{groupManager.usernameToAdd}"/>
+                        <br/>
+                        <br/>
                         <p:commandButton class="groups-button" onclick="PF('addUserDlg').hide();" id="addUser-btn" value="Add User" action="#{groupManager.addUser()}" update="addusername statusMessageGrowl">
                             <p:ajax event="click" onsuccess="refreshMap()" />
                         </p:commandButton>
@@ -57,6 +65,8 @@
                     <p:dialog closable="false" position="top" header="Remove User" widgetVar="removeUserDlg" height="150">
                         <h:outputLabel styleClass="outputLabel" for="removeusername" value="Enter username: " />
                         <h:inputText class="form-control"  id="removeusername" value="#{groupManager.usernameToDelete}"/>
+                        <br/>
+                        <br/>
                         <p:commandButton class="groups-button" onclick="PF('removeUserDlg').hide();" id="removeUser-btn" value="Remove User" action="#{groupManager.removeUser()}" update=":select_group:global_groups removeusername statusMessageGrowl">
                             <p:ajax event="click" onsuccess="refreshMap()" />
                         </p:commandButton>
