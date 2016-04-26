@@ -18,7 +18,7 @@ public class Constants {
 
     public static final Integer MAX_CAPTION_SIZE = 140;
     
-    public static final String FILE_REGEX = "/(\\.|\\/)(gif|jpe?g|png)$/";
+    public static final String FILE_REGEX = "/(\\.|\\/)(gif|jpe?g|png|docx?|pptx?|xlsx?|pdf|txt|mp3|mp4|wav|rar|zip|tar|gz)$/";
     
     public static final String MAX_FILE_SIZE_BYTES = "25000000";
     
