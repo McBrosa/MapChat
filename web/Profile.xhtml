@@ -11,16 +11,23 @@ Copyright © 2016 MapChat Development Team. All rights reserved.
       xmlns:ui="http://java.sun.com/jsf/facelets"
       xmlns:p="http://primefaces.org/ui"
       >
-    
 
-    <h:body> 
-        <ui:composition template="/template/siteTemplate.xhtml">
-            <title><ui:define name="title">#{profileViewManager.loggedInUser.username}'s Profile</ui:define></title>
-            <!-- A user must be logged in to access a profile, therefore the header must be changed to reflect this -->
-            <ui:define name="header">
-                <ui:include src="/template/userHeaderTemplate.xhtml" />
-            </ui:define>
-            <ui:define name="editableContent">
+    <script type="text/javascript" src="resources/js/OtherProfileWeatherWidget.js"></script>
+
+
+
+    <ui:composition template="/template/siteTemplate.xhtml">
+
+        <title><ui:define name="title">#{profileViewManager.loggedInUser.username}'s Profile</ui:define></title>
+        <!-- A user must be logged in to access a profile, therefore the header must be changed to reflect this -->
+        <ui:define name="header">
+            <ui:include src="/template/userHeaderTemplate.xhtml" />
+        </ui:define>
+        <ui:define name="editableContent">
+            
+            <script type="text/javascript" src="resources/js/WeatherWidget.js"></script>
+            <!--Load the javascript and call the get current weather method so that the weather will be displayed in the weather tab-->
+            <h:body onload="getCurrentWeatherData(#{profileViewManager.loggedInUser.locationX}, #{profileViewManager.loggedInUser.locationY})">
                 <h:form class="form-signin">
                     <h:panelGrid columns="2" >
                         <p:panel id="user-photo" class="mc-panel">
@@ -53,45 +60,52 @@ Copyright © 2016 MapChat Development Team. All rights reserved.
                                         <h:outputText value="#{profileViewManager.loggedInUser.email}" style="color: gold;" />
                                     </h:panelGrid>
                                 </p:tab>
+
+                                <!--Weather tab-->
                                 <p:tab title="Weather">
+
                                     <h:panelGroup id="WeatherView">
-                                        <div align="center">  <table class="myTable">
-                                            <tr>
-                                                <th>Location</th>
-                                                <th>Current Weather</th>
-                                            </tr>
-                                            <tr>
-                                                <td><div id="location"></div></td>
-                                                <td><div id="weatherNow"></div></td>
-                                            </tr>
-                                        </table>
-                                        <table class="ForeCastTable">
-                                            <tr>
-                                                <th id="day1">Day 1 Forecast</th>
-                                                <th id="day2">Day 2 Forecast</th>
-                                                <th id="day3">Day 3 Forecast</th>
-                                                <th id="day4">Day 4 Forecast</th>
-                                                <th id="day5">Day 5 Forecast</th>
-                                            </tr>
-                                            <tr>
-                                                <td><div id="day1div"></div></td>
-                                                <td><div id="day2div"></div></td>
-                                                <td><div id="day3div"></div></td>
-                                                <td><div id="day4div"></div></td>
-                                                <td><div id="day5div"></div></td>
-                                            </tr>
+                                        <div align="center">  
+                                            <!--Weather table will css format-->
+                                            <table class="myTable">
+                                                <tr>
+                                                    <th>Location</th>
+                                                    <th>Current Weather</th>
+                                                </tr>
+                                                <tr>
+                                                    <!--Loads user location and current weather data from the script api call into these divs-->
+                                                    <td><div id="location"></div></td>
+                                                    <td><div id="weatherNow"></div></td>
+                                                </tr>
+                                            </table>
+                                            <table class="ForeCastTable">
+                                                <tr>
+                                                   
+                                                    <th id="day1">Day 1 Forecast</th>
+                                                    <th id="day2">Day 2 Forecast</th>
+                                                    <th id="day3">Day 3 Forecast</th>
+                                                    <th id="day4">Day 4 Forecast</th>
+                                                    <th id="day5">Day 5 Forecast</th>
+                                                </tr>
+                                                <tr>
+                                                     <!--Loads 5 day forecast data from the script api call into these divs-->
+                                                    <td><div id="day1div"></div></td>
+                                                    <td><div id="day2div"></div></td>
+                                                    <td><div id="day3div"></div></td>
+                                                    <td><div id="day4div"></div></td>
+                                                    <td><div id="day5div"></div></td>
+                                                </tr>
                                             </table></div>
-                                        
                                     </h:panelGroup>
                                 </p:tab>
                             </p:tabView>
                             <br/>
-                           <p:commandButton value="Dashboard" style="background-color: gold;"
+                            <p:commandButton value="Dashboard" style="background-color: gold;"
                                              action="Dashboard?faces-redirect=true" />
                         </p:panel>
                     </h:panelGrid>
                 </h:form>
-            </ui:define>
-        </ui:composition>
-    </h:body>
+            </h:body>
+        </ui:define>
+    </ui:composition>
 </html>

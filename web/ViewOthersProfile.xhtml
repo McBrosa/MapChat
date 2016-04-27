@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
 Created by MapChat Development Team
-Edited by Nate Rosa, Anthony Barbee
+Edited by Nate Rosa, Anthony Barbee, Corey McQuay
 Last Modified: 2016.04.25
 Copyright © 2016 MapChat Development Team. All rights reserved.
 -->
@@ -9,17 +9,22 @@ Copyright © 2016 MapChat Development Team. All rights reserved.
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:ui="http://java.sun.com/jsf/facelets"
-      xmlns:p="http://primefaces.org/ui">
-    
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      >
 
-    <h:body> 
-        <ui:composition template="/template/siteTemplate.xhtml">
-            <title><ui:define name="title">#{markersView.markerUser.username}'s Profile</ui:define></title>
-            <!-- A user must be logged in to access a profile, therefore the header must be changed to reflect this -->
-            <ui:define name="header">
-                <ui:include src="/template/userHeaderTemplate.xhtml" />
-            </ui:define>
-            <ui:define name="editableContent">
+
+
+    <ui:composition template="/template/siteTemplate.xhtml">
+        <title><ui:define name="title">#{markersView.markerUser.username}'s Profile</ui:define></title>
+        <!-- A user must be logged in to access a profile, therefore the header must be changed to reflect this -->
+        <ui:define name="header">
+            <ui:include src="/template/userHeaderTemplate.xhtml" />
+        </ui:define>
+        <ui:define name="editableContent">
+            <script type="text/javascript" src="resources/js/WeatherWidget.js"></script>
+            <!--loads the weather of the user's location by calling the get weather javascript function by passing in the user's location from the bean-->
+            <h:body onload="getCurrentWeatherData(#{markersView.markerUser.locationX}, #{markersView.markerUser.locationY})"> 
                 <h:form class="form-signin">
                     <h:panelGrid columns="2" >
                         <p:panel id="user-photo" class="mc-panel">
@@ -45,16 +50,53 @@ Copyright © 2016 MapChat Development Team. All rights reserved.
 
                                         <h:outputText value="Email " style="color: gold;" />
                                         <h:outputText value="#{markersView.markerUser.email}" style="color: gold;" />
+
+
                                     </h:panelGrid>
+                                    <!--Weather tab that gets the data loaded from the script function-->
+                                </p:tab>
+                                <p:tab title="Weather">
+                                    <h:panelGroup id="WeatherView">
+                                        <div align="center">  <table class="myTable">
+                                                <tr>
+                                                    <th>Location</th>
+                                                    <th>Current Weather</th>
+                                                </tr>
+                                                <tr>
+                                                    <!--Id's that the script will put the current location and 
+                                                    weather now information into-->
+                                                    <td><div id="location"></div></td>
+                                                    <td><div id="weatherNow"></div></td>
+                                                </tr>
+                                            </table>
+                   
+                                            <table class="ForeCastTable">
+                                                <tr> 
+                                                    <th id="day1">Day 1 Forecast</th>
+                                                    <th id="day2">Day 2 Forecast</th>
+                                                    <th id="day3">Day 3 Forecast</th>
+                                                    <th id="day4">Day 4 Forecast</th>
+                                                    <th id="day5">Day 5 Forecast</th>
+                                                </tr>
+                                                <tr>
+                                                    <!--Information that the script will load the forecast information onto-->
+                                                    <td><div id="day1div"></div></td>
+                                                    <td><div id="day2div"></div></td>
+                                                    <td><div id="day3div"></div></td>
+                                                    <td><div id="day4div"></div></td>
+                                                    <td><div id="day5div"></div></td>
+                                                </tr>
+                                            </table></div>
+                                    </h:panelGroup>
                                 </p:tab>
                             </p:tabView>
                             <br/>
-                           <p:commandButton value="Dashboard" style="background-color: gold;"
+                            <p:commandButton value="Dashboard" style="background-color: gold;"
                                              action="Dashboard?faces-redirect=true" />
                         </p:panel>
                     </h:panelGrid>
                 </h:form>
-            </ui:define>
-        </ui:composition>
-    </h:body>
+            </h:body>
+        </ui:define>
+    </ui:composition>
 </html>
