@@ -32,16 +32,18 @@ Copyright © 2016 MapChat Development Team. All rights reserved.
                     <a href="https://twitter.com/"  target="_blank"><img src="./resources/images/socialMediaIcons/twitter.png" style="max-height: 28px; max-width: 28px;"/></a>
                 </h:panelGroup>
 
+<!--                The Contact Us link that allows the user to send an email to the mapchat team through a pop up form-->
                 <p:commandLink value="Contact Us" onclick="PF('contactUs').show();" styleClass="rightAlign"/>
                 <div>
-                    <p:growl id="mailMessage" showDetail="true" />
+                    <!--The status message from the bean-->
+                    <p:growl id="mailMessage" showDetail="true" />  
 
                     <p:dialog header="Contact Us" widgetVar="contactUs" minHeight="40" >
                         <p:panel class="mc-panel">
                             <h2>Please inform us if you have any ideas, questions, comments, or issues with the MapChat application. Also leave your contact email so we can contact you if needed</h2>
                             <div align="center">
                                 <h:panelGrid columns="2" cellspacing="10px" >
-
+                                    <!--This is where the data is collected through the user and passes on to the Email Bean-->
                                     <h2> Subject:</h2>
                                     <h:panelGroup>
                                         <br />
@@ -56,6 +58,7 @@ Copyright © 2016 MapChat Development Team. All rights reserved.
                                     </h:panelGroup>
                                 </h:panelGrid>
                             </div>
+                            <!--When the user presses send that is when the emailBean takes the information to the back end, then comes back with a response to the front end. Clears fields to make boxes empty-->
                             <div align="center">
                                 <h:panelGrid columns="2" style="float: bottom;" >
                                     <h:commandButton value="Send" action="#{emailClientBean.clearFields()}" actionListener="#{emailClientBean.send()}"/>

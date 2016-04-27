@@ -1,6 +1,6 @@
 /**
  * Created by MapChat Development Team
- * Edited by Nate Rosa
+ * Edited by Nate Rosa, Corey McQuay
  * Last Modified: 2016.03.25
  * Copyright © 2016 MapChat Development Team. All rights reserved.
  */
@@ -11,9 +11,14 @@ import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
+/**
+ *  The facade class for the UserFacade object
+ * @author Nathan Rosa
+ */
 @Stateless
 public class UserFacade extends AbstractFacade<User> {
 
+    //The persistence context of the entity class.
     @PersistenceContext(unitName = "MapChatPU")
     private EntityManager em;
 

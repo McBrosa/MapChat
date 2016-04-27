@@ -9,13 +9,15 @@ package com.mapchat.managers;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Named;
 import javax.mail.MessagingException;
-import com.mapchat.mail.MailService;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 
+import com.mapchat.mail.MailService;// Interacts with the mail service
 
 /**
- * A bean class that illustrates sending an email body
+ * A bean class that illustrates grabbing the fields from the contact us form,
+ * processing a Mail Service request, and then notifying the user if the mail
+ * to the development team was sent 
  *
  * @author Corey McQuay
  */
@@ -25,9 +27,9 @@ import javax.faces.context.FacesContext;
 public class EmailClientBean {
 
     //Global Variables that will be received from the xhtml 
-    private final String RECIPIENT = "mapchatservice@gmail.com"; //Only sending the comments to the our email
+    private final String RECIPIENT = "mapchatservice@gmail.com"; //Only sending the comments to our email, can be a variable instead of a constant.
     private String subject; //Subject reference
-    private String body; //
+    private String body; //body of the mail
     private String statusMessage = ""; //Confirmation or error body
 
     /**
@@ -61,7 +63,7 @@ public class EmailClientBean {
      * Sets the subject global variable to the whatever was passed in from the
      * user.
      *
-     * @param subject
+     * @param subject The subject field the global variable's value should be
      */
     public void setSubject(String subject) {
         this.subject = subject;
@@ -78,7 +80,7 @@ public class EmailClientBean {
 
     /**
      * The method takes all the global variables and attempts to send it with
-     * the MailService class If an error occurs an error body will be populated
+     * the MailService class. If an error occurs an error message will be populated.
      *
      */
     public void send() {
@@ -111,7 +113,7 @@ public class EmailClientBean {
         //Resets the fields
         subject = "";
         body = "";
-        addMessage("Message Sent!", "The Message has beeen sent to our team.");
+        addMessage("Message Sent!", "The Message has beeen sent to our team."); //Success Message
     }
 
     /**
@@ -119,11 +121,11 @@ public class EmailClientBean {
      * that their email sent or not. 
      * 
      * 
-     * @param summary Notification Header 
-     * @param detail  Notification Detail
+     * @param summary Status Notification Header 
+     * @param detail  Status Notification Detail
      */
     public void addMessage(String summary, String detail) {
-        //id of the tag from xhtml file
+        //id of the tag from xhtml file, grabs the message
         FacesMessage mailMessage = new FacesMessage(FacesMessage.SEVERITY_INFO, summary, detail);
         FacesContext.getCurrentInstance().addMessage(null, mailMessage); //Sends the message to the front end.
     }

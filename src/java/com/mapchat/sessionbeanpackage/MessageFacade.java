@@ -20,18 +20,31 @@ import javax.persistence.PersistenceContext;
 @Stateless
 public class MessageFacade extends AbstractFacade<Message> {
 
+    //Global
     @PersistenceContext(unitName = "MapChatPU")
     private EntityManager em;
 
+     /**
+     * Returns the entity manager for this class
+     * @return The entity manager for this class
+     */
     @Override
     protected EntityManager getEntityManager() {
         return em;
     }
 
+    /**
+     * The constructor
+     */
     public MessageFacade() {
         super(Message.class);
     }
     
+    /**
+     * Gets the user responsible for the message
+     * @param id the id of the user
+     * @return  the message of the user
+     */
     public Message getUser(int id) {
         return em.find(Message.class, id);
     }

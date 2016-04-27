@@ -29,7 +29,8 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
- * @author Nathan
+ * @author Nathan Rosa
+ * @author Corey McQuay
  * 
  * 4/25/16
  */
@@ -288,8 +289,8 @@ public class File1 implements Serializable {
     }
     
     /**
-     * 
-     * @return 
+     * Gets the file path of file in a string.
+     * @return The file path of the file name 
      */
     public String getFilePath() {
         return Constants.ROOT_DIRECTORY + getFilename();
