@@ -1,6 +1,6 @@
 /**
  * Created by MapChat Development Team
- * Edited by Nate Rosa
+ * Edited by Alan Cai
  * Last Modified: 2016.03.22
  * Copyright © 2016 MapChat Development Team. All rights reserved.
  */
