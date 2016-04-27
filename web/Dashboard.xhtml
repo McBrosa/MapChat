@@ -49,7 +49,6 @@ Copyright © 2016 MapChat Development Team. All rights reserved.
                 <h:form id="groups-buttons-form-2">
                     <!--Refreshes the map based on actions the user takes-->
                     <p:remoteCommand name="refreshMap" action="#{markersView.refreshMap()}" update=":gmap" />
-                
                     <!--Displays the error message-->
                     <p:growl id="statusMessageGrowl" showDetail="true" sticky="true" />
                     
@@ -89,7 +88,7 @@ Copyright © 2016 MapChat Development Team. All rights reserved.
                         <br />
                         
                         <!--Both buttons closes the overlay on click-->
-                        <p:commandButton class="groups-button" onclick="PF('removeUserDlg').hide();" id="removeUser-btn" value="Remove User" action="#{groupManager.removeUser()}" update=":select_group:global_groups removeusername statusMessageGrowl">
+                        <p:commandButton class="groups-button" onclick="PF('removeUserDlg').hide();" id="removeUser-btn" value="Remove User" action="#{groupManager.removeUser()}" update=":select_group:global_groups removeusername statusMessageGrowl :attachment-form :file-form">
                             <p:ajax event="click" onsuccess="refreshMap()" />
                         </p:commandButton>
                         <p:commandButton value="Close" onclick="PF('removeUserDlg').hide();" actionListener="#{groupManager.closeDialog()}" update="removeusername statusMessageGrowl"/>
