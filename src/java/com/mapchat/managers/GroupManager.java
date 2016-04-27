@@ -662,12 +662,14 @@ public class GroupManager implements Serializable {
      */
     private void initializeGlobalGroups() {
         globalGroupList = new ArrayList<>();
+       
         if(globalgrps == null || globalgrps.isEmpty())
         {
-            globalgrps.add("#Music");
-            globalgrps.add("#For Sale");
-            globalgrps.add("#Entertainment");
+            for (String grpName : Constants.GLOBAL_GROUPS) {
+                globalgrps.add(grpName);
+            }
         }
+       
         // create a message stream for each group
         for (String grpName : Constants.GLOBAL_GROUPS) {
             

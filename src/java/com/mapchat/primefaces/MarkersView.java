@@ -125,7 +125,7 @@ public class MarkersView implements Serializable {
     }
     
     /**
-     * Remove all the markes from the map and update the locations 
+     * Remove all the markers from the map and update the locations 
      */
     public void refreshMap()
     {
@@ -156,7 +156,7 @@ public class MarkersView implements Serializable {
     }
     
     /**
-     * Gets the Marker's info and sets it to the global variable
+     * Gets the Markers info and sets it to the global variable
      * @param user the user's info to be generated
      */
     private void markerInfo(User user)
