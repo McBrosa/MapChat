@@ -14,6 +14,7 @@ import javax.faces.context.FacesContext;
 
 import com.mapchat.mail.MailService;// Interacts with the mail service
 
+
 /**
  * A bean class that illustrates grabbing the fields from the contact us form,
  * processing a Mail Service request, and then notifying the user if the mail
@@ -27,7 +28,6 @@ import com.mapchat.mail.MailService;// Interacts with the mail service
 public class EmailClientBean {
 
     //Global Variables that will be received from the xhtml 
-    private final String RECIPIENT = "mapchatservice@gmail.com"; //Only sending the comments to our email, can be a variable instead of a constant.
     private String subject; //Subject reference
     private String body; //body of the mail
     private String statusMessage = ""; //Confirmation or error body
@@ -103,7 +103,7 @@ public class EmailClientBean {
             return;
         }
         try {
-            MailService.sendMessage(RECIPIENT, subject, body);
+            MailService.sendMessage(Constants.EMAIL_RECIPIENT, subject, body);
         } catch (MessagingException ex) {
             statusMessage = ex.getMessage(); //Error Message
             addMessage("Message Did Not Send!", statusMessage);

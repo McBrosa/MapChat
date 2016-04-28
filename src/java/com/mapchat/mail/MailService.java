@@ -83,11 +83,10 @@ public class MailService {
 	mimeMessage.setFrom(new InternetAddress(FROM));//Use from a valid internet address, this is who sender
 	mimeMessage.setSender(new InternetAddress(FROM));//Name that will appear if sent to the user "ex MapChat
 	mimeMessage.setSubject(subject); //Subject that was gathered from the bean.
-        mimeMessage.setContent(message, "text/plain"); //Makes it so that the text is plain.
-        
-        mimeMessage.addRecipient(Message.RecipientType.TO, new InternetAddress(recipient)); //Who the message is being sent to, to show that the functionality we will use ourself
-        //This is usually gathered from the bean.
-        
+        mimeMessage.setContent(message, "text/html"); //Makes it so that the text is sends html.
+
+        mimeMessage.addRecipient(Message.RecipientType.TO, new InternetAddress(recipient));
+
         Transport transport = mailSession.getTransport("smtps"); //Prepare transportation through a smtps server connection
         transport.connect(HOST, PORT, USER, PASSWORD); //Attempt connection with the attributes needed to send a message
 
